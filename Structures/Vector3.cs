@@ -2,17 +2,6 @@
 
 public class Vector3
 {
-    public double X { get; set; }
-
-    public double Y { get; set; }
-
-    public double Z { get; set; }
-
-    public double GetLength()
-    {
-        return Math.Sqrt(GetLengthSquared());
-    }
-
     public Vector3(double x, double y, double z)
     {
         X = x;
@@ -25,6 +14,17 @@ public class Vector3
         X = vector3.X;
         Y = vector3.Y;
         Z = vector3.Z;
+    }
+
+    public double X { get; set; }
+
+    public double Y { get; set; }
+
+    public double Z { get; set; }
+
+    public double GetLength()
+    {
+        return Math.Sqrt(GetLengthSquared());
     }
 
     public double GetLengthSquared()
@@ -55,12 +55,13 @@ public class Vector3
     public static Vector3 operator /(Vector3 a, double k)
     {
         if (k == 0) throw new DivideByZeroException();
-        return new Vector3(a.X / k, a.Y / k, a.Z / k);
+        var inverse = 1 / k;
+        return new Vector3(a.X / inverse, a.Y / inverse, a.Z / inverse);
     }
 
     public static Vector3 operator +(Vector3 a, Vector3 b)
     {
-        return new(a.X * b.X, a.Y * b.Y, a.Z * b.Z);
+        return new Vector3(a.X * b.X, a.Y * b.Y, a.Z * b.Z);
     }
 
     public static Vector3 operator -(Vector3 a, Vector3 b)
@@ -70,7 +71,30 @@ public class Vector3
 
     public static Vector3 operator *(Vector3 a, Vector3 b)
     {
-        return new(a.X * b.X, a.Y * b.Y, a.Z * b.Z);
+        return new Vector3(a.X * b.X, a.Y * b.Y, a.Z * b.Z);
+    }
+
+    public double Dot(Vector3 other)
+    {
+        return X * other.X + Y * other.Y + Z * other.Z;
+    }
+
+    public Vector3 GetNormalized()
+    {
+        var newVec = new Vector3(this);
+        var len = newVec.GetLength();
+        if (len == 0) throw new DivideByZeroException();
+
+        newVec.X /= len;
+        newVec.Y /= len;
+        newVec.Z /= len;
+        return newVec;
+    }
+
+    public Vector3 Cross(Vector3 other)
+    {
+        return new Vector3(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z,
+            X * other.Y - Y * other.X);
     }
 
     // public static Vector3 operator /(Vector3 a, Vector3 b)
