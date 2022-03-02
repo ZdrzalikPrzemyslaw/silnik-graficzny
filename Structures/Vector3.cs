@@ -9,6 +9,13 @@ public class Vector3
         Z = z;
     }
 
+    public Vector3(Vector3 vec1, Vector3 vec2)
+    {
+        X = vec2.X - vec1.X;
+        Y = vec2.Y - vec1.Y;
+        Z = vec2.Z - vec1.Z;
+    }
+
     public Vector3(Vector3 vector3)
     {
         X = vector3.X;
