@@ -29,12 +29,40 @@ public class Vector3
 
     public double Z { get; set; }
 
-    public double GetLength()
+    public override string ToString()
     {
-        return Math.Sqrt(GetLengthSquared());
+        return $"Vector({X}, {Y}, {Z})";
     }
 
-    public double GetLengthSquared()
+    protected bool Equals(Vector3 other)
+    {
+        return X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != GetType()) return false;
+        return Equals((Vector3)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(X, Y, Z);
+    }
+
+    public double GetLength()
+    {
+        return Math.Sqrt(Magnitude());
+    }
+
+    public Vector3 ToPoint()
+    {
+        return new Vector3(this);
+    }
+
+    public double Magnitude()
     {
         return X * X + Y * Y + Z * Z;
     }
