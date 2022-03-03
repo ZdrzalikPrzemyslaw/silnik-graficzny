@@ -23,6 +23,18 @@ public class Vector3
         Z = vector3.Z;
     }
 
+    public Vector3()
+    {
+        X = 0;
+        Y = 0;
+        Z = 0;
+    }
+
+    public static Vector3 Zero()
+    {
+        return new Vector3();
+    }
+
     public double X { get; set; }
 
     public double Y { get; set; }
