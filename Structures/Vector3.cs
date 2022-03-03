@@ -30,16 +30,16 @@ public class Vector3
         Z = 0;
     }
 
-    public static Vector3 Zero()
-    {
-        return new Vector3();
-    }
-
     public double X { get; set; }
 
     public double Y { get; set; }
 
     public double Z { get; set; }
+
+    public static Vector3 Zero()
+    {
+        return new Vector3();
+    }
 
     public override string ToString()
     {
@@ -142,6 +142,15 @@ public class Vector3
     {
         return new Vector3(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z,
             X * other.Y - Y * other.X);
+    }
+
+    public double Distance(Vector3 other)
+    {
+        return Math.Sqrt(
+            Math.Pow(X - other.X, 2) +
+            Math.Pow(Y - other.Y, 2) +
+            Math.Pow(Z - other.Z, 2)
+        );
     }
 
     // public static Vector3 operator /(Vector3 a, Vector3 b)
