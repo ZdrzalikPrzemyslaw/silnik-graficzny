@@ -13,7 +13,7 @@ public class Plane
 
     public Plane(Vector3 inNormal, Vector3 point)
     {
-        distance = point.GetLength();
+        distance = point.Magnitude();
         normal = inNormal;
     }
 }

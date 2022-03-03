@@ -14,6 +14,17 @@ public class Sphere
         Radius = radius;
     }
 
+    public double Distance(Ray ray)
+    {
+        return Vector3.Cross(ray.Direction, this.Center - ray.Origin).Magnitude();
+    }
+    
+    // TODO: czy przeciecie to też stycznosc? jak tak to zle (<=)
+    public bool Intersects(Ray ray)
+    {
+        return Distance(ray) < Radius;
+    }
+
     public Vector3 Center { get; set; }
     public double Radius { get; set; }
 }

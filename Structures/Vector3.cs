@@ -64,9 +64,9 @@ public class Vector3
         return HashCode.Combine(X, Y, Z);
     }
 
-    public double GetLength()
+    public double Magnitude()
     {
-        return Math.Sqrt(Magnitude());
+        return Math.Sqrt(MagnitudeSquared());
     }
 
     public Vector3 ToPoint()
@@ -74,7 +74,7 @@ public class Vector3
         return new Vector3(this);
     }
 
-    public double Magnitude()
+    public double MagnitudeSquared()
     {
         return X * X + Y * Y + Z * Z;
     }
@@ -108,7 +108,7 @@ public class Vector3
 
     public static Vector3 operator +(Vector3 a, Vector3 b)
     {
-        return new Vector3(a.X * b.X, a.Y * b.Y, a.Z * b.Z);
+        return new Vector3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
     }
 
     public static Vector3 operator -(Vector3 a, Vector3 b)
@@ -129,7 +129,7 @@ public class Vector3
     public Vector3 GetNormalized()
     {
         var newVec = new Vector3(this);
-        var len = newVec.GetLength();
+        var len = newVec.Magnitude();
         if (len == 0) throw new DivideByZeroException();
 
         newVec.X /= len;
@@ -142,6 +142,11 @@ public class Vector3
     {
         return new Vector3(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z,
             X * other.Y - Y * other.X);
+    }
+    
+    public static Vector3 Cross(Vector3 first, Vector3 second)
+    {
+        return new Vector3(first).Cross(second);
     }
 
     public double Distance(Vector3 other)
