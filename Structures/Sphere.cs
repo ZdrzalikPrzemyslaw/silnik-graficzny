@@ -25,6 +25,12 @@ public class Sphere
         return Distance(ray) < Radius;
     }
 
+    // TODO:
+    public Vector3 Intersection(Ray ray)
+    {
+        return Vector3.Zero();
+    }
+
     public Vector3 Center { get; set; }
     public double Radius { get; set; }
 }
