@@ -29,7 +29,7 @@ public class Vector3
         Y = 0;
         Z = 0;
     }
-
+    // TODO: nigdzie tego nie setujemy ani nie getujemy tak w zasadzie 🤭
     public double X { get; set; }
 
     public double Y { get; set; }
