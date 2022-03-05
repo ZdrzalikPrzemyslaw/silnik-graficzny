@@ -121,6 +121,16 @@ public class Vector3
         return new Vector3(a.X * b.X, a.Y * b.Y, a.Z * b.Z);
     }
 
+    public static bool operator ==(Vector3 a, Vector3 b)
+    {
+        return a.Equals(b);
+    }
+
+    public static bool operator !=(Vector3 a, Vector3 b)
+    {
+        return !(a == b);
+    }
+
     public double Dot(Vector3 other)
     {
         return X * other.X + Y * other.Y + Z * other.Z;
