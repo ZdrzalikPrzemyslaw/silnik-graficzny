@@ -40,11 +40,24 @@ public class Sphere
         var t1c = Math.Sqrt(Radius * Radius - d * d);
         var t1 = tc - t1c;
         var t2 = tc + t1c;
+        var retList = new List<Vector3>();
         if (t1c == 0)
         {
-            return new List<Vector3>{ray.PointAtDistanceFromOrigin(t1)};
+            retList.Add(ray.PointAtDistanceFromOrigin(t1));
+            return retList;
         }
-        return new List<Vector3>{ray.PointAtDistanceFromOrigin(t1), ray.PointAtDistanceFromOrigin(t2)};
+
+        if (t1 > 0)
+        {
+            retList.Add(ray.PointAtDistanceFromOrigin(t1));
+        }
+
+        if (t2 > 0)
+        {
+            retList.Add(ray.PointAtDistanceFromOrigin(t2));
+        }
+
+        return retList;
     }
 
     public Vector3 Center { get; set; }

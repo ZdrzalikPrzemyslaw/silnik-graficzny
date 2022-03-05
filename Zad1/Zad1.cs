@@ -45,9 +45,9 @@ class Zad1
         var x1 = S.Intersection(R1);
         // Nie przecina
         var x2 = S.Intersection(R2);
-        // Zaczyna sie w srodku, blizej poczatku (Źle 😟, powinien byc 1 punkt przeciecia)
+        // Zaczyna sie w srodku, blizej poczatku 
         var x3 = S.Intersection(R3);
-        // Zaczyna sie w srodku, dalej poczatku (Źle 😟, powinien byc 1 punkt przeciecia)
+        // Zaczyna sie w srodku, dalej poczatku 
         var x4 = S.Intersection(R4);
         // Styczny
         var x5 = S.Intersection(R5);
