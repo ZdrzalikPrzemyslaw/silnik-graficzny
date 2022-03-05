@@ -16,10 +16,9 @@ public class Sphere
 
     public double Distance(Ray ray)
     {
-        return Vector3.Cross(ray.Direction, this.Center - ray.Origin).Magnitude();
+        return Vector3.Cross(ray.Direction, Center - ray.Origin).Magnitude();
     }
     
-    // TODO: czy przeciecie to też stycznosc? jak tak to zle (<=)
     public bool Intersects(Ray ray)
     {
         return Distance(ray) < Radius;
@@ -28,7 +27,12 @@ public class Sphere
     // TODO:
     public Vector3 Intersection(Ray ray)
     {
-        return Vector3.Zero();
+        double t = (new Vector3(Center - ray.Origin)).Dot(ray.Direction);
+        Vector3 p = ray.Origin + ray.Direction * t;
+        Vector3 vec = new Vector3(Center - p);
+        double x = Math.Sqrt(Radius * Radius - vec.Cross(vec).Magnitude());
+        double t1 = t - x;
+        double t2 = t + x;
     }
 
     public Vector3 Center { get; set; }
