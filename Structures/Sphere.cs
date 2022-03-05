@@ -14,11 +14,14 @@ public class Sphere
         Radius = radius;
     }
 
+    public Vector3 Center { get; set; }
+    public double Radius { get; set; }
+
     public double Distance(Ray ray)
     {
-        return Vector3.Cross(ray.Direction, this.Center - ray.Origin).Magnitude();
+        return Vector3.Cross(ray.Direction, Center - ray.Origin).Magnitude();
     }
-    
+
     // TODO: czy przeciecie to też stycznosc? jak tak to zle (<=)
     public bool Intersects(Ray ray)
     {
@@ -32,10 +35,7 @@ public class Sphere
         var tc = L.Dot(ray.Direction);
 
         var d = Math.Sqrt(L.MagnitudeSquared() - tc * tc);
-        if (d > Radius)
-        {
-            return new List<Vector3>();
-        }
+        if (d > Radius) return new List<Vector3>();
 
         var t1c = Math.Sqrt(Radius * Radius - d * d);
         var t1 = tc - t1c;
@@ -47,19 +47,10 @@ public class Sphere
             return retList;
         }
 
-        if (t1 > 0)
-        {
-            retList.Add(ray.PointAtDistanceFromOrigin(t1));
-        }
+        if (t1 > 0) retList.Add(ray.PointAtDistanceFromOrigin(t1));
 
-        if (t2 > 0)
-        {
-            retList.Add(ray.PointAtDistanceFromOrigin(t2));
-        }
+        if (t2 > 0) retList.Add(ray.PointAtDistanceFromOrigin(t2));
 
         return retList;
     }
-
-    public Vector3 Center { get; set; }
-    public double Radius { get; set; }
 }

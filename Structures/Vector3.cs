@@ -153,7 +153,7 @@ public class Vector3
         return new Vector3(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z,
             X * other.Y - Y * other.X);
     }
-    
+
     public static Vector3 Cross(Vector3 first, Vector3 second)
     {
         return new Vector3(first).Cross(second);

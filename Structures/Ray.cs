@@ -14,11 +14,11 @@ public class Ray
         Direction = Vector3.Zero();
     }
 
-    public Vector3 PointAtDistanceFromOrigin(double distance)
-    {
-        return this.Origin + Direction * distance;
-    }
-
     public Vector3 Origin { get; set; }
     public Vector3 Direction { get; set; }
+
+    public Vector3 PointAtDistanceFromOrigin(double distance)
+    {
+        return Origin + Direction * distance;
+    }
 }
