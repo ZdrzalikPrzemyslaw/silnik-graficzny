@@ -25,10 +25,26 @@ public class Sphere
         return Distance(ray) < Radius;
     }
 
-    // TODO:
-    public Vector3 Intersection(Ray ray)
+    // http://kylehalladay.com/blog/tutorial/math/2013/12/24/Ray-Sphere-Intersection.html
+    public List<Vector3> Intersection(Ray ray)
     {
-        return Vector3.Zero();
+        var L = new Vector3(ray.Origin, Center);
+        var tc = L.Dot(ray.Direction);
+
+        var d = Math.Sqrt(L.MagnitudeSquared() - tc * tc);
+        if (d > Radius)
+        {
+            return new List<Vector3>();
+        }
+
+        var t1c = Math.Sqrt(Radius * Radius - d * d);
+        var t1 = tc - t1c;
+        var t2 = tc + t1c;
+        if (t1c == 0)
+        {
+            return new List<Vector3>{ray.PointAtDistanceFromOrigin(t1)};
+        }
+        return new List<Vector3>{ray.PointAtDistanceFromOrigin(t1), ray.PointAtDistanceFromOrigin(t2)};
     }
 
     public Vector3 Center { get; set; }
