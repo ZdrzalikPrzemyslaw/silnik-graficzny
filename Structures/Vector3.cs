@@ -56,7 +56,7 @@ public class Vector3
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
-        return Equals((Vector3)obj);
+        return Equals((Vector3) obj);
     }
 
     public override int GetHashCode()
@@ -164,10 +164,7 @@ public class Vector3
 
     public static Vector3 operator /(Vector3 first, Vector3 second)
     {
-        if (second.X == 0 || second.Y == 0 || second.Z == 0)
-        {
-            throw new DivideByZeroException();
-        }
+        if (second.X == 0 || second.Y == 0 || second.Z == 0) throw new DivideByZeroException();
         return new Vector3(first.X / second.X, first.Y / second.Y, first.Z / second.Z);
     }
 }
