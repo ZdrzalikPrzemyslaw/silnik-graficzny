@@ -30,7 +30,6 @@ public class Vector3
         Z = 0;
     }
 
-    // TODO: nigdzie tego nie setujemy ani nie getujemy tak w zasadzie 🤭
     public double X { get; set; }
 
     public double Y { get; set; }
@@ -100,10 +99,10 @@ public class Vector3
         return new Vector3(a.X * k, a.Y * k, a.Z * k);
     }
 
-    public static Vector3 operator /(Vector3 a, double k)
+    public static Vector3 operator /(Vector3 first, double k)
     {
         if (k == 0) throw new DivideByZeroException();
-        return a * (1 / k);
+        return first * (1 / k);
     }
 
     public static Vector3 operator +(Vector3 a, Vector3 b)
@@ -163,12 +162,12 @@ public class Vector3
         );
     }
 
-    // public static Vector3 operator /(Vector3 a, Vector3 b)
-    // {
-    //     if (b.X == 0 || b.Y == 0 || b.Z == 0)
-    //     {
-    //         throw new DivideByZeroException();
-    //     }
-    //     return new Vector3(a.num * b.den, a.den * b.num);
-    // }
+    public static Vector3 operator /(Vector3 first, Vector3 second)
+    {
+        if (second.X == 0 || second.Y == 0 || second.Z == 0)
+        {
+            throw new DivideByZeroException();
+        }
+        return new Vector3(first.X / second.X, first.Y / second.Y, first.Z / second.Z);
+    }
 }
