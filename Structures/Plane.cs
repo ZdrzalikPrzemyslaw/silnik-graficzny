@@ -2,26 +2,24 @@ namespace Structures;
 
 public class Plane
 {
-    private double distance; // to 0, 0, 0
-    private Vector3 normal;
-
     public Plane(Vector3 inNormal, double inDistance)
     {
         distance = inDistance;
-        normal = inNormal;
+        normal = inNormal.GetNormalized();
     }
 
-    public Plane(Vector3 inNormal, Vector3 point)
+    public Plane(Vector3 inNormal, Vector3 point) : this(inNormal, GetDistanceAlongNormal(inNormal, point))
     {
-        // jesli wektory sa prostopadle to 0, skierowane w przeciwnych kierunkach - ujemne, w ten samym - dodanie
-        //  wiec chyba tak ma byc?
-        // zastanawiam sie jak by dzialala prostopadlosc tylko
-        if (inNormal.Dot(point) < 0)
-            distance = -point.Magnitude();
-        else
-            distance = point.Magnitude();
+    }
 
-        normal = inNormal;
+    public double distance { get; set; } // to 0, 0, 0
+    public Vector3 normal { get; set; }
+
+    private static double GetDistanceAlongNormal(Vector3 inNormal, Vector3 point)
+    {
+        if (inNormal.Dot(point) < 0)
+            return -(inNormal * (inNormal.Dot(point) / inNormal.Dot(inNormal))).Magnitude();
+        return (inNormal * (inNormal.Dot(point) / inNormal.Dot(inNormal))).Magnitude();
     }
 
     // TODO:
