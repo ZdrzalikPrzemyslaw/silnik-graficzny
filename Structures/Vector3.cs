@@ -103,8 +103,7 @@ public class Vector3
     public static Vector3 operator /(Vector3 a, double k)
     {
         if (k == 0) throw new DivideByZeroException();
-        var inverse = 1 / k;
-        return new Vector3(a.X / inverse, a.Y / inverse, a.Z / inverse);
+        return a * (1 / k);
     }
 
     public static Vector3 operator +(Vector3 a, Vector3 b)
@@ -139,14 +138,9 @@ public class Vector3
 
     public Vector3 GetNormalized()
     {
-        var newVec = new Vector3(this);
-        var len = newVec.Magnitude();
+        var len = Magnitude();
         if (len == 0) throw new DivideByZeroException();
-
-        newVec.X /= len;
-        newVec.Y /= len;
-        newVec.Z /= len;
-        return newVec;
+        return this / len;
     }
 
     public Vector3 Cross(Vector3 other)
