@@ -6,8 +6,8 @@ public class OrthogonalCamera : AbstractCamera
 {
     public override void RenderScene()
     {
-        var pixelWidth = 2.0d / _picture.Bitmap.Width;
-        var pixelHeight = 2.0d / _picture.Bitmap.Height;
+        var pixelWidth = Width / _picture.Bitmap.Width;
+        var pixelHeight = Height / _picture.Bitmap.Height;
 
         for (var i = 0; i < _picture.Bitmap.Width; i++)
         for (var j = 0; j < _picture.Bitmap.Height; j++)
@@ -29,9 +29,9 @@ public class OrthogonalCamera : AbstractCamera
     }
 
     private double Width = 2.0;
-    private double Height = 2.0;
+    private double Height = 1.5;
 
-    private readonly Picture _picture = new(400, 400);
+    private readonly Picture _picture = new(400, 300);
 
     private readonly Sphere _sphere = new(new Vector3(0, 0, 5), 0.5);
 
