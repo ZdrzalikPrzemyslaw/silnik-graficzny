@@ -18,11 +18,6 @@ public class Plane : IEquatable<Plane>
 
     public Vector3 Normal { get; }
 
-    public Plane Flipped()
-    {
-        return new Plane(-Normal, -Distance);
-    }
-
     public Vector3 Center
     {
         get
@@ -37,6 +32,21 @@ public class Plane : IEquatable<Plane>
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
         return Distance.Equals(other.Distance) && Normal.Equals(other.Normal);
+    }
+
+    public Plane Flipped()
+    {
+        return new Plane(-Normal, -Distance);
+    }
+
+    public static bool operator ==(Plane a, Plane b)
+    {
+        return a.Equals(b);
+    }
+
+    public static bool operator !=(Plane a, Plane b)
+    {
+        return !(a == b);
     }
 
 

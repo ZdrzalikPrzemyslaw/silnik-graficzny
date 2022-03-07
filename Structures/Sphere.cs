@@ -35,6 +35,16 @@ public class Sphere : IEquatable<Sphere>
         return Distance(ray) < Radius;
     }
 
+    public static bool operator ==(Sphere a, Sphere b)
+    {
+        return a.Equals(b);
+    }
+
+    public static bool operator !=(Sphere a, Sphere b)
+    {
+        return !(a == b);
+    }
+
     // http://kylehalladay.com/blog/tutorial/math/2013/12/24/Ray-Sphere-Intersection.html
     public List<Vector3> Intersection(Ray ray)
     {

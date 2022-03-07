@@ -85,7 +85,7 @@ public class Vector3 : IEquatable<Vector3>
 
     public static Vector3 operator -(Vector3 a)
     {
-        return a * (-1);
+        return a * -1;
     }
 
     public static Vector3 operator *(Vector3 a, double k)

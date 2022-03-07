@@ -8,11 +8,6 @@ public class Ray : IEquatable<Ray>
         Direction = direction.GetNormalized();
     }
 
-    public Ray Inverse()
-    {
-        return new Ray(Origin, Direction.Inverse());
-    }
-
     public Ray() : this(Vector3.Zero(), Vector3.Zero())
     {
     }
@@ -25,6 +20,21 @@ public class Ray : IEquatable<Ray>
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
         return Origin.Equals(other.Origin) && Direction.Equals(other.Direction);
+    }
+
+    public Ray Inverse()
+    {
+        return new Ray(Origin, Direction.Inverse());
+    }
+
+    public static bool operator ==(Ray a, Ray b)
+    {
+        return a.Equals(b);
+    }
+
+    public static bool operator !=(Ray a, Ray b)
+    {
+        return !(a == b);
     }
 
     public Vector3 PointAtDistanceFromOrigin(double distance)
