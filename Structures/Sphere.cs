@@ -1,6 +1,6 @@
 namespace Structures;
 
-public class Sphere
+public class Sphere : IEquatable<Sphere>
 {
     public Sphere()
     {
@@ -17,6 +17,13 @@ public class Sphere
     public Vector3 Center { get; set; }
     public double Radius { get; set; }
 
+    public bool Equals(Sphere? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return Center.Equals(other.Center) && Radius.Equals(other.Radius);
+    }
+
     public double Distance(Ray ray)
     {
         return Vector3.Cross(ray.Direction, Center - ray.Origin).Magnitude();
@@ -26,6 +33,16 @@ public class Sphere
     public bool Intersects(Ray ray)
     {
         return Distance(ray) < Radius;
+    }
+
+    public static bool operator ==(Sphere a, Sphere b)
+    {
+        return a.Equals(b);
+    }
+
+    public static bool operator !=(Sphere a, Sphere b)
+    {
+        return !(a == b);
     }
 
     // http://kylehalladay.com/blog/tutorial/math/2013/12/24/Ray-Sphere-Intersection.html
@@ -52,5 +69,20 @@ public class Sphere
         if (t2 > 0) retList.Add(ray.PointAtDistanceFromOrigin(t2));
 
         return retList;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return Equals(obj as Sphere);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Center, Radius);
+    }
+
+    public override string ToString()
+    {
+        return $"Plane(Center: {Center}, Radius: {Radius})";
     }
 }
