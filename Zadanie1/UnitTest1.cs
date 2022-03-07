@@ -15,23 +15,25 @@ public class UnitTest1
     [ClassInitialize]
     public static void Init(TestContext testContext)
     {
+        // 2. Zdefiniować sferę S o środku w punkcie (0,0,0) i promieniu 10.
+        S = new Sphere(new Vector3(0, 0, 0), 10);
+
         // 3. Zdefiniować promień R1 o początku w punkcie (0,0,-20) i skierowany środek kuli.
         R1 = new Ray(new Vector3(0, 0, -20),
             new Vector3(new Vector3(0, 0, -20), new Vector3(0, 0, 0)).GetNormalized());
+
         // 4. Zdefiniować promień R2 o początku w tym samym punkcie, co R1, skierowany równolegle do osi Y.
         R2 = new Ray(new Vector3(0, 0, -20),
             new Vector3(new Vector3(0, 1, 0)));
+
         // 6. Proszę zdefiniować dowolny promień R3, tak aby przecinał on sferę S w dokładnie jednym punkcie.
         R3 = new Ray(new Vector3(10, 10, 0),
             new Vector3(new Vector3(10, 10, 0), new Vector3(10, 0, 0)).GetNormalized());
-        S = new Sphere(new Vector3(0, 0, 0), 10);
     }
 
     [TestMethod]
     public void TestSphereIntersection()
     {
-        // 2. Zdefiniować sferę S o środku w punkcie (0,0,0) i promieniu 10.
-
         // 5. Proszę sprawdzić, czy istnieje przecięcie sfery S z promieniami R1 oraz R2. 
         //    Wynik w postaci współrzędnych punktu przecięcia należy wyświetlić.
         var x1 = S.Intersection(R1);
@@ -46,24 +48,12 @@ public class UnitTest1
 
         Console.WriteLine("Przeciecie Promienia R2 ze sferą S: brak");
 
-        // Podać współrzędne punktu przecięcia
+        // 6. Podać współrzędne punktu przecięcia
         var x3 = S.Intersection(R3);
         Assert.AreEqual(1, x3.Count);
         Assert.AreEqual(new Vector3(10, 0, 0), x3[0]);
+
         Console.WriteLine($"Przeciecie Promienia R2 ze sferą S: p: {x3[0]}");
-    }
-
-
-    [TestMethod]
-    public void TestSphereIntersectionRayStartInsideSphere()
-    {
-        var R4 = new Ray(new Vector3(0, 0, 9),
-            new Vector3(new Vector3(0, 0, 0), new Vector3(0, 0, 1)).GetNormalized());
-
-        var intersection = S.Intersection(R4);
-
-        Assert.AreEqual(1, intersection.Count);
-        Assert.AreEqual(new Vector3(0, 0, 10), intersection[0]);
     }
 
     [TestMethod]
@@ -76,6 +66,18 @@ public class UnitTest1
         var intersection = P.Intersection(R2);
         Assert.AreEqual(new Vector3(0, 20, -20), intersection);
         Console.WriteLine($"Punkt przecięcia Płaszczyzny P z Promieniem R2: p: {intersection}");
+    }
+
+    [TestMethod]
+    public void TestSphereIntersectionRayStartInsideSphere()
+    {
+        var R4 = new Ray(new Vector3(0, 0, 9),
+            new Vector3(0, 0, 1));
+
+        var intersection = S.Intersection(R4);
+
+        Assert.AreEqual(1, intersection.Count);
+        Assert.AreEqual(new Vector3(0, 0, 10), intersection[0]);
     }
 
     [TestMethod]

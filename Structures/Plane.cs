@@ -3,12 +3,12 @@ namespace Structures;
 public class Plane : IEquatable<Plane>
 {
     /// <summary>
-    /// Coordinates of the point which is closest to {0, 0, 0}.
+    ///     Coordinates of the point which is closest to {0, 0, 0}.
     /// </summary>
     private Vector3? _center;
-    
+
     /// <summary>
-    /// Creates new Plane from a normal vector and it's distance from {0, 0, 0}
+    ///     Creates new Plane from a normal vector and it's distance from {0, 0, 0}
     /// </summary>
     /// <param name="inNormal">Normal Vector</param>
     /// <param name="distance">Distance from {0, 0, 0}</param>
@@ -17,9 +17,9 @@ public class Plane : IEquatable<Plane>
         Distance = distance;
         Normal = inNormal.GetNormalized();
     }
-    
+
     /// <summary>
-    /// Creates new Plane from a normal vector and a point which belongs to the plane.
+    ///     Creates new Plane from a normal vector and a point which belongs to the plane.
     /// </summary>
     /// <param name="inNormal">Normal Vector</param>
     /// <param name="point">Point belonging to Plane</param>
@@ -28,17 +28,17 @@ public class Plane : IEquatable<Plane>
     }
 
     /// <summary>
-    /// Distance of the Plane to {0, 0, 0}.
+    ///     Distance of the Plane to {0, 0, 0}.
     /// </summary>
     public double Distance { get; } // Do 0, 0, 0
-    
+
     /// <summary>
-    /// The normal vector of the Plane.
+    ///     The normal vector of the Plane.
     /// </summary>
     public Vector3 Normal { get; }
 
     /// <summary>
-    /// Coordinates of the point which is closest to {0, 0, 0}.
+    ///     Coordinates of the point which is closest to {0, 0, 0}.
     /// </summary>
     public Vector3 Center
     {
@@ -58,7 +58,7 @@ public class Plane : IEquatable<Plane>
     }
 
     /// <summary>
-    /// Creates a copy of the plane facing opposite direction and returns it.
+    ///     Creates a copy of the plane facing opposite direction and returns it.
     /// </summary>
     /// <returns>A copy of the plane facing opposite direction </returns>
     public Plane Flipped()
@@ -67,7 +67,7 @@ public class Plane : IEquatable<Plane>
     }
 
     /// <summary>
-    ///  Checks equality between two planes.
+    ///     Checks equality between two planes.
     /// </summary>
     /// <param name="a">The left operand of the equality.</param>
     /// <param name="b">The right operand of the equality.</param>
@@ -76,9 +76,9 @@ public class Plane : IEquatable<Plane>
     {
         return a.Equals(b);
     }
-    
+
     /// <summary>
-    ///  Checks inequality between two planes.
+    ///     Checks inequality between two planes.
     /// </summary>
     /// <param name="a">The left operand of the inequality.</param>
     /// <param name="b">The right operand of the inequality.</param>
