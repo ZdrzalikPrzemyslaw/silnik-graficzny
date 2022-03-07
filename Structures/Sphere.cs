@@ -116,6 +116,16 @@ public class Sphere : IEquatable<Sphere>
         return retList;
     }
 
+    //TODO: spojrzec czy tu [0] zawsze nie bedzie blizej
+    public Vector3? NearestIntersection(Ray ray)
+    {
+        var points = Intersection(ray);
+        if (points.Count == 2)
+            return ray.Origin.Distance(points[0]) < ray.Origin.Distance(points[1]) ? points[0] : points[1];
+
+        return points.Count == 1 ? points[0] : null;
+    }
+
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {

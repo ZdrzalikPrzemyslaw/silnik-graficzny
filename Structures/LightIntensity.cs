@@ -5,7 +5,9 @@ public class LightIntensity : IEquatable<LightIntensity>
     public double R { get; set; }
     public double G { get; set; }
     public double B { get; set; }
-
+    
+    
+    
     public LightIntensity(double r, double g, double b)
     {
         R = R > 1 ? 1 : R;
@@ -86,19 +88,19 @@ public class LightIntensity : IEquatable<LightIntensity>
             return new LightIntensity(R, G, B);
         }
 
-        public LightIntensityBuilder setR(double R)
+        public LightIntensityBuilder SetR(double R)
         {
             this.R = R;
             return this;
         }
 
-        public LightIntensityBuilder setG(double G)
+        public LightIntensityBuilder SetG(double G)
         {
             this.G = G;
             return this;
         }
 
-        public LightIntensityBuilder setB(double B)
+        public LightIntensityBuilder SetB(double B)
         {
             this.B = B;
             return this;
