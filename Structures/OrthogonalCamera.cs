@@ -4,6 +4,21 @@ namespace Structures;
 
 public class OrthogonalCamera : AbstractCamera
 {
+    private readonly Picture _picture = new(800, 800);
+
+    private readonly Sphere _sphere = new(new Vector3(0, 0, 5), 1);
+    private readonly double Height = 4.0;
+
+    private readonly double Width = 4.0;
+
+    public OrthogonalCamera()
+    {
+    }
+
+    public OrthogonalCamera(Vector3 position, Vector3 target) : base(position, target)
+    {
+    }
+
     public override void RenderScene()
     {
         var pixelWidth = Width / _picture.Bitmap.Width;
@@ -12,8 +27,8 @@ public class OrthogonalCamera : AbstractCamera
         for (var i = 0; i < _picture.Bitmap.Width; i++)
         for (var j = 0; j < _picture.Bitmap.Height; j++)
         {
-            var srodekX = -1.0f + (i + 0.5f) * pixelWidth;
-            var srodekY = 1.0f - (j + 0.5f) * pixelHeight;
+            var srodekX = -Height / 2 + (i + 0.5f) * pixelWidth;
+            var srodekY = Width / 2 - (j + 0.5f) * pixelHeight;
             var ray = new Ray(new Vector3(srodekX, srodekY, 0), new Vector3(0, 0, 1));
             var intersetion = _sphere.NearestIntersection(ray);
             if (intersetion is not null)
@@ -22,24 +37,9 @@ public class OrthogonalCamera : AbstractCamera
         }
 
         using (var data = _picture.Bitmap.Encode(SKEncodedImageFormat.Png, 80))
-        using (var stream = File.OpenWrite(Path.Combine("D:", "Picture.png")))
+        using (var stream = File.OpenWrite(Path.Combine("./", "Picture.png")))
         {
             data.SaveTo(stream);
         }
-    }
-
-    private double Width = 2.0;
-    private double Height = 1.5;
-
-    private readonly Picture _picture = new(400, 300);
-
-    private readonly Sphere _sphere = new(new Vector3(0, 0, 5), 0.5);
-
-    public OrthogonalCamera()
-    {
-    }
-
-    public OrthogonalCamera(Vector3 position, Vector3 target) : base(position, target)
-    {
     }
 }

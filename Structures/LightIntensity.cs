@@ -2,12 +2,6 @@
 
 public class LightIntensity : IEquatable<LightIntensity>
 {
-    public double R { get; set; }
-    public double G { get; set; }
-    public double B { get; set; }
-    
-    
-    
     public LightIntensity(double r, double g, double b)
     {
         r = r > 1 ? 1 : r;
@@ -21,6 +15,17 @@ public class LightIntensity : IEquatable<LightIntensity>
         b = b > 1 ? 1 : b;
         b = b < 0 ? 0 : b;
         B = b;
+    }
+
+    public double R { get; set; }
+    public double G { get; set; }
+    public double B { get; set; }
+
+    public bool Equals(LightIntensity? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return R.Equals(other.R) && G.Equals(other.G) && B.Equals(other.B);
     }
 
     public override string ToString()
@@ -59,13 +64,6 @@ public class LightIntensity : IEquatable<LightIntensity>
         return new LightIntensity(a.R * k, a.G * k, a.B * k);
     }
 
-    public bool Equals(LightIntensity? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-        return R.Equals(other.R) && G.Equals(other.G) && B.Equals(other.B);
-    }
-
     public override bool Equals(object? obj)
     {
         return Equals(obj as LightIntensity);
@@ -79,9 +77,9 @@ public class LightIntensity : IEquatable<LightIntensity>
 
     public class LightIntensityBuilder
     {
-        private double R;
-        private double G;
         private double B;
+        private double G;
+        private double R;
 
         public LightIntensity Build()
         {
