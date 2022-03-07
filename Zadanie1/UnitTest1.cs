@@ -57,9 +57,9 @@ public class UnitTest1
     {
         // 7. Proszę zdefiniować płaszczyznę P przechodzącą przez punkt (0,0,0), której wektor normalny tworzy kąt 45 stopni z osiami Y i Z.
         var P = new Plane(new Vector3(0, 0.5, 0.5), new Vector3(0, 0, 0));
-        
+
         // 8. Proszę znaleźć punkt przecięcia płaszczyzny P z promieniem R2.
-        Vector3? intersection = P.Intersection(R2);
+        var intersection = P.Intersection(R2);
         Assert.AreEqual(new Vector3(0, 20, -20), intersection);
         Console.WriteLine($"Punkt przecięcia Płaszczyzny P z Promieniem R2: p: {intersection}");
     }

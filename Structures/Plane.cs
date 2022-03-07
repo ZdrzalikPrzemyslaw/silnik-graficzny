@@ -1,25 +1,44 @@
 namespace Structures;
 
-public class Plane
+public class Plane : IEquatable<Plane>
 {
+    private Vector3? _center;
+
     public Plane(Vector3 normal, double distance)
     {
         Distance = distance;
         Normal = normal.GetNormalized();
-        Center = new Ray(Vector3.Zero(), Normal).PointAtDistanceFromOrigin(Distance);
     }
 
     public Plane(Vector3 inNormal, Vector3 point) : this(inNormal, GetDistanceAlongNormal(inNormal, point))
     {
     }
 
-    public double Distance { get; set; } // to 0, 0, 0
+    public double Distance { get; } // Do 0, 0, 0
 
-    public Vector3 Normal { get; set; }
+    public Vector3 Normal { get; }
 
-    private Vector3 Center { get; }
+    public Plane Flipped()
+    {
+        return new Plane(-Normal, -Distance);
+    }
 
-    public double Z { get; set; }
+    public Vector3 Center
+    {
+        get
+        {
+            if (_center is null) _center = new Ray(Vector3.Zero(), Normal).PointAtDistanceFromOrigin(Distance);
+            return _center;
+        }
+    }
+
+    public bool Equals(Plane? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return Distance.Equals(other.Distance) && Normal.Equals(other.Normal);
+    }
+
 
     public bool Intersects(Ray ray)
     {
@@ -52,5 +71,15 @@ public class Plane
         }
 
         return null;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return Equals(obj as Plane);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Distance, Normal);
     }
 }

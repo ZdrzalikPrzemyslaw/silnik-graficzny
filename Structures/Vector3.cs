@@ -1,6 +1,6 @@
 ﻿namespace Structures;
 
-public class Vector3
+public class Vector3 : IEquatable<Vector3>
 {
     public Vector3(double x, double y, double z)
     {
@@ -36,6 +36,13 @@ public class Vector3
 
     public double Z { get; set; }
 
+    public bool Equals(Vector3? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
+    }
+
     public static Vector3 Zero()
     {
         return new Vector3();
@@ -46,17 +53,9 @@ public class Vector3
         return $"Vector({X}, {Y}, {Z})";
     }
 
-    protected bool Equals(Vector3 other)
-    {
-        return X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
-    }
-
     public override bool Equals(object? obj)
     {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
-        return Equals((Vector3)obj);
+        return Equals(obj as Vector3);
     }
 
     public override int GetHashCode()
@@ -86,7 +85,7 @@ public class Vector3
 
     public static Vector3 operator -(Vector3 a)
     {
-        return new Vector3(-a.X, -a.Y, -a.Z);
+        return a * (-1);
     }
 
     public static Vector3 operator *(Vector3 a, double k)
@@ -151,6 +150,11 @@ public class Vector3
     public static Vector3 Cross(Vector3 first, Vector3 second)
     {
         return new Vector3(first).Cross(second);
+    }
+
+    public Vector3 Inverse()
+    {
+        return -this;
     }
 
     public double Distance(Vector3 other)

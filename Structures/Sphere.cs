@@ -1,6 +1,6 @@
 namespace Structures;
 
-public class Sphere
+public class Sphere : IEquatable<Sphere>
 {
     public Sphere()
     {
@@ -16,6 +16,13 @@ public class Sphere
 
     public Vector3 Center { get; set; }
     public double Radius { get; set; }
+
+    public bool Equals(Sphere? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return Center.Equals(other.Center) && Radius.Equals(other.Radius);
+    }
 
     public double Distance(Ray ray)
     {
@@ -52,5 +59,15 @@ public class Sphere
         if (t2 > 0) retList.Add(ray.PointAtDistanceFromOrigin(t2));
 
         return retList;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return Equals(obj as Sphere);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Center, Radius);
     }
 }
