@@ -10,6 +10,7 @@ public class UnitTest1
     private static Ray R1;
     private static Ray R2;
     private static Ray R3;
+    private static Sphere S;
 
     [ClassInitialize]
     public static void Init(TestContext testContext)
@@ -23,13 +24,13 @@ public class UnitTest1
         // 6. Proszę zdefiniować dowolny promień R3, tak aby przecinał on sferę S w dokładnie jednym punkcie.
         R3 = new Ray(new Vector3(10, 10, 0),
             new Vector3(new Vector3(10, 10, 0), new Vector3(10, 0, 0)).GetNormalized());
+        S = new Sphere(new Vector3(0, 0, 0), 10);
     }
 
     [TestMethod]
     public void TestSphereIntersection()
     {
         // 2. Zdefiniować sferę S o środku w punkcie (0,0,0) i promieniu 10.
-        var S = new Sphere(new Vector3(0, 0, 0), 10);
 
         // 5. Proszę sprawdzić, czy istnieje przecięcie sfery S z promieniami R1 oraz R2. 
         //    Wynik w postaci współrzędnych punktu przecięcia należy wyświetlić.
@@ -50,6 +51,19 @@ public class UnitTest1
         Assert.AreEqual(1, x3.Count);
         Assert.AreEqual(new Vector3(10, 0, 0), x3[0]);
         Console.WriteLine($"Przeciecie Promienia R2 ze sferą S: p: {x3[0]}");
+    }
+
+
+    [TestMethod]
+    public void TestSphereIntersectionRayStartInsideSphere()
+    {
+        var R4 = new Ray(new Vector3(0, 0, 9),
+            new Vector3(new Vector3(0,0, 0), new Vector3(0, 0, 1)).GetNormalized());
+
+        var intersection = S.Intersection(R4);
+        
+        Assert.AreEqual(1, intersection.Count);
+        Assert.AreEqual(new Vector3(0, 0, 10), intersection[0]);
     }
 
     [TestMethod]
