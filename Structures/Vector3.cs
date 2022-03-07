@@ -88,32 +88,71 @@ public class Vector3 : IEquatable<Vector3>
         return a * -1;
     }
 
+    /// <summary>
+    ///     Multiplies the vector and a constant.
+    /// </summary>
+    /// <param name="a">A vector to be multiplied.</param>
+    /// <param name="k">The constant to be multiplied.</param>
+    /// <returns>Multiplication of the vector and a constant.</returns>
     public static Vector3 operator *(Vector3 a, double k)
     {
         return new Vector3(a.X * k, a.Y * k, a.Z * k);
     }
 
+    /// <summary>
+    ///     Multiplies a constant and the vector.
+    /// </summary>
+    /// <param name="k">The constant to be multiplied.</param>
+    /// <param name="a">A vector to be multiplied.</param>
+    /// <returns>Multiplication of the vector and a constant.</returns>
     public static Vector3 operator *(double k, Vector3 a)
     {
         return new Vector3(a.X * k, a.Y * k, a.Z * k);
     }
 
+    /// <summary>
+    ///     Divides a vector by a constant and returns the results.
+    /// </summary>
+    /// <param name="first">The vector which is a denominator.</param>
+    /// <param name="k">A constant which is a divisor.</param>
+    /// <returns>Division of vector by a constant.</returns>
+    /// <exception cref="DivideByZeroException">
+    ///     Thrown when <paramref name="k" /> is equals 0.
+    /// </exception>
     public static Vector3 operator /(Vector3 first, double k)
     {
         if (k == 0) throw new DivideByZeroException();
         return first * (1 / k);
     }
 
+    /// <summary>
+    ///     Adds two vectors and returns the results.
+    /// </summary>
+    /// <param name="a">The left operand of the addition.</param>
+    /// <param name="b">The right operand of the addition.</param>
+    /// <returns>Sum of two vectors.</returns>
     public static Vector3 operator +(Vector3 a, Vector3 b)
     {
         return new Vector3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
     }
 
+    /// <summary>
+    ///     Subtracts two vectors and returns the results.
+    /// </summary>
+    /// <param name="a">The left operand of the subtraction.</param>
+    /// <param name="b">The right operand of the subtraction.</param>
+    /// <returns>Difference of two vectors.</returns>
     public static Vector3 operator -(Vector3 a, Vector3 b)
     {
         return a + -b;
     }
 
+    /// <summary>
+    ///     Multiplies two vectors and returns the results.
+    /// </summary>
+    /// <param name="a">The left operand of the multiplication.</param>
+    /// <param name="b">The right operand of the multiplication.</param>
+    /// <returns>Multiplication of two vectors.</returns>
     public static Vector3 operator *(Vector3 a, Vector3 b)
     {
         return new Vector3(a.X * b.X, a.Y * b.Y, a.Z * b.Z);
