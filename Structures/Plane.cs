@@ -2,22 +2,44 @@ namespace Structures;
 
 public class Plane : IEquatable<Plane>
 {
+    /// <summary>
+    /// Coordinates of the point which is closest to {0, 0, 0}.
+    /// </summary>
     private Vector3? _center;
     
-    public Plane(Vector3 normal, double distance)
+    /// <summary>
+    /// Creates new Plane from a normal vector and it's distance from {0, 0, 0}
+    /// </summary>
+    /// <param name="inNormal">Normal Vector</param>
+    /// <param name="distance">Distance from {0, 0, 0}</param>
+    public Plane(Vector3 inNormal, double distance)
     {
         Distance = distance;
-        Normal = normal.GetNormalized();
+        Normal = inNormal.GetNormalized();
     }
-
+    
+    /// <summary>
+    /// Creates new Plane from a normal vector and a point which belongs to the plane.
+    /// </summary>
+    /// <param name="inNormal">Normal Vector</param>
+    /// <param name="point">Point belonging to Plane</param>
     public Plane(Vector3 inNormal, Vector3 point) : this(inNormal, GetDistanceAlongNormal(inNormal, point))
     {
     }
 
+    /// <summary>
+    /// Distance of the Plane to {0, 0, 0}.
+    /// </summary>
     public double Distance { get; } // Do 0, 0, 0
-
+    
+    /// <summary>
+    /// The normal vector of the Plane.
+    /// </summary>
     public Vector3 Normal { get; }
 
+    /// <summary>
+    /// Coordinates of the point which is closest to {0, 0, 0}.
+    /// </summary>
     public Vector3 Center
     {
         get
@@ -35,6 +57,10 @@ public class Plane : IEquatable<Plane>
         return Distance.Equals(other.Distance) && Normal.Equals(other.Normal);
     }
 
+    /// <summary>
+    /// Creates a copy of the plane facing opposite direction and returns it.
+    /// </summary>
+    /// <returns>A copy of the plane facing opposite direction </returns>
     public Plane Flipped()
     {
         return new Plane(-Normal, -Distance);
