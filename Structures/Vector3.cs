@@ -2,6 +2,12 @@
 
 public class Vector3 : IEquatable<Vector3>
 {
+    /// <summary>
+    ///     Creates new vector with coordinates as (<paramref name="x" />, <paramref name="y" />, <paramref name="z" />).
+    /// </summary>
+    /// <param name="x">X coordinate.</param>
+    /// <param name="y">X coordinate.</param>
+    /// <param name="z">X coordinate.</param>
     public Vector3(double x, double y, double z)
     {
         X = x;
@@ -9,6 +15,11 @@ public class Vector3 : IEquatable<Vector3>
         Z = z;
     }
 
+    /// <summary>
+    ///     Creates new vector between two vectors.
+    /// </summary>
+    /// <param name="vec1">Origin</param>
+    /// <param name="vec2">Destination</param>
     public Vector3(Vector3 vec1, Vector3 vec2)
     {
         X = vec2.X - vec1.X;
@@ -16,6 +27,10 @@ public class Vector3 : IEquatable<Vector3>
         Z = vec2.Z - vec1.Z;
     }
 
+    /// <summary>
+    ///     Creates new vector with the same coordinates as <paramref name="vector3" />.
+    /// </summary>
+    /// <param name="vector3">Vector to be copied.</param>
     public Vector3(Vector3 vector3)
     {
         X = vector3.X;
@@ -23,6 +38,9 @@ public class Vector3 : IEquatable<Vector3>
         Z = vector3.Z;
     }
 
+    /// <summary>
+    ///     Creates new vector with coordinates (0, 0, 0).
+    /// </summary>
     public Vector3()
     {
         X = 0;
@@ -30,12 +48,26 @@ public class Vector3 : IEquatable<Vector3>
         Z = 0;
     }
 
+    /// <summary>
+    ///     X coordinate of vector.
+    /// </summary>
     public double X { get; set; }
 
+    /// <summary>
+    ///     Y coordinate of vector.
+    /// </summary>
     public double Y { get; set; }
 
+    /// <summary>
+    ///     Z coordinate of vector.
+    /// </summary>
     public double Z { get; set; }
 
+    /// <summary>
+    ///     Checks equality between this and <paramref name="other" />.
+    /// </summary>
+    /// <param name="other">The right operand of the equality.</param>
+    /// <returns>True if vectors are equals, false if vectors are unequals.</returns>
     public bool Equals(Vector3? other)
     {
         if (ReferenceEquals(null, other)) return false;
@@ -43,46 +75,76 @@ public class Vector3 : IEquatable<Vector3>
         return X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
     }
 
+    /// <summary>
+    ///     Creates new vector with coordinates (0, 0, 0) and returns the results.
+    /// </summary>
+    /// <returns>The instance of new zero vector.</returns>
     public static Vector3 Zero()
     {
         return new Vector3();
     }
 
+    /// <summary>
+    ///     Creates string representation of this and returns the results.
+    /// </summary>
+    /// <returns>String representation of this.</returns>
     public override string ToString()
     {
         return $"Vector({X}, {Y}, {Z})";
     }
 
+    /// <summary>
+    ///     Checks equality between two vectors.
+    /// </summary>
+    /// <param name="obj">The right operand of the equality.</param>
+    /// <returns>True if objects are equals, false if objects are unequals.</returns>
     public override bool Equals(object? obj)
     {
         return Equals(obj as Vector3);
     }
 
+    /// <summary>
+    ///     Generate hash code of this.
+    /// </summary>
+    /// <returns>Hash code of this.</returns>
     public override int GetHashCode()
     {
         return HashCode.Combine(X, Y, Z);
     }
 
+    /// <summary>
+    ///     Calculates the magnitude of this adn return the results.
+    /// </summary>
+    /// <returns>Magnitude of this.</returns>
     public double Magnitude()
     {
         return Math.Sqrt(MagnitudeSquared());
     }
 
-    public Vector3 ToPoint()
-    {
-        return new Vector3(this);
-    }
-
+    /// <summary>
+    ///     Calculates the squared magnitude of this adn return the results.
+    /// </summary>
+    /// <returns>Squared magnitude of this.</returns>
     public double MagnitudeSquared()
     {
         return X * X + Y * Y + Z * Z;
     }
 
+    /// <summary>
+    ///     Returns the new instance of <paramref name="a" />.
+    /// </summary>
+    /// <param name="a">Vector from which we got new instances.</param>
+    /// <returns>Returns the new instance of param <paramref name="a" />.</returns>
     public static Vector3 operator +(Vector3 a)
     {
         return new Vector3(a);
     }
 
+    /// <summary>
+    ///     Inverse vector.
+    /// </summary>
+    /// <param name="a">Vector to inverse.</param>
+    /// <returns>Inverted vector.</returns>
     public static Vector3 operator -(Vector3 a)
     {
         return a * -1;
