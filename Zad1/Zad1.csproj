@@ -8,12 +8,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Structures\Structures.csproj" />
-        <ProjectReference Include="..\Zadanie1\Zadanie1.csproj" />
+        <ProjectReference Include="..\Structures\Structures.csproj"/>
+        <ProjectReference Include="..\Zadanie1\Zadanie1.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Unity" Version="5.11.10" />
+        <PackageReference Include="Unity" Version="5.11.10"/>
     </ItemGroup>
 
 </Project>

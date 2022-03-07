@@ -58,10 +58,10 @@ public class UnitTest1
     public void TestSphereIntersectionRayStartInsideSphere()
     {
         var R4 = new Ray(new Vector3(0, 0, 9),
-            new Vector3(new Vector3(0,0, 0), new Vector3(0, 0, 1)).GetNormalized());
+            new Vector3(new Vector3(0, 0, 0), new Vector3(0, 0, 1)).GetNormalized());
 
         var intersection = S.Intersection(R4);
-        
+
         Assert.AreEqual(1, intersection.Count);
         Assert.AreEqual(new Vector3(0, 0, 10), intersection[0]);
     }
