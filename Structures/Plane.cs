@@ -43,13 +43,14 @@ public class Plane
 
     public Vector3? Intersection(Ray ray)
     {
-        if (this.Intersects(ray))
+        if (Intersects(ray))
         {
             var d = Center.Dot(-Normal);
             var t = -(d + ray.Origin.Z * Normal.Z + ray.Origin.Y * Normal.Y + ray.Origin.X * Normal.X)
                     / (ray.Direction.Z * Normal.Z + ray.Direction.Y * Normal.Y + ray.Direction.X * Normal.X);
             return ray.Origin + t * ray.Direction;
         }
+
         return null;
     }
 }

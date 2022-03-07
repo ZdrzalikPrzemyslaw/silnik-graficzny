@@ -5,17 +5,15 @@ public class Ray
     public Ray(Vector3 origin, Vector3 direction)
     {
         Origin = origin;
-        Direction = direction;
+        Direction = direction.GetNormalized();
     }
 
-    public Ray()
+    public Ray() : this(Vector3.Zero(), Vector3.Zero())
     {
-        Origin = Vector3.Zero();
-        Direction = Vector3.Zero();
     }
 
-    public Vector3 Origin { get; set; }
-    public Vector3 Direction { get; set; }
+    public Vector3 Origin { get; }
+    public Vector3 Direction { get; }
 
     public Vector3 PointAtDistanceFromOrigin(double distance)
     {

@@ -56,7 +56,7 @@ public class Vector3
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
-        return Equals((Vector3) obj);
+        return Equals((Vector3)obj);
     }
 
     public override int GetHashCode()
