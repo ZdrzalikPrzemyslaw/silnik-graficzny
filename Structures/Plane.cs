@@ -41,11 +41,15 @@ public class Plane
         return (inNormal * (inNormal.Dot(point) / inNormal.Dot(inNormal))).Magnitude();
     }
 
-    public Vector3 Intersection(Ray ray)
+    public Vector3? Intersection(Ray ray)
     {
-        var d = Center.Dot(-Normal);
-        var t = -(d + ray.Origin.Z * Normal.Z + ray.Origin.Y * Normal.Y + ray.Origin.X * Normal.X)
-                / (ray.Direction.Z * Normal.Z + ray.Direction.Y * Normal.Y + ray.Direction.X * Normal.X);
-        return ray.Origin + t * ray.Direction;
+        if (this.Intersects(ray))
+        {
+            var d = Center.Dot(-Normal);
+            var t = -(d + ray.Origin.Z * Normal.Z + ray.Origin.Y * Normal.Y + ray.Origin.X * Normal.X)
+                    / (ray.Direction.Z * Normal.Z + ray.Direction.Y * Normal.Y + ray.Direction.X * Normal.X);
+            return ray.Origin + t * ray.Direction;
+        }
+        return null;
     }
 }
