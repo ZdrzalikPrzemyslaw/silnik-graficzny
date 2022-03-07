@@ -157,6 +157,11 @@ public class Vector3 : IEquatable<Vector3>
         return -this;
     }
 
+    /// <summary>
+    ///     Calculates Euclidean distance between this and other vector and returns the results.
+    /// </summary>
+    /// <param name="other">The second vector</param>
+    /// <returns>Euclidean distance between vectors</returns>
     public double Distance(Vector3 other)
     {
         return Math.Sqrt(
@@ -166,6 +171,16 @@ public class Vector3 : IEquatable<Vector3>
         );
     }
 
+    /// <summary>
+    ///     Divides two vectors and returns the results.
+    /// </summary>
+    /// <param name="first">The left operand of the division.</param>
+    /// <param name="second">The right operand of the division.</param>
+    /// <returns>Division of two vectors.</returns>
+    /// <exception cref="DivideByZeroException">
+    ///     Thrown when at least one of the co-ordinates of <paramref name="second" /> are
+    ///     equals 0.
+    /// </exception>
     public static Vector3 operator /(Vector3 first, Vector3 second)
     {
         if (second.X == 0 || second.Y == 0 || second.Z == 0) throw new DivideByZeroException();
