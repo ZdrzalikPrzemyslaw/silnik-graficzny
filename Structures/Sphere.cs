@@ -80,4 +80,9 @@ public class Sphere : IEquatable<Sphere>
     {
         return HashCode.Combine(Center, Radius);
     }
+
+    public override string ToString()
+    {
+        return $"Plane(Center: {Center}, Radius: {Radius})";
+    }
 }

@@ -88,6 +88,11 @@ public class Plane : IEquatable<Plane>
         return Equals(obj as Plane);
     }
 
+    public override string ToString()
+    {
+        return $"Plane(Normal: {Normal}, Distance: {Distance})";
+    }
+
     public override int GetHashCode()
     {
         return HashCode.Combine(Distance, Normal);

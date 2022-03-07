@@ -37,6 +37,11 @@ public class Ray : IEquatable<Ray>
         return !(a == b);
     }
 
+    public override string ToString()
+    {
+        return $"Ray(Origin: {Origin}, Direction: {Direction})";
+    }
+
     public Vector3 PointAtDistanceFromOrigin(double distance)
     {
         return Origin + Direction * distance;
