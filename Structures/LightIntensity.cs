@@ -10,10 +10,6 @@ public class LightIntensity : IEquatable<LightIntensity>
     
     public LightIntensity(double r, double g, double b)
     {
-        if (g == 76)
-        {
-            int a;
-        }
         r = r > 1 ? 1 : r;
         r = r < 0 ? 0 : r;
         R = r;
