@@ -1,7 +1,13 @@
 ﻿namespace Structures;
 
-public class Vector3
+public class Vector3 : IEquatable<Vector3>
 {
+    /// <summary>
+    ///     Creates new vector with coordinates as (<paramref name="x" />, <paramref name="y" />, <paramref name="z" />).
+    /// </summary>
+    /// <param name="x">X coordinate.</param>
+    /// <param name="y">X coordinate.</param>
+    /// <param name="z">X coordinate.</param>
     public Vector3(double x, double y, double z)
     {
         X = x;
@@ -9,6 +15,11 @@ public class Vector3
         Z = z;
     }
 
+    /// <summary>
+    ///     Creates new vector between two vectors.
+    /// </summary>
+    /// <param name="vec1">Origin</param>
+    /// <param name="vec2">Destination</param>
     public Vector3(Vector3 vec1, Vector3 vec2)
     {
         X = vec2.X - vec1.X;
@@ -16,6 +27,10 @@ public class Vector3
         Z = vec2.Z - vec1.Z;
     }
 
+    /// <summary>
+    ///     Creates new vector with the same coordinates as <paramref name="vector3" />.
+    /// </summary>
+    /// <param name="vector3">Vector to be copied.</param>
     public Vector3(Vector3 vector3)
     {
         X = vector3.X;
@@ -23,6 +38,9 @@ public class Vector3
         Z = vector3.Z;
     }
 
+    /// <summary>
+    ///     Creates new vector with coordinates (0, 0, 0).
+    /// </summary>
     public Vector3()
     {
         X = 0;
@@ -30,125 +48,244 @@ public class Vector3
         Z = 0;
     }
 
+    /// <summary>
+    ///     X coordinate of vector.
+    /// </summary>
     public double X { get; set; }
 
+    /// <summary>
+    ///     Y coordinate of vector.
+    /// </summary>
     public double Y { get; set; }
 
+    /// <summary>
+    ///     Z coordinate of vector.
+    /// </summary>
     public double Z { get; set; }
 
+    /// <inheritdoc />
+    public bool Equals(Vector3? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
+    }
+
+    /// <summary>
+    ///     Creates new vector with coordinates (0, 0, 0) and returns the results.
+    /// </summary>
+    /// <returns>The instance of new zero vector.</returns>
     public static Vector3 Zero()
     {
         return new Vector3();
     }
 
+    /// <inheritdoc />
     public override string ToString()
     {
         return $"Vector({X}, {Y}, {Z})";
     }
 
-    protected bool Equals(Vector3 other)
-    {
-        return X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
-    }
-
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
-        return Equals((Vector3) obj);
+        return Equals(obj as Vector3);
     }
 
+    /// <inheritdoc />
     public override int GetHashCode()
     {
         return HashCode.Combine(X, Y, Z);
     }
 
+    /// <summary>
+    ///     Calculates the magnitude of this adn return the results.
+    /// </summary>
+    /// <returns>Magnitude of this.</returns>
     public double Magnitude()
     {
         return Math.Sqrt(MagnitudeSquared());
     }
 
-    public Vector3 ToPoint()
-    {
-        return new Vector3(this);
-    }
-
+    /// <summary>
+    ///     Calculates the squared magnitude of this adn return the results.
+    /// </summary>
+    /// <returns>Squared magnitude of this.</returns>
     public double MagnitudeSquared()
     {
         return X * X + Y * Y + Z * Z;
     }
 
+    /// <summary>
+    ///     Returns the new instance of <paramref name="a" />.
+    /// </summary>
+    /// <param name="a">Vector from which we got new instances.</param>
+    /// <returns>Returns the new instance of param <paramref name="a" />.</returns>
     public static Vector3 operator +(Vector3 a)
     {
         return new Vector3(a);
     }
 
+    /// <summary>
+    ///     Inverse vector.
+    /// </summary>
+    /// <param name="a">Vector to inverse.</param>
+    /// <returns>Inverted vector.</returns>
     public static Vector3 operator -(Vector3 a)
     {
-        return new Vector3(-a.X, -a.Y, -a.Z);
+        return a * -1;
     }
 
+    /// <summary>
+    ///     Multiplies the vector and a constant.
+    /// </summary>
+    /// <param name="a">A vector to be multiplied.</param>
+    /// <param name="k">The constant to be multiplied.</param>
+    /// <returns>Multiplication of the vector and a constant.</returns>
     public static Vector3 operator *(Vector3 a, double k)
     {
         return new Vector3(a.X * k, a.Y * k, a.Z * k);
     }
 
+    /// <summary>
+    ///     Multiplies a constant and the vector.
+    /// </summary>
+    /// <param name="k">The constant to be multiplied.</param>
+    /// <param name="a">A vector to be multiplied.</param>
+    /// <returns>Multiplication of the vector and a constant.</returns>
     public static Vector3 operator *(double k, Vector3 a)
     {
         return new Vector3(a.X * k, a.Y * k, a.Z * k);
     }
 
-    public static Vector3 operator /(Vector3 a, double k)
+    /// <summary>
+    ///     Divides a vector by a constant and returns the results.
+    /// </summary>
+    /// <param name="first">The vector which is a denominator.</param>
+    /// <param name="k">A constant which is a divisor.</param>
+    /// <returns>Division of vector by a constant.</returns>
+    /// <exception cref="DivideByZeroException">
+    ///     Thrown when <paramref name="k" /> is equals 0.
+    /// </exception>
+    public static Vector3 operator /(Vector3 first, double k)
     {
         if (k == 0) throw new DivideByZeroException();
-        var inverse = 1 / k;
-        return new Vector3(a.X / inverse, a.Y / inverse, a.Z / inverse);
+        return first * (1 / k);
     }
 
+    /// <summary>
+    ///     Adds two vectors and returns the results.
+    /// </summary>
+    /// <param name="a">The left operand of the addition.</param>
+    /// <param name="b">The right operand of the addition.</param>
+    /// <returns>Sum of two vectors.</returns>
     public static Vector3 operator +(Vector3 a, Vector3 b)
     {
         return new Vector3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
     }
 
+    /// <summary>
+    ///     Subtracts two vectors and returns the results.
+    /// </summary>
+    /// <param name="a">The left operand of the subtraction.</param>
+    /// <param name="b">The right operand of the subtraction.</param>
+    /// <returns>Difference of two vectors.</returns>
     public static Vector3 operator -(Vector3 a, Vector3 b)
     {
         return a + -b;
     }
 
+    /// <summary>
+    ///     Multiplies two vectors and returns the results.
+    /// </summary>
+    /// <param name="a">The left operand of the multiplication.</param>
+    /// <param name="b">The right operand of the multiplication.</param>
+    /// <returns>Multiplication of two vectors.</returns>
     public static Vector3 operator *(Vector3 a, Vector3 b)
     {
         return new Vector3(a.X * b.X, a.Y * b.Y, a.Z * b.Z);
     }
 
+    /// <summary>
+    ///     Checks equality between two vectors.
+    /// </summary>
+    /// <param name="a">The left operand of the equality.</param>
+    /// <param name="b">The right operand of the equality.</param>
+    /// <returns>True if vectors are equals, false if vectors are unequals.</returns>
+    public static bool operator ==(Vector3 a, Vector3 b)
+    {
+        return a.Equals(b);
+    }
+
+    /// <summary>
+    ///     Checks inequality between two vectors.
+    /// </summary>
+    /// <param name="a">The left operand of the inequality.</param>
+    /// <param name="b">The right operand of the inequality.</param>
+    /// <returns>False if vectors are equals, true if vectors are unequals.</returns>
+    public static bool operator !=(Vector3 a, Vector3 b)
+    {
+        return !(a == b);
+    }
+
+    /// <summary>
+    ///     Calculates dot product on this and <paramref name="other" /> vector and returns the results.
+    /// </summary>
+    /// <param name="other">The right operand of the dot.</param>
+    /// <returns>Vector resulting from dot.</returns>
     public double Dot(Vector3 other)
     {
         return X * other.X + Y * other.Y + Z * other.Z;
     }
 
+    /// <summary>
+    ///     Normalizes vector and returns the results.
+    /// </summary>
+    /// <returns>Normalized vector</returns>
+    /// <exception cref="DivideByZeroException">Throws when magnitude of vector is 0.</exception>
     public Vector3 GetNormalized()
     {
-        var newVec = new Vector3(this);
-        var len = newVec.Magnitude();
+        var len = Magnitude();
         if (len == 0) throw new DivideByZeroException();
-
-        newVec.X /= len;
-        newVec.Y /= len;
-        newVec.Z /= len;
-        return newVec;
+        return this / len;
     }
 
+    /// <summary>
+    ///     Calculates cross product on this and <paramref name="other" /> vector and returns the results.
+    /// </summary>
+    /// <param name="other">The right operand of the cross.</param>
+    /// <returns>Vector resulting from cross.</returns>
     public Vector3 Cross(Vector3 other)
     {
         return new Vector3(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z,
             X * other.Y - Y * other.X);
     }
 
+    /// <summary>
+    ///     Calculates cross product on two vectors and returns the results.
+    /// </summary>
+    /// <param name="first">The left operand of the cross.</param>
+    /// <param name="second">The right operand of the cross.</param>
+    /// <returns>Vector resulting from cross.</returns>
     public static Vector3 Cross(Vector3 first, Vector3 second)
     {
         return new Vector3(first).Cross(second);
     }
 
+    /// <summary>
+    ///     Inverse vector.
+    /// </summary>
+    /// <returns>Inverted vector.</returns>
+    public Vector3 Inverse()
+    {
+        return -this;
+    }
+
+    /// <summary>
+    ///     Calculates Euclidean distance between this and other vector and returns the results.
+    /// </summary>
+    /// <param name="other">The second vector</param>
+    /// <returns>Euclidean distance between vectors</returns>
     public double Distance(Vector3 other)
     {
         return Math.Sqrt(
@@ -158,12 +295,19 @@ public class Vector3
         );
     }
 
-    // public static Vector3 operator /(Vector3 a, Vector3 b)
-    // {
-    //     if (b.X == 0 || b.Y == 0 || b.Z == 0)
-    //     {
-    //         throw new DivideByZeroException();
-    //     }
-    //     return new Vector3(a.num * b.den, a.den * b.num);
-    // }
+    /// <summary>
+    ///     Divides two vectors and returns the results.
+    /// </summary>
+    /// <param name="first">The left operand of the division.</param>
+    /// <param name="second">The right operand of the division.</param>
+    /// <returns>Division of two vectors.</returns>
+    /// <exception cref="DivideByZeroException">
+    ///     Thrown when at least one of the co-ordinates of <paramref name="second" /> are
+    ///     equals 0.
+    /// </exception>
+    public static Vector3 operator /(Vector3 first, Vector3 second)
+    {
+        if (second.X == 0 || second.Y == 0 || second.Z == 0) throw new DivideByZeroException();
+        return new Vector3(first.X / second.X, first.Y / second.Y, first.Z / second.Z);
+    }
 }
