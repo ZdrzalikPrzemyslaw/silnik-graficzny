@@ -41,6 +41,7 @@ public class Plane
         return (inNormal * (inNormal.Dot(point) / inNormal.Dot(inNormal))).Magnitude();
     }
 
+    //https://stackoverflow.com/a/53437900/17176800
     public Vector3? Intersection(Ray ray)
     {
         if (Intersects(ray))
