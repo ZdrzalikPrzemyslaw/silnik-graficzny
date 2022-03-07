@@ -94,7 +94,7 @@ public class Vector3 : IEquatable<Vector3>
     }
 
     /// <summary>
-    ///     Checks equality between two vectors.
+    ///     Checks equality between two objects.
     /// </summary>
     /// <param name="obj">The right operand of the equality.</param>
     /// <returns>True if objects are equals, false if objects are unequals.</returns>
