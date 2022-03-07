@@ -2,50 +2,96 @@ namespace Structures;
 
 public class Sphere : IEquatable<Sphere>
 {
+    
+    /// <summary>
+    /// Creates new Sphere starting at {0, 0, 0} with radius equal to 0
+    /// </summary>
     public Sphere()
     {
         Center = Vector3.Zero();
         Radius = 0;
     }
-
+    
+    /// <summary>
+    /// Creates new Sphere with given center location and radius 
+    /// </summary>
+    /// <param name="center">Given center location</param>
+    /// <param name="radius">Given radius</param>
     public Sphere(Vector3 center, double radius)
     {
         Center = center;
         Radius = radius;
     }
-
+    
+    /// <summary>
+    /// Center position of the Sphere
+    /// </summary>
     public Vector3 Center { get; set; }
+    
+    /// <summary>
+    /// Radius of the Sphere
+    /// </summary>
     public double Radius { get; set; }
 
+
+    /// <inheritdoc />
     public bool Equals(Sphere? other)
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
         return Center.Equals(other.Center) && Radius.Equals(other.Radius);
     }
-
+    
+    /// <summary>
+    /// Computes the shortest distance between a Ray and this Sphere
+    /// </summary>
+    /// <param name="ray">Ray to compute the distance to</param>
+    /// <returns>Shortest distance between Ray and Sphere</returns>
     public double Distance(Ray ray)
     {
         return Vector3.Cross(ray.Direction, Center - ray.Origin).Magnitude();
     }
 
-    // TODO: czy przeciecie to też stycznosc? jak tak to zle (<=)
+    /// <summary>
+    /// Checks whether a given Ray is tangent to or intersects this Sphere 
+    /// </summary>
+    /// <param name="ray">Given Ray</param>
+    /// <returns>True if intersects of is tangent, false otherwise</returns>
     public bool Intersects(Ray ray)
     {
-        return Distance(ray) < Radius;
+        return Distance(ray) <= Radius;
     }
-
+    
+    
+    /// <summary>
+    /// Checks whether two Spheres are equal
+    /// </summary>
+    /// <param name="a">First Sphere</param>
+    /// <param name="b">Second Sphere</param>
+    /// <returns>True if objects are equal, false otherwise</returns>
     public static bool operator ==(Sphere a, Sphere b)
     {
         return a.Equals(b);
     }
 
+    /// <summary>
+    /// Checks whether two Spheres are not equal
+    /// </summary>
+    /// <param name="a">First Sphere</param>
+    /// <param name="b">Second Sphere</param>
+    /// <returns>True if objects are not equal, false otherwise</returns>
     public static bool operator !=(Sphere a, Sphere b)
     {
         return !(a == b);
     }
-
-    // http://kylehalladay.com/blog/tutorial/math/2013/12/24/Ray-Sphere-Intersection.html
+    
+    /// <summary>
+    /// Finds the points of intersection between a given Ray and this Sphere
+    /// http://kylehalladay.com/blog/tutorial/math/2013/12/24/Ray-Sphere-Intersection.html
+    /// </summary>
+    /// <param name="ray">Given Ray</param>
+    /// <returns>Empty list if no intersections, one element in list if tangent, two elements otherwise</returns>
+    // 
     public List<Vector3> Intersection(Ray ray)
     {
         var L = new Vector3(ray.Origin, Center);
@@ -70,17 +116,20 @@ public class Sphere : IEquatable<Sphere>
 
         return retList;
     }
-
+    
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         return Equals(obj as Sphere);
     }
 
+    /// <inheritdoc />
     public override int GetHashCode()
     {
         return HashCode.Combine(Center, Radius);
     }
 
+    /// <inheritdoc />
     public override string ToString()
     {
         return $"Plane(Center: {Center}, Radius: {Radius})";
