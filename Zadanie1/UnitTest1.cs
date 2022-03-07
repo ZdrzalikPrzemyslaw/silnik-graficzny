@@ -77,4 +77,14 @@ public class UnitTest1
         Assert.AreEqual(new Vector3(0, 20, -20), intersection);
         Console.WriteLine($"Punkt przecięcia Płaszczyzny P z Promieniem R2: p: {intersection}");
     }
+
+    [TestMethod]
+    public void TestPlaneIntersection2()
+    {
+        var plane = new Plane(new Vector3(6, 5, 1), new Vector3(0, 0, 30));
+        var ray = new Ray(new Vector3(0, 0, 0),
+            new Vector3(new Vector3(0, 0, 0), new Vector3(2, 4, 8)).GetNormalized());
+        var intersection = plane.Intersection(ray);
+        Assert.AreEqual(new Vector3(1.5, 3, 6), intersection);
+    }
 }
