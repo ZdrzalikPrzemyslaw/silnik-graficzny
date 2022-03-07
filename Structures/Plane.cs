@@ -27,6 +27,7 @@ public class Plane : IEquatable<Plane>
         }
     }
 
+    /// <inheritdoc />
     public bool Equals(Plane? other)
     {
         if (ReferenceEquals(null, other)) return false;
@@ -84,16 +85,19 @@ public class Plane : IEquatable<Plane>
         return null;
     }
 
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         return Equals(obj as Plane);
     }
 
+    /// <inheritdoc />
     public override string ToString()
     {
         return $"Plane(Normal: {Normal}, Distance: {Distance})";
     }
 
+    /// <inheritdoc />
     public override int GetHashCode()
     {
         return HashCode.Combine(Distance, Normal);
