@@ -30,11 +30,7 @@ public class Ray : IEquatable<Ray>
     /// </summary>
     public Vector3 Direction { get; }
 
-    /// <summary>
-    ///     Checks equality between this and <paramref name="other" />.
-    /// </summary>
-    /// <param name="other">The right operand of the equality.</param>
-    /// <returns>True if rays are equals, false if rays are unequals.</returns>
+    /// <inheritdoc />
     public bool Equals(Ray? other)
     {
         if (ReferenceEquals(null, other)) return false;
@@ -73,10 +69,7 @@ public class Ray : IEquatable<Ray>
         return !(a == b);
     }
 
-    /// <summary>
-    ///     Creates string representation of this and returns the results.
-    /// </summary>
-    /// <returns>String representation of this.</returns>
+    /// <inheritdoc />
     public override string ToString()
     {
         return $"Ray(Origin: {Origin}, Direction: {Direction})";
@@ -92,11 +85,7 @@ public class Ray : IEquatable<Ray>
         return Origin + Direction * distance;
     }
 
-    /// <summary>
-    ///     Checks equality between two objects.
-    /// </summary>
-    /// <param name="obj">The right operand of the equality.</param>
-    /// <returns>True if objects are equals, false if objects are unequals.</returns>
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         return Equals(obj as Ray);
