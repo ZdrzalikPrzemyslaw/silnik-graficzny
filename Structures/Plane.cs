@@ -3,7 +3,7 @@ namespace Structures;
 public class Plane : IEquatable<Plane>
 {
     private Vector3? _center;
-
+    
     public Plane(Vector3 normal, double distance)
     {
         Distance = distance;
@@ -40,17 +40,33 @@ public class Plane : IEquatable<Plane>
         return new Plane(-Normal, -Distance);
     }
 
+    /// <summary>
+    ///  Checks equality between two planes.
+    /// </summary>
+    /// <param name="a">The left operand of the equality.</param>
+    /// <param name="b">The right operand of the equality.</param>
+    /// <returns>True if planes are equals, false if planes are unequals.</returns>
     public static bool operator ==(Plane a, Plane b)
     {
         return a.Equals(b);
     }
-
+    
+    /// <summary>
+    ///  Checks inequality between two planes.
+    /// </summary>
+    /// <param name="a">The left operand of the inequality.</param>
+    /// <param name="b">The right operand of the inequality.</param>
+    /// <returns>False if planes are equals, true if planes are unequals.</returns>
     public static bool operator !=(Plane a, Plane b)
     {
         return !(a == b);
     }
 
-
+    /// <summary>
+    ///     Checks if the ray intersects the plane.
+    /// </summary>
+    /// <param name="ray">Ray to calculate the intersection point with the plane.</param>
+    /// <returns>True if the ray and the plane intersects, false if they don't intersects.</returns>
     public bool Intersects(Ray ray)
     {
         var dot = Normal.Dot(ray.Direction);
@@ -64,6 +80,13 @@ public class Plane : IEquatable<Plane>
         return false;
     }
 
+
+    /// <summary>
+    ///     Calculates the shortest distance from (0, 0, 0) to plane and return the results.
+    /// </summary>
+    /// <param name="inNormal">The normal of the plane.</param>
+    /// <param name="point">The point on the plane.</param>
+    /// <returns>The distance from (0, 0, 0) to plane.</returns>
     private static double GetDistanceAlongNormal(Vector3 inNormal, Vector3 point)
     {
         if (inNormal.Dot(point) < 0)
@@ -71,6 +94,11 @@ public class Plane : IEquatable<Plane>
         return (inNormal * (inNormal.Dot(point) / inNormal.Dot(inNormal))).Magnitude();
     }
 
+    /// <summary>
+    ///     Calculates the intersection point of plane and <paramref name="ray" /> and return the results.
+    /// </summary>
+    /// <param name="ray">Ray to calculate the intersection point with the plane.</param>
+    /// <returns>The point of the intersection or null if the point doesn't exist.</returns>
     //https://stackoverflow.com/a/53437900/17176800
     public Vector3? Intersection(Ray ray)
     {
