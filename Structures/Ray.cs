@@ -11,7 +11,7 @@ public class Ray : IEquatable<Ray>
     {
         Origin = origin;
         Direction = direction.GetNormalized();
-    }
+    } 
 
     /// <summary>
     ///     Creates the ray that starts in (0, 0, 0) and with no direction.
