@@ -7,12 +7,12 @@ namespace Zadanie1;
 [TestClass]
 public class UnitTest1
 {
-    private Ray R1;
-    private Ray R2;
-    private Ray R3;
+    private static Ray R1;
+    private static Ray R2;
+    private static Ray R3;
 
-    [TestInitialize]
-    public void Init()
+    [ClassInitialize]
+    public static void Init(TestContext testContext)
     {
         // 3. Zdefiniować promień R1 o początku w punkcie (0,0,-20) i skierowany środek kuli.
         R1 = new Ray(new Vector3(0, 0, -20),
