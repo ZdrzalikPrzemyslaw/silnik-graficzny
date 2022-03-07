@@ -119,21 +119,43 @@ public class Vector3 : IEquatable<Vector3>
         return new Vector3(a.X * b.X, a.Y * b.Y, a.Z * b.Z);
     }
 
+    /// <summary>
+    ///     Checks equality between two vectors.
+    /// </summary>
+    /// <param name="a">The left operand of the equality.</param>
+    /// <param name="b">The right operand of the equality.</param>
+    /// <returns>True if vectors are equals, false if vectors are unequals.</returns>
     public static bool operator ==(Vector3 a, Vector3 b)
     {
         return a.Equals(b);
     }
 
+    /// <summary>
+    ///     Checks inequality between two vectors.
+    /// </summary>
+    /// <param name="a">The left operand of the inequality.</param>
+    /// <param name="b">The right operand of the inequality.</param>
+    /// <returns>False if vectors are equals, true if vectors are unequals.</returns>
     public static bool operator !=(Vector3 a, Vector3 b)
     {
         return !(a == b);
     }
 
+    /// <summary>
+    ///     Calculates dot product on this and <paramref name="other" /> vector and returns the results.
+    /// </summary>
+    /// <param name="other">The right operand of the dot.</param>
+    /// <returns>Vector resulting from dot.</returns>
     public double Dot(Vector3 other)
     {
         return X * other.X + Y * other.Y + Z * other.Z;
     }
 
+    /// <summary>
+    ///     Normalizes vector and returns the results.
+    /// </summary>
+    /// <returns>Normalized vector</returns>
+    /// <exception cref="DivideByZeroException">Throws when magnitude of vector is 0.</exception>
     public Vector3 GetNormalized()
     {
         var len = Magnitude();
@@ -141,17 +163,32 @@ public class Vector3 : IEquatable<Vector3>
         return this / len;
     }
 
+    /// <summary>
+    ///     Calculates cross product on this and <paramref name="other" /> vector and returns the results.
+    /// </summary>
+    /// <param name="other">The right operand of the cross.</param>
+    /// <returns>Vector resulting from cross.</returns>
     public Vector3 Cross(Vector3 other)
     {
         return new Vector3(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z,
             X * other.Y - Y * other.X);
     }
 
+    /// <summary>
+    ///     Calculates cross product on two vectors and returns the results.
+    /// </summary>
+    /// <param name="first">The left operand of the cross.</param>
+    /// <param name="second">The right operand of the cross.</param>
+    /// <returns>Vector resulting from cross.</returns>
     public static Vector3 Cross(Vector3 first, Vector3 second)
     {
         return new Vector3(first).Cross(second);
     }
 
+    /// <summary>
+    ///     Inverse vector.
+    /// </summary>
+    /// <returns>Inverted vector.</returns>
     public Vector3 Inverse()
     {
         return -this;
