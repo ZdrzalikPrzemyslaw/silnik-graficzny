@@ -1,6 +1,6 @@
 namespace Structures;
 
-public class Plane : IEquatable<Plane>
+public class Plane : IEquatable<Plane>, IRaycastable
 {
     /// <summary>
     ///     Coordinates of the point which is closest to {0, 0, 0}.
@@ -147,7 +147,18 @@ public class Plane : IEquatable<Plane>
 
         return null;
     }
-    
+
+    public List<Vector3> Intersections(Ray ray)
+    {
+        var point = this.Intersection(ray);
+        if (point is null)
+        {
+            return new List<Vector3>();
+        }
+        // Inaczej zwroci sie 1 element null a tego nie chcemy;
+        return new List<Vector3> { point };
+    }
+
     public class InfiniteIntersectionsException : Exception
     {
         
