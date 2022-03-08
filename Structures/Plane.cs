@@ -103,9 +103,18 @@ public class Plane : IEquatable<Plane>
             if (t >= 0) return true;
         }
 
+        if (DistanceToPoint(ray.Origin) == 0)
+        {
+            throw new InfiniteIntersectionsException();
+        }
+
         return false;
     }
 
+    public double DistanceToPoint(Vector3 point)
+    {
+        return Normal.Dot(point - new Ray(Vector3.Zero(), Normal).PointAtDistanceFromOrigin(Distance));
+    }
 
     /// <summary>
     ///     Calculates the shortest distance from (0, 0, 0) to plane and return the results.
@@ -137,6 +146,11 @@ public class Plane : IEquatable<Plane>
         }
 
         return null;
+    }
+    
+    public class InfiniteIntersectionsException : Exception
+    {
+        
     }
 
     /// <inheritdoc />
