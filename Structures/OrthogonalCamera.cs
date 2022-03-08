@@ -8,7 +8,6 @@ public class OrthogonalCamera : AbstractCamera
     {
         var pixelWidth = Width / _picture.Bitmap.Width;
         var pixelHeight = Height / _picture.Bitmap.Height;
-
         for (var i = 0; i < _picture.Bitmap.Width; i++)
         for (var j = 0; j < _picture.Bitmap.Height; j++)
         {
