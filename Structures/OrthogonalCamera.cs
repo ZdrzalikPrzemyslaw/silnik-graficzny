@@ -29,7 +29,7 @@ public class OrthogonalCamera : AbstractCamera
             var srodekX = -Height / 2 + (i + 0.5f) * pixelWidth;
             var srodekY = Width / 2 - (j + 0.5f) * pixelHeight;
             var ray = new Ray(new Vector3(srodekX, srodekY, 0), new Vector3(0, 0, 1));
-            var intersetion = _sphere.NearestIntersection(ray);
+            var intersetion = _sphere.Intersection(ray);
             if (intersetion is not null)
                 _picture.SetPixel(i, j, new LightIntensity(1, 0.78, 0.64));
             else _picture.SetPixel(i, j, new LightIntensity(0.64, 0.67, 1));

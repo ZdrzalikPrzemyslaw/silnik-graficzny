@@ -1,6 +1,6 @@
 namespace Structures;
 
-public class Sphere : IEquatable<Sphere>
+public class Sphere : IEquatable<Sphere>, IRaycastable
 {
     /// <summary>
     ///     Creates new Sphere starting at {0, 0, 0} with radius equal to 0.
@@ -91,7 +91,7 @@ public class Sphere : IEquatable<Sphere>
     /// <param name="ray">Given Ray</param>
     /// <returns>Empty list if no intersections, one element in list if tangent, two elements otherwise.</returns>
     // 
-    public List<Vector3> Intersection(Ray ray)
+    public List<Vector3> Intersections(Ray ray)
     {
         var L = new Vector3(ray.Origin, Center);
         var tc = L.Dot(ray.Direction);
@@ -117,9 +117,9 @@ public class Sphere : IEquatable<Sphere>
     }
 
     //TODO: spojrzec czy tu [0] zawsze nie bedzie blizej
-    public Vector3? NearestIntersection(Ray ray)
+    public Vector3? Intersection(Ray ray)
     {
-        var points = Intersection(ray);
+        var points = Intersections(ray);
         if (points.Count == 2)
             return ray.Origin.Distance(points[0]) < ray.Origin.Distance(points[1]) ? points[0] : points[1];
 
