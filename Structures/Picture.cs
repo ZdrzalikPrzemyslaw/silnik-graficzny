@@ -4,13 +4,12 @@ namespace Structures;
 
 public class Picture
 {
-    public SKBitmap Bitmap { get; set; }
-
-
     public Picture(int xSize, int ySize)
     {
         Bitmap = new SKBitmap(xSize, ySize);
     }
+
+    public SKBitmap Bitmap { get; set; }
 
     public void SetPixel(int x, int y, LightIntensity pixel)
     {
