@@ -1,6 +1,6 @@
 namespace Structures;
 
-public class Plane : IEquatable<Plane>, IRaycastable
+public class Plane : Figure, IEquatable<Plane>
 {
     /// <summary>
     ///     Coordinates of the point which is closest to {0, 0, 0}.
@@ -93,7 +93,7 @@ public class Plane : IEquatable<Plane>, IRaycastable
     /// </summary>
     /// <param name="ray">Ray to calculate the intersection point with the plane.</param>
     /// <returns>True if the ray and the plane intersects, false if they don't intersects.</returns>
-    public bool Intersects(Ray ray)
+    public override bool Intersects(Ray ray)
     {
         var dot = Normal.Dot(ray.Direction);
         if (Math.Abs(dot) > 0.0001f)
@@ -135,7 +135,7 @@ public class Plane : IEquatable<Plane>, IRaycastable
     /// <param name="ray">Ray to calculate the intersection point with the plane.</param>
     /// <returns>The point of the intersection or null if the point doesn't exist.</returns>
     //https://stackoverflow.com/a/53437900/17176800
-    public Vector3? Intersection(Ray ray)
+    public override Vector3? Intersection(Ray ray)
     {
         if (Intersects(ray))
         {
@@ -148,7 +148,7 @@ public class Plane : IEquatable<Plane>, IRaycastable
         return null;
     }
 
-    public List<Vector3> Intersections(Ray ray)
+    public override List<Vector3> Intersections(Ray ray)
     {
         var point = this.Intersection(ray);
         if (point is null)

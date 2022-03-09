@@ -1,6 +1,6 @@
 namespace Structures;
 
-public class Sphere : IEquatable<Sphere>, IRaycastable
+public class Sphere : Figure, IEquatable<Sphere>
 {
     /// <summary>
     ///     Creates new Sphere starting at {0, 0, 0} with radius equal to 0.
@@ -56,7 +56,7 @@ public class Sphere : IEquatable<Sphere>, IRaycastable
     /// </summary>
     /// <param name="ray">Given Ray</param>
     /// <returns>True if intersects of is tangent, false otherwise.</returns>
-    public bool Intersects(Ray ray)
+    public override bool Intersects(Ray ray)
     {
         return Distance(ray) <= Radius;
     }
@@ -91,7 +91,7 @@ public class Sphere : IEquatable<Sphere>, IRaycastable
     /// <param name="ray">Given Ray</param>
     /// <returns>Empty list if no intersections, one element in list if tangent, two elements otherwise.</returns>
     // 
-    public List<Vector3> Intersections(Ray ray)
+    public override List<Vector3> Intersections(Ray ray)
     {
         var L = new Vector3(ray.Origin, Center);
         var tc = L.Dot(ray.Direction);
@@ -117,7 +117,7 @@ public class Sphere : IEquatable<Sphere>, IRaycastable
     }
 
     //TODO: spojrzec czy tu [0] zawsze nie bedzie blizej
-    public Vector3? Intersection(Ray ray)
+    public override Vector3? Intersection(Ray ray)
     {
         var points = Intersections(ray);
         if (points.Count == 2)
