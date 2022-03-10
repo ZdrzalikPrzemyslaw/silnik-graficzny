@@ -296,7 +296,11 @@ public class Vector3 : IEquatable<Vector3>
     }
 
 
-    // todo doc
+    /// <summary>
+    ///     Calculates the distance between this and a ray's origin and return the results.
+    /// </summary>
+    /// <param name="ray">Ray to calculate the distance.</param>
+    /// <returns>The distance between this and a ray's origin.</returns>
     public double Distance(Ray ray)
     {
         return Distance(ray.Origin);

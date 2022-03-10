@@ -88,7 +88,6 @@ public class Plane : Figure, IEquatable<Plane>
         return !(a == b);
     }
 
-    // todo: throws
     /// <summary>
     ///     Checks if the ray intersects the plane.
     /// </summary>
@@ -104,10 +103,20 @@ public class Plane : Figure, IEquatable<Plane>
             if (t >= 0) return true;
         }
 
-        // TODO: bardzo glupie jest to ze to sie w metodzie sprawdzajacej czy sie przecina rzuca
-        //   Jak nic to trzeba zmienic
-        if (DistanceToPoint(ray.Origin) == 0) throw new InfiniteIntersectionsException();
+        if (DistanceToPoint(ray.Origin) == 0) return true;
 
+        return false;
+    }
+
+    /// <summary>
+    ///     Checks if the ray intersects the plane.
+    /// </summary>
+    /// <param name="ray">Ray to calculate the intersection point with the plane.</param>
+    /// <returns>True if the ray and the plane intersects, false if they don't intersects.</returns>
+    private bool IsInfiniteIntersection(Ray ray)
+    {
+        if (DistanceToPoint(ray.Origin) != 0) return false;
+        if (Math.Abs(Normal.Dot(ray.Direction)) < 0.0001f) return true;
         return false;
     }
 
@@ -138,23 +147,20 @@ public class Plane : Figure, IEquatable<Plane>
     //https://stackoverflow.com/a/53437900/17176800
     public override Vector3? Intersection(Ray ray)
     {
-        if (Intersects(ray))
-        {
-            var d = Center.Dot(-Normal);
-            var t = -(d + ray.Origin.Z * Normal.Z + ray.Origin.Y * Normal.Y + ray.Origin.X * Normal.X)
-                    / (ray.Direction.Z * Normal.Z + ray.Direction.Y * Normal.Y + ray.Direction.X * Normal.X);
-            return ray.Origin + t * ray.Direction;
-        }
-
-        return null;
+        if (!Intersects(ray)) return null;
+        if (IsInfiniteIntersection(ray)) throw new InfiniteIntersectionsException();
+        var d = Center.Dot(-Normal);
+        var t = -(d + ray.Origin.Z * Normal.Z + ray.Origin.Y * Normal.Y + ray.Origin.X * Normal.X)
+                / (ray.Direction.Z * Normal.Z + ray.Direction.Y * Normal.Y + ray.Direction.X * Normal.X);
+        return ray.Origin + t * ray.Direction;
     }
 
     public override List<Vector3> Intersections(Ray ray)
     {
         var point = Intersection(ray);
         if (point is null) return new List<Vector3>();
-        // Inaczej zwroci sie 1 element null a tego nie chcemy;
-        return new List<Vector3> { point };
+        // Inaczej zwroci sie 1 element null
+        return new List<Vector3> {point};
     }
 
     public override bool Equals(Figure? other)
