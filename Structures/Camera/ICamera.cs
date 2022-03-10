@@ -1,4 +1,4 @@
-﻿namespace Structures;
+﻿namespace Structures.Camera;
 
 public interface ICamera
 {

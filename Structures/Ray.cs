@@ -58,6 +58,11 @@ public class Ray : IEquatable<Ray>
         return a.Equals(b);
     }
 
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Origin, Direction);
+    }
+
     /// <summary>
     ///     Checks inequality between two rays.
     /// </summary>

@@ -1,6 +1,6 @@
 ﻿using SkiaSharp;
 
-namespace Structures;
+namespace Structures.Camera;
 
 public class OrthogonalCamera : AbstractCamera
 {
@@ -16,13 +16,13 @@ public class OrthogonalCamera : AbstractCamera
         _width = width;
     }
 
-    public OrthogonalCamera(Vector3 position, Vector3 target) : base(position, target)
+    public OrthogonalCamera(Vector3 position, Vector3 target, Vector3 up) : base(position, target, up)
     {
         _height = 4.0;
         _width = 4.0;
     }
 
-    public OrthogonalCamera(Vector3 position, Vector3 target, double height, double width) : base(position, target)
+    public OrthogonalCamera(Vector3 position, Vector3 target, Vector3 up, double height, double width) : base(position, target, up)
     {
         _height = height;
         _width = width;
@@ -44,7 +44,7 @@ public class OrthogonalCamera : AbstractCamera
         {
             var locX = startX + i * pixelWidth;
             var locY = startY - j * pixelHeight;
-            var ray = new Ray(new Vector3(locX, locY, Position.Z), new Vector3(0, 0, 1));
+            var ray = new Ray(new Vector3(locX, locY, Position.Z), Target);
             Vector3? intersection = null;
             try
             {
