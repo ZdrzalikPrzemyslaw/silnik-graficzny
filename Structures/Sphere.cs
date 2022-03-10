@@ -116,6 +116,11 @@ public class Sphere : Figure, IEquatable<Sphere>
         return retList;
     }
 
+    public override bool Equals(Figure? other)
+    {
+        return Equals(other as Sphere);
+    }
+
     //TODO: spojrzec czy tu [0] zawsze nie bedzie blizej
     public override Vector3? Intersection(Ray ray)
     {

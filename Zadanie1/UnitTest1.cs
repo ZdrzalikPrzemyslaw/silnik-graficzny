@@ -57,7 +57,7 @@ public class UnitTest1
 
         Console.WriteLine($"Przeciecie Promienia R2 ze sferą S: p: {x3[0]}");
     }
-    
+
     public static string WriteToConsole<T>(List<T> list)
     {
         var toret = new StringBuilder("List: ");
@@ -70,14 +70,13 @@ public class UnitTest1
     [ExpectedException(typeof(Plane.InfiniteIntersectionsException))]
     public void TestSphere()
     {
-        Sphere sphere = new Sphere(new Vector3(0, 0, 10), 1);
-        Ray ray = new Ray(new Vector3(0, 0, 10), new Vector3(0, 0, 1));
+        var sphere = new Sphere(new Vector3(0, 0, 10), 1);
+        var ray = new Ray(new Vector3(0, 0, 10), new Vector3(0, 0, 1));
         var x = sphere.Intersections(ray);
-        Console.WriteLine($"{WriteToConsole((x))}");
-        Plane plane = new Plane(new Vector3(0, 0, 1), 0);
-        Ray ray2 = new Ray(new Vector3(0, 0, 0), new Vector3(0, 1, 0));
+        Console.WriteLine($"{WriteToConsole(x)}");
+        var plane = new Plane(new Vector3(0, 0, 1), 0);
+        var ray2 = new Ray(new Vector3(0, 0, 0), new Vector3(0, 1, 0));
         var invalidIntersection = plane.Intersection(ray2);
-
     }
 
     [TestMethod]

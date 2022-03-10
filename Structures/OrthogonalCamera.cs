@@ -4,38 +4,61 @@ namespace Structures;
 
 public class OrthogonalCamera : AbstractCamera
 {
-    private readonly Picture _picture = new(800, 800);
-
-    private readonly Sphere _sphere = new(new Vector3(0, 0, 5), 1);
-    private readonly double Height = 4.0;
-
-    private readonly double Width = 4.0;
-
     public OrthogonalCamera()
     {
+        _height = 4.0;
+        _width = 4.0;
+    }
+
+    public OrthogonalCamera(double height, double width)
+    {
+        _height = height;
+        _width = width;
     }
 
     public OrthogonalCamera(Vector3 position, Vector3 target) : base(position, target)
     {
+        _height = 4.0;
+        _width = 4.0;
     }
 
-    public override void RenderScene()
+    public OrthogonalCamera(Vector3 position, Vector3 target, double height, double width) : base(position, target)
     {
-        var pixelWidth = Width / _picture.Bitmap.Width;
-        var pixelHeight = Height / _picture.Bitmap.Height;
-        for (var i = 0; i < _picture.Bitmap.Width; i++)
-        for (var j = 0; j < _picture.Bitmap.Height; j++)
+        _height = height;
+        _width = width;
+    }
+
+    public double _height { get; }
+
+    public double _width { get; }
+
+    public override void RenderScene(Scene scene)
+    {
+        Picture picture = new(800, 800);
+        var pixelWidth = _width / picture.Bitmap.Width;
+        var pixelHeight = _height / picture.Bitmap.Height;
+        var startX = -_width / 2 + Position.X;
+        var startY = _height / 2 + Position.Y;
+        for (var i = 0; i < picture.Bitmap.Width; i++)
+        for (var j = 0; j < picture.Bitmap.Height; j++)
         {
-            var srodekX = -Height / 2 + (i + 0.5f) * pixelWidth;
-            var srodekY = Width / 2 - (j + 0.5f) * pixelHeight;
-            var ray = new Ray(new Vector3(srodekX, srodekY, 0), new Vector3(0, 0, 1));
-            var intersetion = _sphere.Intersection(ray);
-            if (intersetion is not null)
-                _picture.SetPixel(i, j, new LightIntensity(1, 0.78, 0.64));
-            else _picture.SetPixel(i, j, new LightIntensity(0.64, 0.67, 1));
+            var locX = startX + i * pixelWidth;
+            var locY = startY - j * pixelHeight;
+            var ray = new Ray(new Vector3(locX, locY, Position.Z), new Vector3(0, 0, 1));
+            Vector3? intersection = null;
+            try
+            {
+                intersection = scene.Intersection(ray);
+            }
+            catch (Plane.InfiniteIntersectionsException)
+            {
+            }
+
+            picture.SetPixel(i, j,
+                intersection is not null ? new LightIntensity(1, 0.78, 0.64) : new LightIntensity(0.64, 0.67, 1));
         }
 
-        using (var data = _picture.Bitmap.Encode(SKEncodedImageFormat.Png, 80))
+        using (var data = picture.Bitmap.Encode(SKEncodedImageFormat.Png, 80))
         using (var stream = File.OpenWrite(Path.Combine("./", "Picture.png")))
         {
             data.SaveTo(stream);

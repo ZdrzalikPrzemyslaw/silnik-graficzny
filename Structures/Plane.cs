@@ -88,6 +88,7 @@ public class Plane : Figure, IEquatable<Plane>
         return !(a == b);
     }
 
+    // todo: throws
     /// <summary>
     ///     Checks if the ray intersects the plane.
     /// </summary>
@@ -103,13 +104,13 @@ public class Plane : Figure, IEquatable<Plane>
             if (t >= 0) return true;
         }
 
-        if (DistanceToPoint(ray.Origin) == 0)
-        {
-            throw new InfiniteIntersectionsException();
-        }
+        // TODO: bardzo glupie jest to ze to sie w metodzie sprawdzajacej czy sie przecina rzuca
+        //   Jak nic to trzeba zmienic
+        if (DistanceToPoint(ray.Origin) == 0) throw new InfiniteIntersectionsException();
 
         return false;
     }
+
 
     public double DistanceToPoint(Vector3 point)
     {
@@ -150,18 +151,15 @@ public class Plane : Figure, IEquatable<Plane>
 
     public override List<Vector3> Intersections(Ray ray)
     {
-        var point = this.Intersection(ray);
-        if (point is null)
-        {
-            return new List<Vector3>();
-        }
+        var point = Intersection(ray);
+        if (point is null) return new List<Vector3>();
         // Inaczej zwroci sie 1 element null a tego nie chcemy;
         return new List<Vector3> { point };
     }
 
-    public class InfiniteIntersectionsException : Exception
+    public override bool Equals(Figure? other)
     {
-        
+        return Equals(other as Plane);
     }
 
     /// <inheritdoc />
@@ -180,5 +178,9 @@ public class Plane : Figure, IEquatable<Plane>
     public override int GetHashCode()
     {
         return HashCode.Combine(Distance, Normal);
+    }
+
+    public class InfiniteIntersectionsException : Exception
+    {
     }
 }

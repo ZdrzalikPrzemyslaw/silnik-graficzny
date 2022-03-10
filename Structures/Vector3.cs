@@ -295,6 +295,13 @@ public class Vector3 : IEquatable<Vector3>
         );
     }
 
+
+    // todo doc
+    public double Distance(Ray ray)
+    {
+        return Distance(ray.Origin);
+    }
+
     /// <summary>
     ///     Divides two vectors and returns the results.
     /// </summary>

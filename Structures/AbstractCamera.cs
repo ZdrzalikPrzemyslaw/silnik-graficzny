@@ -4,7 +4,7 @@ public abstract class AbstractCamera : ICamera
 {
     public AbstractCamera()
     {
-        Position = new Vector3(0, 0, 0);
+        Position = Vector3.Zero();
         Target = new Vector3(0, 0, 1);
     }
 
@@ -16,5 +16,5 @@ public abstract class AbstractCamera : ICamera
 
     public Vector3 Position { get; set; }
     public Vector3 Target { get; set; }
-    public abstract void RenderScene();
+    public abstract void RenderScene(Scene scene);
 }

@@ -2,5 +2,5 @@
 
 public interface ICamera
 {
-    public void RenderScene();
+    public void RenderScene(Scene scene);
 }
