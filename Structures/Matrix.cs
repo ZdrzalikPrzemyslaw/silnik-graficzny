@@ -43,7 +43,20 @@ public class Matrix : IEquatable<Matrix>
         return this == other;
     }
 
-    // todo: iloczyn macierzy
+    public static Matrix operator *(Matrix lhs, Matrix rhs)
+    {
+        if (lhs.M != rhs.N) throw new MismatchedMatrixException();
+        var c = new Matrix(lhs.M, rhs.N);
+        for (var i = 0; i < c.N; i++)
+        for (var j = 0; j < c.M; i++)
+        {
+            var temp = 0.0;
+            for (var m = 0; m < lhs.N; m++) temp += lhs[i, m] * rhs[m, j];
+            c[j, i] = temp;
+        }
+
+        return c;
+    }
 
     public static Matrix operator *(double lhs, Matrix rhs)
     {
@@ -129,13 +142,13 @@ public class Matrix : IEquatable<Matrix>
     {
         return Equals(obj as Matrix);
     }
-    
+
     public override int GetHashCode()
     {
         HashCode hash = default;
         for (var i = 0; i < N; i++)
         for (var j = 0; j < M; j++)
-            hash.Add(_values[i, j]);
+            hash.Add(_values[j, i]);
         return hash.ToHashCode();
     }
 
