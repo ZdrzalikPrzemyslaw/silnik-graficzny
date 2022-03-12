@@ -1,14 +1,9 @@
-﻿using System.Numerics;
-
-namespace Structures.Camera;
+﻿namespace Structures.Camera;
 
 public abstract class AbstractCamera : ICamera
 {
-    public AbstractCamera()
+    public AbstractCamera() : this(Vector3.Zero(), new Vector3(0, 0, 1), new Vector3(0, 1, 0))
     {
-        Position = Vector3.Zero();
-        Target = new Vector3(0, 0, 1);
-        Up = new Vector3(0, 1, 0);
     }
 
     public AbstractCamera(Vector3 position, Vector3 target, Vector3 up)
