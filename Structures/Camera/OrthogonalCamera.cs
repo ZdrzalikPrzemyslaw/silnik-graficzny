@@ -22,7 +22,8 @@ public class OrthogonalCamera : AbstractCamera
         _width = 4.0;
     }
 
-    public OrthogonalCamera(Vector3 position, Vector3 target, Vector3 up, double height, double width) : base(position, target, up)
+    public OrthogonalCamera(Vector3 position, Vector3 target, Vector3 up, double height, double width) : base(position,
+        target, up)
     {
         _height = height;
         _width = width;

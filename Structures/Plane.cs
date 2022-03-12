@@ -160,7 +160,7 @@ public class Plane : Figure, IEquatable<Plane>
         var point = Intersection(ray);
         if (point is null) return new List<Vector3>();
         // Inaczej zwroci sie 1 element null
-        return new List<Vector3> {point};
+        return new List<Vector3> { point };
     }
 
     public override bool Equals(Figure? other)

@@ -2,21 +2,6 @@
 
 public class PerspectiveCamera : AbstractCamera
 {
-    public Plane NearPlane { get; set; }
-    public Plane FarPlane { get; set; }
-    public double Fov { get; set; }
-
-    public override void RenderScene(Scene scene)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Vector3[] FindNearPlaneCorners()
-    {
-        System.Numerics.Ma;
-        System.Numerics.
-    }
-
     public PerspectiveCamera() : this(Vector3.Zero(), new Vector3(0, 0, 1), new Vector3(0, 1, 0))
     {
     }
@@ -35,5 +20,14 @@ public class PerspectiveCamera : AbstractCamera
             new Plane(target, new Ray(position, target).PointAtDistanceFromOrigin(1000)),
             90)
     {
+    }
+
+    public Plane NearPlane { get; set; }
+    public Plane FarPlane { get; set; }
+    public double Fov { get; set; }
+
+    public override void RenderScene(Scene scene)
+    {
+        throw new NotImplementedException();
     }
 }
