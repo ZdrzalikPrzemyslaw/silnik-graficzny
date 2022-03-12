@@ -1,9 +1,11 @@
 namespace Structures;
 
+
+// https://codereview.stackexchange.com/questions/194732/class-matrix-implementation
 public class Matrix : IEquatable<Matrix>
 {
     private const double Eps = 1E-7;
-    private readonly double[,] _values;
+    private double[,] _values;
 
 
     public Matrix(int n, bool diagonal = false)
@@ -30,8 +32,8 @@ public class Matrix : IEquatable<Matrix>
         M = values.GetLength(1);
     }
 
-    public int N { get; }
-    public int M { get; }
+    public int N { get; private set; }
+    public int M { get; private set; }
 
     public ref double this[int row, int column] => ref _values[row, column];
 
@@ -41,8 +43,28 @@ public class Matrix : IEquatable<Matrix>
         if (ReferenceEquals(this, other)) return true;
         return this == other;
     }
+    
+    // todo: iloczyn macierzy
 
-    // Todo: throws
+    public static Matrix operator *(double lhs, Matrix rhs)
+    {
+        Matrix matrix = new Matrix(rhs._values);
+        for (int i = 0; i < rhs.N; i++)
+        {
+            for (int j = 0; j < rhs.M; j++)
+            {
+                matrix[i, j] *= lhs;
+            }
+        }
+
+        return matrix;
+    }
+
+    public static Matrix operator *(Matrix lhs, double rhs)
+    {
+        return rhs * lhs;
+    }
+    
     public static Matrix operator +(Matrix lhs, Matrix rhs)
     {
         if (lhs.M != rhs.M || lhs.N != rhs.N) throw new MismatchedMatrixException();
@@ -56,14 +78,37 @@ public class Matrix : IEquatable<Matrix>
     }
 
     // todo: sprawdzic XD 
-    public Matrix Transpose()
+    public void Transpose()
     {
-        var m = new Matrix(M, N);
+        var newValues = new double[M, N];
+        for (var i = 0; i < N; i++)
+        for (var j = 0; j < M; j++)
+            newValues[j, i] = _values[i, j];
+
+        _values = newValues;
+        var tmp = N;
+        M = N;
+        N = tmp;
+    }
+
+    // todo: sprawdzic XD 
+    public void Transpose(out Matrix m)
+    {
+        m = new Matrix(M, N);
         for (var i = 0; i < N; i++)
         for (var j = 0; j < M; j++)
             m[j, i] = _values[i, j];
+    }
 
-        return m;
+    public void SwapRows(int row1, int row2)
+    {
+        if (row1 > M - 1 || row2 > M - 1) throw new ArgumentException();
+        for (int j = 0; j < N; j++)
+        {
+            double tmp = _values[row1, j];
+            _values[row2, j] = _values[row1, j];
+            _values[row1, j] = tmp;
+        }
     }
 
     public static bool operator ==(Matrix lhs, Matrix rhs)
@@ -89,10 +134,13 @@ public class Matrix : IEquatable<Matrix>
     {
         return Equals(obj as Matrix);
     }
-
+    
+    
+    // TODO: Julka
     public override int GetHashCode()
     {
-        return _values.GetHashCode();
+        // return GetHashCode(_values);
+        throw new NotImplementedException();
     }
 
     public class MismatchedMatrixException : ArgumentException
