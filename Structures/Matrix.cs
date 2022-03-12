@@ -152,6 +152,42 @@ public class Matrix : IEquatable<Matrix>
         return hash.ToHashCode();
     }
 
+    public static Matrix RotateX(double radian)
+    {
+        return new Matrix(new[,]
+            {
+                {1, 0, 0, 0},
+                {0, Math.Cos(radian), -Math.Sin(radian), 0},
+                {0, Math.Sin(radian), Math.Cos(radian), 0},
+                {0, 0, 0, 1}
+            }
+        );
+    }
+
+    public static Matrix RotateY(double radian)
+    {
+        return new Matrix(new[,]
+            {
+                {Math.Cos(radian), 0, Math.Sin(radian), 0},
+                {0, 1, 0, 0},
+                {-Math.Sin(radian), 0, Math.Cos(radian), 0},
+                {0, 0, 0, 1}
+            }
+        );
+    }
+
+    public static Matrix RotateZ(double radian)
+    {
+        return new Matrix(new[,]
+            {
+                {Math.Cos(radian), -Math.Sin(radian), 0, 0},
+                {Math.Sin(radian), Math.Cos(radian), 0, 0},
+                {0, Math.Sin(radian), Math.Cos(radian), 0},
+                {0, 0, 0, 1}
+            }
+        );
+    }
+
     public class MismatchedMatrixException : ArgumentException
     {
     }
