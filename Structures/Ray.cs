@@ -90,6 +90,11 @@ public class Ray : IEquatable<Ray>
         return Origin + Direction * distance;
     }
 
+    public Ray Rotate(Matrix matrix)
+    {
+        return new Ray(Origin, Direction.Rotate(matrix, Origin));
+    }
+    
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
