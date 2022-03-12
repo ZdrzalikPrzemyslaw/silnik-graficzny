@@ -1,6 +1,5 @@
 namespace Structures;
 
-
 // https://codereview.stackexchange.com/questions/194732/class-matrix-implementation
 public class Matrix : IEquatable<Matrix>
 {
@@ -43,19 +42,15 @@ public class Matrix : IEquatable<Matrix>
         if (ReferenceEquals(this, other)) return true;
         return this == other;
     }
-    
+
     // todo: iloczyn macierzy
 
     public static Matrix operator *(double lhs, Matrix rhs)
     {
-        Matrix matrix = new Matrix(rhs._values);
-        for (int i = 0; i < rhs.N; i++)
-        {
-            for (int j = 0; j < rhs.M; j++)
-            {
-                matrix[i, j] *= lhs;
-            }
-        }
+        var matrix = new Matrix(rhs._values);
+        for (var i = 0; i < rhs.N; i++)
+        for (var j = 0; j < rhs.M; j++)
+            matrix[i, j] *= lhs;
 
         return matrix;
     }
@@ -64,7 +59,7 @@ public class Matrix : IEquatable<Matrix>
     {
         return rhs * lhs;
     }
-    
+
     public static Matrix operator +(Matrix lhs, Matrix rhs)
     {
         if (lhs.M != rhs.M || lhs.N != rhs.N) throw new MismatchedMatrixException();
@@ -103,9 +98,9 @@ public class Matrix : IEquatable<Matrix>
     public void SwapRows(int row1, int row2)
     {
         if (row1 > M - 1 || row2 > M - 1) throw new ArgumentException();
-        for (int j = 0; j < N; j++)
+        for (var j = 0; j < N; j++)
         {
-            double tmp = _values[row1, j];
+            var tmp = _values[row1, j];
             _values[row2, j] = _values[row1, j];
             _values[row1, j] = tmp;
         }
@@ -135,12 +130,13 @@ public class Matrix : IEquatable<Matrix>
         return Equals(obj as Matrix);
     }
     
-    
-    // TODO: Julka
     public override int GetHashCode()
     {
-        // return GetHashCode(_values);
-        throw new NotImplementedException();
+        HashCode hash = default;
+        for (var i = 0; i < N; i++)
+        for (var j = 0; j < M; j++)
+            hash.Add(_values[i, j]);
+        return hash.ToHashCode();
     }
 
     public class MismatchedMatrixException : ArgumentException
