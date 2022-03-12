@@ -43,33 +43,15 @@ public class Matrix : IEquatable<Matrix>
         return this == other;
     }
 
-    // public static Matrix operator *(Matrix lhs, Matrix rhs)
-    // {
-    //     if (lhs.M != rhs.N) throw new MismatchedMatrixException();
-    //     var c = new Matrix(lhs.M, rhs.N);
-    //     // var c = new Matrix(lhs.N, rhs.M);
-    //     for (var i = 0; i < c.N; i++)
-    //     for (var j = 0; j < c.M; j++)
-    //     {
-    //         var temp = 0.0;
-    //         for (var m = 0; m < lhs.N; m++) temp += lhs[i, m] * rhs[m, j];
-    //         // for (var m = 0; m < lhs.M; m++) temp += lhs[i, m] * rhs[m, j];
-    //         c[j, i] = temp;
-    //     }
-    //
-    //     return c;
-    // }
-
-
-    public static Matrix operator *(Matrix a, Matrix b)
+    public static Matrix operator *(Matrix lhs, Matrix rhs)
     {
-        if (a.ColumnCount != b.RowCount) throw new MismatchedMatrixException();
-        var c = new Matrix(a.RowCount, b.ColumnCount);
+        if (lhs.ColumnCount != rhs.RowCount) throw new MismatchedMatrixException();
+        var c = new Matrix(lhs.RowCount, rhs.ColumnCount);
         for (var i = 0; i < c.RowCount; i++)
         for (var j = 0; j < c.ColumnCount; j++)
         {
             var s = 0.0;
-            for (var m = 0; m < a.ColumnCount; m++) s += a[i, m] * b[m, j];
+            for (var m = 0; m < lhs.ColumnCount; m++) s += lhs[i, m] * rhs[m, j];
             c[i, j] = s;
         }
 
