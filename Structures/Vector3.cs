@@ -80,6 +80,37 @@ public class Vector3 : IEquatable<Vector3>
         return new Vector3();
     }
 
+    public static Vector3 Back()
+    {
+        return new Vector3(0, 0, -1);
+    }
+
+    public static Vector3 Forward()
+    {
+        return new Vector3(0, 0, 1);
+    }
+
+    public static Vector3 Left()
+    {
+        return new Vector3(-1, 0, 0);
+    }
+
+    public static Vector3 Right()
+    {
+        return new Vector3(1, 0, 0);
+    }
+
+    public static Vector3 Up()
+    {
+        return new Vector3(0, 1, 0);
+    }
+
+    public static Vector3 Down()
+    {
+        return new Vector3(0, -1, 0);
+    }
+
+
     /// <inheritdoc />
     public override string ToString()
     {
@@ -321,27 +352,27 @@ public class Vector3 : IEquatable<Vector3>
         if (second.X == 0 || second.Y == 0 || second.Z == 0) throw new DivideByZeroException();
         return new Vector3(first.X / second.X, first.Y / second.Y, first.Z / second.Z);
     }
-    
+
     public Matrix AsMatrix()
     {
         return new Matrix(
-            new double[,]
+            new[,]
             {
-                {X},
-                {Y},
-                {Z}
+                { X },
+                { Y },
+                { Z }
             });
     }
 
     public Matrix AsMatrix4x1()
     {
         return new Matrix(
-            new double[,]
+            new[,]
             {
-                {X},
-                {Y},
-                {Z},
-                {1},
+                { X },
+                { Y },
+                { Z },
+                { 1 }
             });
     }
 

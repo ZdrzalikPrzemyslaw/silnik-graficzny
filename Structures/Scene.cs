@@ -47,6 +47,28 @@ public class Scene : IRaycastable
         return returnList;
     }
 
+    public Figure? GetClosest(Ray ray)
+    {
+        List<KeyValuePair<Figure, Vector3>> returnList = new();
+        Figure? closest = null;
+        var closestDistance = double.MaxValue;
+        foreach (var figure in _figures)
+        {
+            var x = figure.Intersections(ray);
+            foreach (var intersection in x)
+            {
+                var distance = intersection.Distance(ray);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closest = figure;
+                }
+            }
+        }
+
+        return closest;
+    }
+
     public void AddFigure(Figure figure)
     {
         _figures.Add(figure);

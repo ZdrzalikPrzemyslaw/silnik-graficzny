@@ -5,10 +5,12 @@ public class Sphere : Figure, IEquatable<Sphere>
     /// <summary>
     ///     Creates new Sphere starting at {0, 0, 0} with radius equal to 0.
     /// </summary>
-    public Sphere()
+    public Sphere() : this(Vector3.Zero(), 0, LightIntensity.DefaultObject())
     {
-        Center = Vector3.Zero();
-        Radius = 0;
+    }
+
+    public Sphere(LightIntensity lightIntensity) : this(Vector3.Zero(), 0, lightIntensity)
+    {
     }
 
     /// <summary>
@@ -16,10 +18,15 @@ public class Sphere : Figure, IEquatable<Sphere>
     /// </summary>
     /// <param name="center">Given center location</param>
     /// <param name="radius">Given radius</param>
-    public Sphere(Vector3 center, double radius)
+    public Sphere(Vector3 center, double radius) : this(center, radius, LightIntensity.DefaultObject())
+    {
+    }
+
+    public Sphere(Vector3 center, double radius, LightIntensity lightIntensity)
     {
         Center = center;
         Radius = radius;
+        LightIntensity = lightIntensity;
     }
 
     /// <summary>

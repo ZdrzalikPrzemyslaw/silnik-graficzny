@@ -1,10 +1,11 @@
-﻿using SkiaSharp;
+﻿using System.Diagnostics.CodeAnalysis;
+using SkiaSharp;
 
 namespace Structures.Camera;
 
 public class PerspectiveCamera : AbstractCamera
 {
-    public PerspectiveCamera() : this(Vector3.Zero(), new Vector3(0, 0, 1), new Vector3(0, 1, 0))
+    public PerspectiveCamera() : this(Vector3.Zero(), Vector3.Forward(), Vector3.Up())
     {
     }
 
@@ -28,6 +29,13 @@ public class PerspectiveCamera : AbstractCamera
     public Plane FarPlane { get; set; }
     public double Fov { get; set; }
 
+    [SuppressMessage("ReSharper.DPA", "DPA0001: Memory allocation issues")]
+    [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH",
+        MessageId = "type: System.Double[,]")]
+    [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH",
+        MessageId = "type: System.Double[,]")]
+    [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH",
+        MessageId = "type: System.Double[,]")]
     public override void RenderScene(Scene scene)
     {
         // //Left down
@@ -56,30 +64,39 @@ public class PerspectiveCamera : AbstractCamera
         var pixelHeight = Fov / picture.Bitmap.Height;
         var startX = -Fov / 2;
         var startY = Fov / 2;
+        Matrix matrix = null;
+        Matrix matrix2 = null;
+        Ray ray = null;
+        Ray ray2 = null;
         for (var i = 0; i < picture.Bitmap.Width; i++)
         for (var j = 0; j < picture.Bitmap.Height; j++)
         {
             var locX = startX + i * pixelWidth;
             var locY = startY - j * pixelHeight;
 
-            var matrix = Matrix.RotateY(locY * Math.PI / 180) * Matrix.RotateX(locX * Math.PI / 180);
-            var ray = new Ray(Position, Target).Rotate(matrix);
+            matrix = Matrix.Rotate(locY * Math.PI / 180, Up) *
+                     Matrix.Rotate(locX * Math.PI / 180, Up.Cross(Target));
+            matrix2 = Matrix.Rotate(locY * Math.PI / 180, Up) *
+                      Matrix.Rotate(locX * Math.PI / 180, Target.Cross(Up));
+            var matrix3 = Matrix.RotateY(locY * Math.PI / 180) * Matrix.RotateX(locX * Math.PI / 180);
+            ray = new Ray(Position, Target).Rotate(matrix);
+            ray2 = new Ray(Position, Target).Rotate(matrix2);
+            var ray3 = new Ray(Position, Target).Rotate(matrix3);
 
-            Vector3? intersection = null;
+            Figure? intersection = null;
             try
             {
-                intersection = scene.Intersection(ray);
+                intersection = scene.GetClosest(ray3);
             }
             catch (Plane.InfiniteIntersectionsException)
             {
             }
 
-            picture.SetPixel(i, j,
-                intersection is not null ? new LightIntensity(1, 0.78, 0.64) : new LightIntensity(0.64, 0.67, 1));
+            picture.SetPixel(i, j, intersection?.LightIntensity ?? new LightIntensity(0.64, 0.67, 1));
         }
 
         using (var data = picture.Bitmap.Encode(SKEncodedImageFormat.Png, 80))
-        using (var stream = File.OpenWrite(Path.Combine("D:/", "Picture.png")))
+        using (var stream = File.OpenWrite(Path.Combine("./", "Picture.png")))
         {
             data.SaveTo(stream);
         }

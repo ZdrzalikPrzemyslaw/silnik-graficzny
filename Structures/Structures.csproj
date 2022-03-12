@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="SkiaSharp" Version="2.88.0-preview.209" />
+        <PackageReference Include="SkiaSharp" Version="2.88.0-preview.209"/>
     </ItemGroup>
 
 </Project>

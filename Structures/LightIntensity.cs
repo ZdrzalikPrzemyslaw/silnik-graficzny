@@ -28,6 +28,11 @@ public class LightIntensity : IEquatable<LightIntensity>
         return R.Equals(other.R) && G.Equals(other.G) && B.Equals(other.B);
     }
 
+    public static LightIntensity DefaultObject()
+    {
+        return new LightIntensity(1, 0.78, 0.64);
+    }
+
     public override string ToString()
     {
         return $"RGB({R}, {G}, {B})";

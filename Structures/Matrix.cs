@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace Structures;
 
 // https://codereview.stackexchange.com/questions/194732/class-matrix-implementation
@@ -41,6 +43,20 @@ public class Matrix : IEquatable<Matrix>
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
         return this == other;
+    }
+
+    public override string ToString()
+    {
+        var stringBuilder = new StringBuilder("Matrix:\n{");
+        for (var i = 0; i < RowCount; i++)
+        {
+            stringBuilder.Append("  { ");
+            for (var j = 0; j < ColumnCount; j++) stringBuilder.Append(_values[i, j]).Append(", ");
+
+            stringBuilder.Append("}\n");
+        }
+
+        return stringBuilder.Append("}").ToString();
     }
 
     public static Matrix operator *(Matrix lhs, Matrix rhs)
@@ -156,10 +172,10 @@ public class Matrix : IEquatable<Matrix>
     {
         return new Matrix(new[,]
             {
-                {1, 0, 0, 0},
-                {0, Math.Cos(radian), -Math.Sin(radian), 0},
-                {0, Math.Sin(radian), Math.Cos(radian), 0},
-                {0, 0, 0, 1}
+                { 1, 0, 0, 0 },
+                { 0, Math.Cos(radian), -Math.Sin(radian), 0 },
+                { 0, Math.Sin(radian), Math.Cos(radian), 0 },
+                { 0, 0, 0, 1 }
             }
         );
     }
@@ -168,10 +184,10 @@ public class Matrix : IEquatable<Matrix>
     {
         return new Matrix(new[,]
             {
-                {Math.Cos(radian), 0, Math.Sin(radian), 0},
-                {0, 1, 0, 0},
-                {-Math.Sin(radian), 0, Math.Cos(radian), 0},
-                {0, 0, 0, 1}
+                { Math.Cos(radian), 0, Math.Sin(radian), 0 },
+                { 0, 1, 0, 0 },
+                { -Math.Sin(radian), 0, Math.Cos(radian), 0 },
+                { 0, 0, 0, 1 }
             }
         );
     }
@@ -180,12 +196,43 @@ public class Matrix : IEquatable<Matrix>
     {
         return new Matrix(new[,]
             {
-                {Math.Cos(radian), -Math.Sin(radian), 0, 0},
-                {Math.Sin(radian), Math.Cos(radian), 0, 0},
-                {0, Math.Sin(radian), Math.Cos(radian), 0},
-                {0, 0, 0, 1}
+                { Math.Cos(radian), -Math.Sin(radian), 0, 0 },
+                { Math.Sin(radian), Math.Cos(radian), 0, 0 },
+                { 0, 0, 1, 0 },
+                { 0, 0, 0, 1 }
             }
         );
+    }
+
+    public static Matrix Rotate(double radian, Vector3 axis)
+    {
+        return new Matrix(new[,]
+        {
+            {
+                axis.X * axis.X * (1 - Math.Cos(radian)) + Math.Cos(radian),
+                axis.Y * axis.X * (1 - Math.Cos(radian)) - axis.Z * Math.Sin(radian),
+                axis.Z * axis.X * (1 - Math.Cos(radian)) + axis.Y * Math.Sin(radian),
+                0
+            },
+            {
+                axis.X * axis.Y * (1 - Math.Cos(radian)) + axis.Z * Math.Sin(radian),
+                axis.Y * axis.Y * (1 - Math.Cos(radian)) + Math.Cos(radian),
+                axis.Z * axis.Y * (1 - Math.Cos(radian)) - axis.X * Math.Sin(radian),
+                0
+            },
+            {
+                axis.X * axis.Z * (1 - Math.Cos(radian)) - axis.Y * Math.Sin(radian),
+                axis.Y * axis.Z * (1 - Math.Cos(radian)) + axis.X * Math.Sin(radian),
+                axis.Z * axis.Z * (1 - Math.Cos(radian)) + Math.Cos(radian),
+                0
+            },
+            {
+                0,
+                0,
+                0,
+                1
+            }
+        });
     }
 
     public class MismatchedMatrixException : ArgumentException
