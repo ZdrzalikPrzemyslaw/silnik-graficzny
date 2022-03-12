@@ -321,4 +321,54 @@ public class Vector3 : IEquatable<Vector3>
         if (second.X == 0 || second.Y == 0 || second.Z == 0) throw new DivideByZeroException();
         return new Vector3(first.X / second.X, first.Y / second.Y, first.Z / second.Z);
     }
+    
+    public Matrix AsMatrix()
+    {
+        return new Matrix(
+            new double[,]
+            {
+                {X},
+                {Y},
+                {Z}
+            });
+    }
+
+    public Matrix AsMatrix4x1()
+    {
+        return new Matrix(
+            new double[,]
+            {
+                {X},
+                {Y},
+                {Z},
+                {1},
+            });
+    }
+
+    public static Vector3 FromMatrix(Matrix matrix)
+    {
+        if (matrix.ColumnCount != 1 || matrix.RowCount < 3) throw new Matrix.MismatchedMatrixException();
+
+        return new Vector3(matrix[0, 0], matrix[1, 0], matrix[2, 0]);
+    }
+
+    public Vector3 Rotate(Matrix matrix)
+    {
+        return FromMatrix(matrix * AsMatrix4x1());
+    }
+
+    // https://math.stackexchange.com/questions/2093314/rotation-matrix-of-rotation-around-a-point-other-than-the-origin
+    public Vector3 Rotate(Matrix matrix, Vector3 PointOfRotation)
+    {
+        var translation1 = new Matrix(4, true);
+        translation1[0, 3] = PointOfRotation.X;
+        translation1[1, 3] = PointOfRotation.Y;
+        translation1[2, 3] = PointOfRotation.Z;
+        var translation2 = new Matrix(4, true);
+        translation2[0, 3] = -PointOfRotation.X;
+        translation2[1, 3] = -PointOfRotation.Y;
+        translation2[2, 3] = -PointOfRotation.Z;
+        var translationMatrix = translation1 * matrix * translation2;
+        return Rotate(translationMatrix);
+    }
 }

@@ -7,32 +7,32 @@ public class Matrix : IEquatable<Matrix>
     private double[,] _values;
 
 
-    public Matrix(int n, bool diagonal = false)
+    public Matrix(int rowCount, bool diagonal = false)
     {
-        _values = new double[n, n];
-        N = n;
-        M = n;
+        _values = new double[rowCount, rowCount];
+        RowCount = rowCount;
+        ColumnCount = rowCount;
         if (!diagonal) return;
 
-        for (var i = 0; i < n; i++) _values[i, i] = 1.0;
+        for (var i = 0; i < rowCount; i++) _values[i, i] = 1.0;
     }
 
-    public Matrix(int n, int m)
+    public Matrix(int rowCount, int columnCount)
     {
-        _values = new double[n, m];
-        N = n;
-        M = m;
+        _values = new double[rowCount, columnCount];
+        RowCount = rowCount;
+        ColumnCount = columnCount;
     }
 
     public Matrix(double[,] values)
     {
         _values = values;
-        N = values.GetLength(0);
-        M = values.GetLength(1);
+        RowCount = values.GetLength(0);
+        ColumnCount = values.GetLength(1);
     }
 
-    public int N { get; private set; }
-    public int M { get; private set; }
+    public int RowCount { get; private set; }
+    public int ColumnCount { get; private set; }
 
     public ref double this[int row, int column] => ref _values[row, column];
 
@@ -43,16 +43,34 @@ public class Matrix : IEquatable<Matrix>
         return this == other;
     }
 
-    public static Matrix operator *(Matrix lhs, Matrix rhs)
+    // public static Matrix operator *(Matrix lhs, Matrix rhs)
+    // {
+    //     if (lhs.M != rhs.N) throw new MismatchedMatrixException();
+    //     var c = new Matrix(lhs.M, rhs.N);
+    //     // var c = new Matrix(lhs.N, rhs.M);
+    //     for (var i = 0; i < c.N; i++)
+    //     for (var j = 0; j < c.M; j++)
+    //     {
+    //         var temp = 0.0;
+    //         for (var m = 0; m < lhs.N; m++) temp += lhs[i, m] * rhs[m, j];
+    //         // for (var m = 0; m < lhs.M; m++) temp += lhs[i, m] * rhs[m, j];
+    //         c[j, i] = temp;
+    //     }
+    //
+    //     return c;
+    // }
+
+
+    public static Matrix operator *(Matrix a, Matrix b)
     {
-        if (lhs.M != rhs.N) throw new MismatchedMatrixException();
-        var c = new Matrix(lhs.M, rhs.N);
-        for (var i = 0; i < c.N; i++)
-        for (var j = 0; j < c.M; i++)
+        if (a.ColumnCount != b.RowCount) throw new MismatchedMatrixException();
+        var c = new Matrix(a.RowCount, b.ColumnCount);
+        for (var i = 0; i < c.RowCount; i++)
+        for (var j = 0; j < c.ColumnCount; j++)
         {
-            var temp = 0.0;
-            for (var m = 0; m < lhs.N; m++) temp += lhs[i, m] * rhs[m, j];
-            c[j, i] = temp;
+            var s = 0.0;
+            for (var m = 0; m < a.ColumnCount; m++) s += a[i, m] * b[m, j];
+            c[i, j] = s;
         }
 
         return c;
@@ -61,8 +79,8 @@ public class Matrix : IEquatable<Matrix>
     public static Matrix operator *(double lhs, Matrix rhs)
     {
         var matrix = new Matrix(rhs._values);
-        for (var i = 0; i < rhs.N; i++)
-        for (var j = 0; j < rhs.M; j++)
+        for (var i = 0; i < rhs.RowCount; i++)
+        for (var j = 0; j < rhs.ColumnCount; j++)
             matrix[i, j] *= lhs;
 
         return matrix;
@@ -75,11 +93,11 @@ public class Matrix : IEquatable<Matrix>
 
     public static Matrix operator +(Matrix lhs, Matrix rhs)
     {
-        if (lhs.M != rhs.M || lhs.N != rhs.N) throw new MismatchedMatrixException();
+        if (lhs.ColumnCount != rhs.ColumnCount || lhs.RowCount != rhs.RowCount) throw new MismatchedMatrixException();
 
-        var ret = new Matrix(lhs.N, lhs.M);
-        for (var i = 0; i < lhs.N; i++)
-        for (var j = 0; j < lhs.M; j++)
+        var ret = new Matrix(lhs.RowCount, lhs.ColumnCount);
+        for (var i = 0; i < lhs.RowCount; i++)
+        for (var j = 0; j < lhs.ColumnCount; j++)
             ret[i, j] = lhs[i, j] + rhs[i, j];
 
         return ret;
@@ -88,30 +106,30 @@ public class Matrix : IEquatable<Matrix>
     // todo: sprawdzic XD 
     public void Transpose()
     {
-        var newValues = new double[M, N];
-        for (var i = 0; i < N; i++)
-        for (var j = 0; j < M; j++)
+        var newValues = new double[ColumnCount, RowCount];
+        for (var i = 0; i < RowCount; i++)
+        for (var j = 0; j < ColumnCount; j++)
             newValues[j, i] = _values[i, j];
 
         _values = newValues;
-        var tmp = N;
-        M = N;
-        N = tmp;
+        var tmp = RowCount;
+        ColumnCount = RowCount;
+        RowCount = tmp;
     }
 
     // todo: sprawdzic XD 
     public void Transpose(out Matrix m)
     {
-        m = new Matrix(M, N);
-        for (var i = 0; i < N; i++)
-        for (var j = 0; j < M; j++)
+        m = new Matrix(ColumnCount, RowCount);
+        for (var i = 0; i < RowCount; i++)
+        for (var j = 0; j < ColumnCount; j++)
             m[j, i] = _values[i, j];
     }
 
     public void SwapRows(int row1, int row2)
     {
-        if (row1 > M - 1 || row2 > M - 1) throw new ArgumentException();
-        for (var j = 0; j < N; j++)
+        if (row1 > ColumnCount - 1 || row2 > ColumnCount - 1) throw new ArgumentException();
+        for (var j = 0; j < RowCount; j++)
         {
             var tmp = _values[row1, j];
             _values[row2, j] = _values[row1, j];
@@ -121,12 +139,12 @@ public class Matrix : IEquatable<Matrix>
 
     public static bool operator ==(Matrix lhs, Matrix rhs)
     {
-        if (lhs.N != rhs.N ||
-            lhs.M != rhs.M)
+        if (lhs.RowCount != rhs.RowCount ||
+            lhs.ColumnCount != rhs.ColumnCount)
             return false;
 
-        for (var i = 0; i < lhs.N; i++)
-        for (var j = 0; j < lhs.M; j++)
+        for (var i = 0; i < lhs.RowCount; i++)
+        for (var j = 0; j < lhs.ColumnCount; j++)
             if (Math.Abs(lhs[i, j] - rhs[i, j]) > Eps)
                 return false;
 
@@ -146,8 +164,8 @@ public class Matrix : IEquatable<Matrix>
     public override int GetHashCode()
     {
         HashCode hash = default;
-        for (var i = 0; i < N; i++)
-        for (var j = 0; j < M; j++)
+        for (var i = 0; i < RowCount; i++)
+        for (var j = 0; j < ColumnCount; j++)
             hash.Add(_values[j, i]);
         return hash.ToHashCode();
     }
