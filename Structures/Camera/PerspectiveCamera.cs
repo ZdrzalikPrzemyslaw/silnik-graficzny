@@ -13,7 +13,8 @@ public class PerspectiveCamera : AbstractCamera
 
     public Vector3[] FindNearPlaneCorners()
     {
-        System.Numerics.Quaternion
+        System.Numerics.Ma;
+        System.Numerics.
     }
 
     public PerspectiveCamera() : this(Vector3.Zero(), new Vector3(0, 0, 1), new Vector3(0, 1, 0))
