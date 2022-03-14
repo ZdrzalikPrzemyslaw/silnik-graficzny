@@ -389,16 +389,16 @@ public class Vector3 : IEquatable<Vector3>
     }
 
     // https://math.stackexchange.com/questions/2093314/rotation-matrix-of-rotation-around-a-point-other-than-the-origin
-    public Vector3 Rotate(Matrix matrix, Vector3 PointOfRotation)
+    public Vector3 Rotate(Matrix matrix, Vector3 pointOfRotation)
     {
         var translation1 = new Matrix(4, true);
-        translation1[0, 3] = PointOfRotation.X;
-        translation1[1, 3] = PointOfRotation.Y;
-        translation1[2, 3] = PointOfRotation.Z;
+        translation1[0, 3] = pointOfRotation.X;
+        translation1[1, 3] = pointOfRotation.Y;
+        translation1[2, 3] = pointOfRotation.Z;
         var translation2 = new Matrix(4, true);
-        translation2[0, 3] = -PointOfRotation.X;
-        translation2[1, 3] = -PointOfRotation.Y;
-        translation2[2, 3] = -PointOfRotation.Z;
+        translation2[0, 3] = -pointOfRotation.X;
+        translation2[1, 3] = -pointOfRotation.Y;
+        translation2[2, 3] = -pointOfRotation.Z;
         var translationMatrix = translation1 * matrix * translation2;
         return Rotate(translationMatrix);
     }

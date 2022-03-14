@@ -92,7 +92,7 @@ public class Ray : IEquatable<Ray>
 
     public Ray Rotate(Matrix matrix)
     {
-        return new Ray(Origin, Direction.Rotate(matrix, Origin));
+        return new Ray(Origin, Direction.Rotate(matrix, Vector3.Zero()));
     }
 
     /// <inheritdoc />

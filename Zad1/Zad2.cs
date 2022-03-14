@@ -11,7 +11,8 @@ internal class Zad2
         var matrix2 = Matrix.Rotate(90 * Math.PI / 180, new Vector3(0, 0, 1));
         // ICamera orthogonalCamera = new OrthogonalCamera(Vector3.Zero(), new Vector3(0, 0, 1), new Vector3(0, 1, 0));
         // orthogonalCamera.RenderScene(new Scene(new Sphere(new Vector3(0, 0, 5), 1)));
-        ICamera perspectiveCamera = new PerspectiveCamera(Vector3.Zero(), new Vector3(0, 0, 1), new Vector3(0, 1, 0));
+        ICamera perspectiveCamera = new PerspectiveCamera(new Vector3(0, 0, 0), new Vector3(0, 0, 1), new Vector3(0, 1, 0));
+        // ICamera perspectiveCamera = new PerspectiveCamera(new Vector3(15, 0, 10), new Vector3(-1, 0, 0), new Vector3(0, 1, 0));
         perspectiveCamera.RenderScene(
             new Scene(
                 new Sphere(
