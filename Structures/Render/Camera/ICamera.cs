@@ -1,6 +1,4 @@
-﻿using SkiaSharp;
-
-namespace Structures.Render.Camera;
+﻿namespace Structures.Render.Camera;
 
 public interface ICamera
 {

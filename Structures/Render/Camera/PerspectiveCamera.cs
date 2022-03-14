@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using SkiaSharp;
 using Structures.Figures;
 using Structures.MathObjects;
 
@@ -54,7 +53,7 @@ public class PerspectiveCamera : AbstractCamera
             var locY = startY - j * pixelHeight;
 
             matrix = Matrix.Rotate(locY * Math.PI / 180, Target.Cross(Up));
-            Matrix matrix2 = Matrix.Rotate(locX * Math.PI / 180, Up);
+            var matrix2 = Matrix.Rotate(locX * Math.PI / 180, Up);
             ray = new Ray(Position, Target).Rotate(matrix * matrix2);
 
             Figure? intersection = null;

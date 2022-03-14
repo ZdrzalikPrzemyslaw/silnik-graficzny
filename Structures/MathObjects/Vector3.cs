@@ -71,6 +71,11 @@ public class Vector3 : IEquatable<Vector3>
         return X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
     }
 
+    public static Vector3 PointBetweenTwoPoints(Vector3 first, Vector3 second)
+    {
+        return new Ray(second, first).PointAtDistanceFromOrigin(second.Distance(first) / 2);
+    }
+
     /// <summary>
     ///     Creates new vector with coordinates (0, 0, 0) and returns the results.
     /// </summary>
@@ -135,7 +140,7 @@ public class Vector3 : IEquatable<Vector3>
     /// <returns>Magnitude of this.</returns>
     public double Magnitude()
     {
-        return System.Math.Sqrt(MagnitudeSquared());
+        return Math.Sqrt(MagnitudeSquared());
     }
 
     /// <summary>
@@ -319,10 +324,10 @@ public class Vector3 : IEquatable<Vector3>
     /// <returns>Euclidean distance between vectors</returns>
     public double Distance(Vector3 other)
     {
-        return System.Math.Sqrt(
-            System.Math.Pow(X - other.X, 2) +
-            System.Math.Pow(Y - other.Y, 2) +
-            System.Math.Pow(Z - other.Z, 2)
+        return Math.Sqrt(
+            Math.Pow(X - other.X, 2) +
+            Math.Pow(Y - other.Y, 2) +
+            Math.Pow(Z - other.Z, 2)
         );
     }
 

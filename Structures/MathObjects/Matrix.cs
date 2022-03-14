@@ -143,7 +143,7 @@ public class Matrix : IEquatable<Matrix>
 
         for (var i = 0; i < lhs.RowCount; i++)
         for (var j = 0; j < lhs.ColumnCount; j++)
-            if (System.Math.Abs(lhs[i, j] - rhs[i, j]) > Eps)
+            if (Math.Abs(lhs[i, j] - rhs[i, j]) > Eps)
                 return false;
 
         return true;
@@ -173,8 +173,8 @@ public class Matrix : IEquatable<Matrix>
         return new Matrix(new[,]
             {
                 { 1, 0, 0, 0 },
-                { 0, System.Math.Cos(radian), -System.Math.Sin(radian), 0 },
-                { 0, System.Math.Sin(radian), System.Math.Cos(radian), 0 },
+                { 0, Math.Cos(radian), -Math.Sin(radian), 0 },
+                { 0, Math.Sin(radian), Math.Cos(radian), 0 },
                 { 0, 0, 0, 1 }
             }
         );
@@ -184,9 +184,9 @@ public class Matrix : IEquatable<Matrix>
     {
         return new Matrix(new[,]
             {
-                { System.Math.Cos(radian), 0, System.Math.Sin(radian), 0 },
+                { Math.Cos(radian), 0, Math.Sin(radian), 0 },
                 { 0, 1, 0, 0 },
-                { -System.Math.Sin(radian), 0, System.Math.Cos(radian), 0 },
+                { -Math.Sin(radian), 0, Math.Cos(radian), 0 },
                 { 0, 0, 0, 1 }
             }
         );
@@ -196,8 +196,8 @@ public class Matrix : IEquatable<Matrix>
     {
         return new Matrix(new[,]
             {
-                { System.Math.Cos(radian), -System.Math.Sin(radian), 0, 0 },
-                { System.Math.Sin(radian), System.Math.Cos(radian), 0, 0 },
+                { Math.Cos(radian), -Math.Sin(radian), 0, 0 },
+                { Math.Sin(radian), Math.Cos(radian), 0, 0 },
                 { 0, 0, 1, 0 },
                 { 0, 0, 0, 1 }
             }
@@ -209,21 +209,21 @@ public class Matrix : IEquatable<Matrix>
         return new Matrix(new[,]
         {
             {
-                axis.X * axis.X * (1 - System.Math.Cos(radian)) + System.Math.Cos(radian),
-                axis.Y * axis.X * (1 - System.Math.Cos(radian)) - axis.Z * System.Math.Sin(radian),
-                axis.Z * axis.X * (1 - System.Math.Cos(radian)) + axis.Y * System.Math.Sin(radian),
+                axis.X * axis.X * (1 - Math.Cos(radian)) + Math.Cos(radian),
+                axis.Y * axis.X * (1 - Math.Cos(radian)) - axis.Z * Math.Sin(radian),
+                axis.Z * axis.X * (1 - Math.Cos(radian)) + axis.Y * Math.Sin(radian),
                 0
             },
             {
-                axis.X * axis.Y * (1 - System.Math.Cos(radian)) + axis.Z * System.Math.Sin(radian),
-                axis.Y * axis.Y * (1 - System.Math.Cos(radian)) + System.Math.Cos(radian),
-                axis.Z * axis.Y * (1 - System.Math.Cos(radian)) - axis.X * System.Math.Sin(radian),
+                axis.X * axis.Y * (1 - Math.Cos(radian)) + axis.Z * Math.Sin(radian),
+                axis.Y * axis.Y * (1 - Math.Cos(radian)) + Math.Cos(radian),
+                axis.Z * axis.Y * (1 - Math.Cos(radian)) - axis.X * Math.Sin(radian),
                 0
             },
             {
-                axis.X * axis.Z * (1 - System.Math.Cos(radian)) - axis.Y * System.Math.Sin(radian),
-                axis.Y * axis.Z * (1 - System.Math.Cos(radian)) + axis.X * System.Math.Sin(radian),
-                axis.Z * axis.Z * (1 - System.Math.Cos(radian)) + System.Math.Cos(radian),
+                axis.X * axis.Z * (1 - Math.Cos(radian)) - axis.Y * Math.Sin(radian),
+                axis.Y * axis.Z * (1 - Math.Cos(radian)) + axis.X * Math.Sin(radian),
+                axis.Z * axis.Z * (1 - Math.Cos(radian)) + Math.Cos(radian),
                 0
             },
             {

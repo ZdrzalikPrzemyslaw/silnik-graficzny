@@ -4,7 +4,7 @@ namespace Structures.Render.Sampler;
 
 public class PerspectiveSampler : AbstractSampler
 {
-    public override LightIntensity Sample(Scene scene, Ray ray, double step, Vector3 up)
+    public override LightIntensity Sample(Scene scene, Ray rayLeftUp, double step, Vector3 up, int recursionLevel = 0)
     {
         throw new NotImplementedException();
     }

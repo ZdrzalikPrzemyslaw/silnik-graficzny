@@ -156,6 +156,6 @@ public class Sphere : Figure, IEquatable<Sphere>
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"Plane(Center: {Center}, Radius: {Radius})";
+        return $"Sphere (Center: {Center}, Radius: {Radius})";
     }
 }

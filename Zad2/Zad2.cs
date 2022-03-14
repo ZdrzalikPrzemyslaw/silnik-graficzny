@@ -11,11 +11,11 @@ internal class Zad2
     {
         var matrix = Matrix.RotateZ(90 * Math.PI / 180);
         var matrix2 = Matrix.Rotate(90 * Math.PI / 180, new Vector3(0, 0, 1));
-        // ICamera orthogonalCamera = new OrthogonalCamera(Vector3.Zero(), new Vector3(0, 0, 1), new Vector3(0, 1, 0));
-        // orthogonalCamera.RenderScene(new Scene(new Sphere(new Vector3(0, 0, 5), 1)));
-        ICamera perspectiveCamera = new PerspectiveCamera(new Vector3(0, 0, 0), new Vector3(0, 0, 1), new Vector3(0, 1, 0));
+        ICamera orthogonalCamera = new OrthogonalCamera(Vector3.Zero(), new Vector3(0, 0, 1), new Vector3(0, 1, 0));
+        ICamera perspectiveCamera =
+            new PerspectiveCamera(new Vector3(0, 0, 0), new Vector3(0, 0, 1), new Vector3(0, 1, 0));
         // ICamera perspectiveCamera = new PerspectiveCamera(new Vector3(15, 0, 10), new Vector3(-1, 0, 0), new Vector3(0, 1, 0));
-        Picture picture = perspectiveCamera.RenderScene(
+        var picture = orthogonalCamera.RenderScene(
             new Scene(
                 new Sphere(
                     new Vector3(0, 0, 10), 3,
@@ -66,7 +66,7 @@ internal class Zad2
                         .SetG(0.23)
                         .SetB(0.67)
                         .Build())
-                ));
+            ));
         picture.PrintToPath();
     }
 }

@@ -15,7 +15,7 @@ public class Scene : IRaycastable
     {
         _figures.AddRange(figures);
     }
-    
+
     public bool Intersects(Ray ray)
     {
         return _figures.Any(figure => figure.Intersects(ray));
@@ -50,22 +50,25 @@ public class Scene : IRaycastable
 
     public Figure? GetClosest(Ray ray)
     {
-        List<KeyValuePair<Figure, Vector3>> returnList = new();
         Figure? closest = null;
         var closestDistance = double.MaxValue;
         foreach (var figure in _figures)
-        {
-            var x = figure.Intersections(ray);
-            foreach (var intersection in x)
+            try
             {
-                var distance = intersection.Distance(ray);
-                if (distance < closestDistance)
+                var x = figure.Intersections(ray);
+                foreach (var intersection in x)
                 {
-                    closestDistance = distance;
-                    closest = figure;
+                    var distance = intersection.Distance(ray);
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closest = figure;
+                    }
                 }
             }
-        }
+            catch (Plane.InfiniteIntersectionsException)
+            {
+            }
 
         return closest;
     }

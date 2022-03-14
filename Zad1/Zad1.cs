@@ -31,25 +31,25 @@ internal class Zad1
         // dokładnie jednym punkcie. Podać współrzędne punktu przecięcia
         var R3 = new Ray(new Vector3(10, 10, 0),
             new Vector3(new Vector3(10, 10, 0), new Vector3(10, 0, 0)).GetNormalized());
-    
+
         // Przecina
         var x1 = S.Intersections(R1);
         // Nie przecina
         var x2 = S.Intersections(R2);
         // Styczny
         var x3 = S.Intersections(R3);
-    
+
         Console.WriteLine($"{WriteToConsole(x1)}\n{WriteToConsole(x2)}\n{WriteToConsole(x3)}");
-    
-    
+
+
         // Proszę zdefiniować płaszczyznę P przechodzącą przez punkt (0,0,0), której 
         // wektor normalny tworzy kąt 45 stopni z osiami Y i Z
         // TODO: czy to na pewno tworzy kat 45??
         var P = new Plane(new Vector3(0, 0.5, 0.5), new Vector3(0, 0, 0));
         var P1 = new Plane(new Vector3(0, 0.5, 0.5), new Vector3(10, 10, 10));
-    
+
         new Ray(Vector3.Zero(), P.Normal).PointAtDistanceFromOrigin(P.Distance);
-    
+
         // Proszę znaleźć punkt przecięcia płaszczyzny P z promieniem R2
         var x4 = P.Intersection(R2);
         Console.WriteLine(x4);

@@ -1,5 +1,4 @@
-﻿using SkiaSharp;
-using Structures.MathObjects;
+﻿using Structures.MathObjects;
 
 namespace Structures.Render.Camera;
 

@@ -17,6 +17,11 @@ public class LightIntensity : IEquatable<LightIntensity>
         B = b;
     }
 
+    public LightIntensity()
+    {
+        R = B = G = 0.0;
+    }
+
     public double R { get; set; }
     public double G { get; set; }
     public double B { get; set; }
@@ -32,7 +37,7 @@ public class LightIntensity : IEquatable<LightIntensity>
     {
         return new LightIntensity(1, 0.78, 0.64);
     }
-    
+
     public static LightIntensity DefaultBackground()
     {
         return new LightIntensity(0, 0, 0);

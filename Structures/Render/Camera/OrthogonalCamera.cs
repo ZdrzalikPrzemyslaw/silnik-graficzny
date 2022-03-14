@@ -1,5 +1,5 @@
-﻿using Structures.Figures;
-using Structures.MathObjects;
+﻿using Structures.MathObjects;
+using Structures.Render.Sampler;
 
 namespace Structures.Render.Camera;
 
@@ -19,8 +19,8 @@ public class OrthogonalCamera : AbstractCamera
 
     public OrthogonalCamera(Vector3 position, Vector3 target, Vector3 up) : base(position, target, up)
     {
-        _height = 4.0;
-        _width = 4.0;
+        _height = 10.0;
+        _width = 10.0;
     }
 
     public OrthogonalCamera(Vector3 position, Vector3 target, Vector3 up, double height, double width) : base(position,
@@ -30,13 +30,16 @@ public class OrthogonalCamera : AbstractCamera
         _width = width;
     }
 
+    // TODO: kontruktor czy cos?
+    public ISampler Sampler { get; } = new OrthogonalSampler();
+
     public double _height { get; }
 
     public double _width { get; }
 
     public override Picture RenderScene(Scene scene)
     {
-        Picture picture = new(800, 800);
+        Picture picture = new(1000, 1000);
         var pixelWidth = _width / picture.Bitmap.Width;
         var pixelHeight = _height / picture.Bitmap.Height;
         var startX = -_width / 2 + Position.X;
@@ -47,17 +50,9 @@ public class OrthogonalCamera : AbstractCamera
             var locX = startX + i * pixelWidth;
             var locY = startY - j * pixelHeight;
             var ray = new Ray(new Vector3(locX, locY, Position.Z), Target);
-            Vector3? intersection = null;
-            try
-            {
-                intersection = scene.Intersection(ray);
-            }
-            catch (Plane.InfiniteIntersectionsException)
-            {
-            }
+            var intersection = Sampler.Sample(scene, ray, pixelWidth, Up);
 
-            picture.SetPixel(i, j,
-                intersection is not null ? new LightIntensity(1, 0.78, 0.64) : new LightIntensity(0.64, 0.67, 1));
+            picture.SetPixel(i, j, intersection);
         }
 
         return picture;
