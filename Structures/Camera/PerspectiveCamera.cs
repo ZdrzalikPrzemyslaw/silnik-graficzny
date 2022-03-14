@@ -38,45 +38,22 @@ public class PerspectiveCamera : AbstractCamera
         MessageId = "type: System.Double[,]")]
     public override void RenderScene(Scene scene)
     {
-        // //Left down
-        // var leftDownMatrix = Matrix.RotateY(-Fov / 2 * Math.PI / 180) * Matrix.RotateX(-Fov / 2 * Math.PI / 180);
-        // var rayLeftDown = new Ray(Position, Target).Rotate(leftDownMatrix);
-        // var leftDownPoint = NearPlane.Intersection(rayLeftDown);
-        //
-        // //Left Up
-        // var leftUpMatrix = Matrix.RotateY(Fov / 2 * Math.PI / 180) * Matrix.RotateX(-Fov / 2 * Math.PI / 180);
-        // var rayLeftUp = new Ray(Position, Target).Rotate(leftUpMatrix);
-        // var leftUpPoint = NearPlane.Intersection(rayLeftUp);
-        //
-        // //Right Down
-        // var rightDownMatrix = Matrix.RotateY(-Fov / 2 * Math.PI / 180) * Matrix.RotateX(Fov / 2 * Math.PI / 180);
-        // var rightDownRay = new Ray(Position, Target).Rotate(rightDownMatrix);
-        // var rightUDownPoint = NearPlane.Intersection(rightDownRay);
-        //
-        // //Right Down
-        // var rightUpMatrix = Matrix.RotateY(Fov / 2 * Math.PI / 180) * Matrix.RotateX(Fov / 2 * Math.PI / 180);
-        // var rightUpRay = new Ray(Position, Target).Rotate(rightUpMatrix);
-        // var rightUpPoint = NearPlane.Intersection(rightUpRay);
-
-
-        Picture picture = new(800, 800);
+        Picture picture = new(1000, 1000);
         var pixelWidth = Fov / picture.Bitmap.Width;
         var pixelHeight = Fov / picture.Bitmap.Height;
         var startX = -Fov / 2;
         var startY = Fov / 2;
         Matrix matrix = null;
-        Matrix matrix2 = null;
         Ray ray = null;
-        Ray ray2 = null;
         for (var i = 0; i < picture.Bitmap.Width; i++)
         for (var j = 0; j < picture.Bitmap.Height; j++)
         {
             var locX = startX + i * pixelWidth;
             var locY = startY - j * pixelHeight;
 
-            matrix = Matrix.Rotate(locY * Math.PI / 180, Up) *
-                     Matrix.Rotate(locX * Math.PI / 180, Up.Cross(Target));
-            ray = new Ray(Position, Target).Rotate(matrix);
+            matrix = Matrix.Rotate(locY * Math.PI / 180, Target.Cross(Up));
+            Matrix matrix2 = Matrix.Rotate(locX * Math.PI / 180, Up);
+            ray = new Ray(Position, Target).Rotate(matrix * matrix2);
 
             Figure? intersection = null;
             try
