@@ -19,8 +19,8 @@ public class OrthogonalCamera : AbstractCamera
 
     public OrthogonalCamera(Vector3 position, Vector3 target, Vector3 up) : base(position, target, up)
     {
-        _height = 10.0;
-        _width = 10.0;
+        _height = 8.0;
+        _width = 8.0;
     }
 
     public OrthogonalCamera(Vector3 position, Vector3 target, Vector3 up, double height, double width) : base(position,
@@ -39,7 +39,7 @@ public class OrthogonalCamera : AbstractCamera
 
     public override Picture RenderScene(Scene scene)
     {
-        Picture picture = new(1000, 1000);
+        Picture picture = new(300, 300);
         var pixelWidth = _width / picture.Bitmap.Width;
         var pixelHeight = _height / picture.Bitmap.Height;
         var startX = -_width / 2 + Position.X;

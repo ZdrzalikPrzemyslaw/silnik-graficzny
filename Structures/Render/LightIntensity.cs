@@ -40,7 +40,7 @@ public class LightIntensity : IEquatable<LightIntensity>
 
     public static LightIntensity DefaultBackground()
     {
-        return new LightIntensity(0, 0, 0);
+        return new LightIntensity(0.1, 0.1, 0.1);
     }
 
     public override string ToString()

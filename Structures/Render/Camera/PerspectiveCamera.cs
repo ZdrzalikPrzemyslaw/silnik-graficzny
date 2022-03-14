@@ -35,7 +35,7 @@ public class PerspectiveCamera : AbstractCamera
     
     public override Picture RenderScene(Scene scene)
     {
-        Picture picture = new(1000, 1000);
+        Picture picture = new(100, 100);
         var pixelWidth = Fov / picture.Bitmap.Width;
         var pixelHeight = Fov / picture.Bitmap.Height;
         var startX = -Fov / 2;

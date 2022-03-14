@@ -36,28 +36,25 @@ public class PlaneSlice : Plane
         lightIntensity)
     {
     }
-
-    public override bool Intersects(Ray ray)
-    {
-        var intersectionPoint = base.Intersection(ray);
-        if (intersectionPoint is null) return false;
-        var rightUpCorner = (LeftUpPoint.Dot(RightUpPoint - LeftUpPoint) <= intersectionPoint.Dot(RightUpPoint - LeftUpPoint))
-                   & (intersectionPoint.Dot(RightUpPoint - LeftUpPoint) <=
-                      RightUpPoint.Dot(RightUpPoint - LeftUpPoint));
-        var leftDownCorner = (LeftUpPoint.Dot(LeftDownPoint - LeftUpPoint) <= intersectionPoint.Dot(LeftDownPoint - LeftUpPoint))
-                   & (intersectionPoint.Dot(LeftDownPoint - LeftUpPoint) <=
-                      LeftDownPoint.Dot(LeftDownPoint - LeftUpPoint));
-        return rightUpCorner && leftDownCorner;
-    }
-
     public override Vector3? Intersection(Ray ray)
     {
-        return Intersects(ray) ? base.Intersection(ray) : null;
+        var intersectionPoint = base.Intersection(ray);
+        if (intersectionPoint is null) return null;
+        var rightUpCorner = (LeftUpPoint.Dot(RightUpPoint - LeftUpPoint) <=
+                             intersectionPoint.Dot(RightUpPoint - LeftUpPoint))
+                            & (intersectionPoint.Dot(RightUpPoint - LeftUpPoint) <=
+                               RightUpPoint.Dot(RightUpPoint - LeftUpPoint));
+        var leftDownCorner = (LeftUpPoint.Dot(LeftDownPoint - LeftUpPoint) <=
+                              intersectionPoint.Dot(LeftDownPoint - LeftUpPoint))
+                             & (intersectionPoint.Dot(LeftDownPoint - LeftUpPoint) <=
+                                LeftDownPoint.Dot(LeftDownPoint - LeftUpPoint));
+        return rightUpCorner && leftDownCorner ? intersectionPoint : null;
     }
 
     public override List<Vector3> Intersections(Ray ray)
     {
-        return Intersects(ray) ? base.Intersections(ray) : new List<Vector3>();
+        Vector3? intersection = Intersection(ray);
+        return intersection is not null ? new List<Vector3>{intersection} : new List<Vector3>();
     }
 
     protected bool Equals(PlaneSlice other)
