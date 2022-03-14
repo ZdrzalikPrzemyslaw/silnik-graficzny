@@ -1,4 +1,7 @@
-﻿namespace Structures;
+﻿using Structures.Math;
+using Structures.Render;
+
+namespace Structures.Figures;
 
 public abstract class Figure : IRaycastable, IEquatable<Figure>
 {

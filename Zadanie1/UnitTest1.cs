@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Structures;
+using Structures.Figures;
+using Structures.Math;
 
 namespace Zadanie1;
 

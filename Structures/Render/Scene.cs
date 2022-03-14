@@ -1,4 +1,7 @@
-﻿namespace Structures;
+﻿using Structures.Figures;
+using Structures.Math;
+
+namespace Structures.Render;
 
 public class Scene : IRaycastable
 {

@@ -1,4 +1,6 @@
-﻿namespace Structures.Camera;
+﻿using Structures.Math;
+
+namespace Structures.Render.Camera;
 
 public abstract class AbstractCamera : ICamera
 {

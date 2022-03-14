@@ -1,4 +1,6 @@
-namespace Structures;
+using Structures.Math;
+
+namespace Structures.Render;
 
 public interface IRaycastable
 {

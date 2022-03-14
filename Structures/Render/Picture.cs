@@ -1,6 +1,6 @@
 ﻿using SkiaSharp;
 
-namespace Structures;
+namespace Structures.Render;
 
 public class Picture
 {

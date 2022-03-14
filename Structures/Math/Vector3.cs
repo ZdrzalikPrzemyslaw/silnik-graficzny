@@ -1,4 +1,4 @@
-﻿namespace Structures;
+﻿namespace Structures.Math;
 
 public class Vector3 : IEquatable<Vector3>
 {
@@ -135,7 +135,7 @@ public class Vector3 : IEquatable<Vector3>
     /// <returns>Magnitude of this.</returns>
     public double Magnitude()
     {
-        return Math.Sqrt(MagnitudeSquared());
+        return System.Math.Sqrt(MagnitudeSquared());
     }
 
     /// <summary>
@@ -319,10 +319,10 @@ public class Vector3 : IEquatable<Vector3>
     /// <returns>Euclidean distance between vectors</returns>
     public double Distance(Vector3 other)
     {
-        return Math.Sqrt(
-            Math.Pow(X - other.X, 2) +
-            Math.Pow(Y - other.Y, 2) +
-            Math.Pow(Z - other.Z, 2)
+        return System.Math.Sqrt(
+            System.Math.Pow(X - other.X, 2) +
+            System.Math.Pow(Y - other.Y, 2) +
+            System.Math.Pow(Z - other.Z, 2)
         );
     }
 

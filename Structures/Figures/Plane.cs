@@ -1,4 +1,6 @@
-namespace Structures;
+using Structures.Math;
+
+namespace Structures.Figures;
 
 public class Plane : Figure, IEquatable<Plane>
 {

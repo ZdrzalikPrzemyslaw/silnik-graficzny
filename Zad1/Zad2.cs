@@ -1,5 +1,8 @@
 ﻿using Structures;
-using Structures.Camera;
+using Structures.Figures;
+using Structures.Math;
+using Structures.Render;
+using Structures.Render.Camera;
 
 namespace Zad1;
 

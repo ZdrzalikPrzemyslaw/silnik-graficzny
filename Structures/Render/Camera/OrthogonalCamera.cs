@@ -1,6 +1,8 @@
 ﻿using SkiaSharp;
+using Structures.Figures;
+using Structures.Math;
 
-namespace Structures.Camera;
+namespace Structures.Render.Camera;
 
 public class OrthogonalCamera : AbstractCamera
 {
