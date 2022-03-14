@@ -76,17 +76,12 @@ public class PerspectiveCamera : AbstractCamera
 
             matrix = Matrix.Rotate(locY * Math.PI / 180, Up) *
                      Matrix.Rotate(locX * Math.PI / 180, Up.Cross(Target));
-            matrix2 = Matrix.Rotate(locY * Math.PI / 180, Up) *
-                      Matrix.Rotate(locX * Math.PI / 180, Target.Cross(Up));
-            var matrix3 = Matrix.RotateY(locY * Math.PI / 180) * Matrix.RotateX(locX * Math.PI / 180);
             ray = new Ray(Position, Target).Rotate(matrix);
-            ray2 = new Ray(Position, Target).Rotate(matrix2);
-            var ray3 = new Ray(Position, Target).Rotate(matrix3);
 
             Figure? intersection = null;
             try
             {
-                intersection = scene.GetClosest(ray3);
+                intersection = scene.GetClosest(ray);
             }
             catch (Plane.InfiniteIntersectionsException)
             {

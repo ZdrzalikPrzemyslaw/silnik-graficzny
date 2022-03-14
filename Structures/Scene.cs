@@ -12,9 +12,7 @@ public class Scene : IRaycastable
     {
         _figures.AddRange(figures);
     }
-
-
-    // todo
+    
     public bool Intersects(Ray ray)
     {
         return _figures.Any(figure => figure.Intersects(ray));
