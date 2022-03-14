@@ -32,6 +32,11 @@ public class LightIntensity : IEquatable<LightIntensity>
     {
         return new LightIntensity(1, 0.78, 0.64);
     }
+    
+    public static LightIntensity DefaultBackground()
+    {
+        return new LightIntensity(0, 0, 0);
+    }
 
     public override string ToString()
     {
