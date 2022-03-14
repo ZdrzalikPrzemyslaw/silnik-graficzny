@@ -19,10 +19,10 @@ public class Picture
             Convert.ToByte(pixel.B * 255)));
     }
 
-    public void PrintToPath(string path = "./")
+    public void PrintToPath(string path = "./", string pictureName = "Picture.png")
     {
         using (var data = Bitmap.Encode(SKEncodedImageFormat.Png, 80))
-        using (var stream = File.OpenWrite(Path.Combine(path, "Picture.png")))
+        using (var stream = File.OpenWrite(Path.Combine(path, pictureName)))
         {
             data.SaveTo(stream);
         }

@@ -23,7 +23,7 @@ public class PerspectiveCamera : AbstractCamera
         : this(position, target, up,
             new Plane(target, new Ray(position, target).PointAtDistanceFromOrigin(1)),
             new Plane(target, new Ray(position, target).PointAtDistanceFromOrigin(1000)),
-            90)
+            60)
     {
     }
 
@@ -32,10 +32,9 @@ public class PerspectiveCamera : AbstractCamera
     public double Fov { get; set; }
 
     public ISampler Sampler { get; } = new PerspectiveSampler();
-    
-    public override Picture RenderScene(Scene scene)
+
+    private void RenderPiece(Picture picture, Scene scene, int fromX, int toX, int fromY, int toY)
     {
-        Picture picture = new(100, 100);
         var pixelWidth = Fov / picture.Bitmap.Width;
         var pixelHeight = Fov / picture.Bitmap.Height;
         var startX = -Fov / 2;
@@ -44,10 +43,10 @@ public class PerspectiveCamera : AbstractCamera
         Matrix matrixX = null;
         Matrix matrixY = null;
         LightIntensity intersection = null;
-        for (var i = 0; i < picture.Bitmap.Width; i++)
+        for (var i = fromX; i < toX; i++)
         {
             matrixX = Matrix.Rotate((startX + i * pixelWidth) * Math.PI / 180, Up);
-            for (var j = 0; j < picture.Bitmap.Height; j++)
+            for (var j = fromY; j < toY; j++)
             {
                 matrixY = Matrix.Rotate((startY + -j * pixelHeight) * Math.PI / 180, Target.Cross(Up));
                 ray = new Ray(Position, Target).Rotate(matrixY * matrixX);
@@ -56,6 +55,35 @@ public class PerspectiveCamera : AbstractCamera
 
                 picture.SetPixel(i, j, intersection);
             }
+        }
+    }
+    
+    public override Picture RenderScene(Scene scene)
+    {
+        int size = 500;
+        Picture picture = new(size, size);
+        List<Thread> threads = new List<Thread>();
+        for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+        {
+            {
+                int copyI = i;
+                int copyJ = j;
+                var thread = new Thread(() => RenderPiece(
+                    picture,
+                    scene,
+                    (size / 4) * copyI,
+                    (size / 4) * (copyI + 1),
+                    (size / 4) * copyJ,
+                    (size / 4) * (copyJ + 1)
+                ));
+                thread.Start();
+                threads.Add(thread);
+            }
+        }
+        foreach (var t in threads)
+        {
+            t.Join();
         }
 
         return picture;
