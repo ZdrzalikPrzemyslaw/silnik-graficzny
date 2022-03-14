@@ -5,7 +5,7 @@ namespace Structures.Figures;
 
 public abstract class Figure : IRaycastable, IEquatable<Figure>
 {
-    public LightIntensity LightIntensity { get; protected set; }
+    public LightIntensity LightIntensity { get; protected set; } = LightIntensity.DefaultObject();
 
     public abstract bool Equals(Figure? other);
     public abstract bool Intersects(Ray ray);

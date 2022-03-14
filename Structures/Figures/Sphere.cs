@@ -8,7 +8,7 @@ public class Sphere : Figure, IEquatable<Sphere>
     /// <summary>
     ///     Creates new Sphere starting at {0, 0, 0} with radius equal to 0.
     /// </summary>
-    public Sphere() : this(Vector3.Zero(), 0, LightIntensity.DefaultObject())
+    public Sphere() : this(Vector3.Zero(), 0)
     {
     }
 

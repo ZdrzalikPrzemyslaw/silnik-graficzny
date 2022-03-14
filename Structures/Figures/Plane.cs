@@ -1,4 +1,5 @@
 using Structures.MathObjects;
+using Structures.Render;
 
 namespace Structures.Figures;
 
@@ -14,10 +15,15 @@ public class Plane : Figure, IEquatable<Plane>
     /// </summary>
     /// <param name="inNormal">Normal Vector</param>
     /// <param name="distance">Distance from {0, 0, 0}</param>
-    public Plane(Vector3 inNormal, double distance)
+    public Plane(Vector3 inNormal, double distance) : this(inNormal, distance, LightIntensity.DefaultObject())
+    {
+    }
+    
+    public Plane(Vector3 inNormal, double distance, LightIntensity lightIntensity)
     {
         Distance = distance;
         Normal = inNormal.GetNormalized();
+        LightIntensity = lightIntensity;
     }
 
     /// <summary>
@@ -26,6 +32,10 @@ public class Plane : Figure, IEquatable<Plane>
     /// <param name="inNormal">Normal Vector</param>
     /// <param name="point">Point belonging to Plane</param>
     public Plane(Vector3 inNormal, Vector3 point) : this(inNormal, GetDistanceAlongNormal(inNormal, point))
+    {
+    }
+    
+    public Plane(Vector3 inNormal, Vector3 point, LightIntensity lightIntensity) : this(inNormal, GetDistanceAlongNormal(inNormal, point), lightIntensity)
     {
     }
 
