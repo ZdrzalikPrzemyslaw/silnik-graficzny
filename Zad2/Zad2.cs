@@ -1,10 +1,9 @@
-﻿using Structures;
-using Structures.Figures;
+﻿using Structures.Figures;
 using Structures.MathObjects;
 using Structures.Render;
 using Structures.Render.Camera;
 
-namespace Zad1;
+namespace Zad2;
 
 internal class Zad2
 {
@@ -16,7 +15,7 @@ internal class Zad2
         // orthogonalCamera.RenderScene(new Scene(new Sphere(new Vector3(0, 0, 5), 1)));
         ICamera perspectiveCamera = new PerspectiveCamera(new Vector3(0, 0, 0), new Vector3(0, 0, 1), new Vector3(0, 1, 0));
         // ICamera perspectiveCamera = new PerspectiveCamera(new Vector3(15, 0, 10), new Vector3(-1, 0, 0), new Vector3(0, 1, 0));
-        perspectiveCamera.RenderScene(
+        Picture picture = perspectiveCamera.RenderScene(
             new Scene(
                 new Sphere(
                     new Vector3(0, 0, 10), 3,
@@ -68,5 +67,6 @@ internal class Zad2
                         .SetB(0.67)
                         .Build())
                 ));
+        picture.PrintToPath();
     }
 }
