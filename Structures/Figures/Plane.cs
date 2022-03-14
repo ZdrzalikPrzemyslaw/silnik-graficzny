@@ -98,7 +98,7 @@ public class Plane : Figure, IEquatable<Plane>
     public override bool Intersects(Ray ray)
     {
         var dot = Normal.Dot(ray.Direction);
-        if (MathObjects.Abs(dot) > 0.0001f)
+        if (Math.Abs(dot) > 0.0001f)
         {
             var p = new Ray(Vector3.Zero(), Normal).PointAtDistanceFromOrigin(Distance);
             var t = (p - ray.Origin).Dot(Normal) / dot;
@@ -118,7 +118,7 @@ public class Plane : Figure, IEquatable<Plane>
     private bool IsInfiniteIntersection(Ray ray)
     {
         if (DistanceToPoint(ray.Origin) != 0) return false;
-        if (MathObjects.Abs(Normal.Dot(ray.Direction)) < 0.0001f) return true;
+        if (Math.Abs(Normal.Dot(ray.Direction)) < 0.0001f) return true;
         return false;
     }
 

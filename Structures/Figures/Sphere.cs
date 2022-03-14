@@ -106,10 +106,10 @@ public class Sphere : Figure, IEquatable<Sphere>
         var L = new Vector3(ray.Origin, Center);
         var tc = L.Dot(ray.Direction);
 
-        var d = MathObjects.Sqrt(L.MagnitudeSquared() - tc * tc);
+        var d = Math.Sqrt(L.MagnitudeSquared() - tc * tc);
         if (d > Radius) return new List<Vector3>();
 
-        var t1c = MathObjects.Sqrt(Radius * Radius - d * d);
+        var t1c = Math.Sqrt(Radius * Radius - d * d);
         var t1 = tc - t1c;
         var t2 = tc + t1c;
         var retList = new List<Vector3>();
