@@ -1,6 +1,5 @@
-﻿using SkiaSharp;
-using Structures.Figures;
-using Structures.Math;
+﻿using Structures.Figures;
+using Structures.MathObjects;
 
 namespace Structures.Render.Camera;
 
@@ -35,7 +34,7 @@ public class OrthogonalCamera : AbstractCamera
 
     public double _width { get; }
 
-    public override void RenderScene(Scene scene)
+    public override Picture RenderScene(Scene scene)
     {
         Picture picture = new(800, 800);
         var pixelWidth = _width / picture.Bitmap.Width;
@@ -61,10 +60,6 @@ public class OrthogonalCamera : AbstractCamera
                 intersection is not null ? new LightIntensity(1, 0.78, 0.64) : new LightIntensity(0.64, 0.67, 1));
         }
 
-        using (var data = picture.Bitmap.Encode(SKEncodedImageFormat.Png, 80))
-        using (var stream = File.OpenWrite(Path.Combine("./", "Picture.png")))
-        {
-            data.SaveTo(stream);
-        }
+        return picture;
     }
 }

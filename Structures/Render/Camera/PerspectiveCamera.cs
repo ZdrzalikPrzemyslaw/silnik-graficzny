@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using SkiaSharp;
 using Structures.Figures;
-using Structures.Math;
+using Structures.MathObjects;
 
 namespace Structures.Render.Camera;
 
@@ -38,7 +38,7 @@ public class PerspectiveCamera : AbstractCamera
         MessageId = "type: System.Double[,]")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH",
         MessageId = "type: System.Double[,]")]
-    public override void RenderScene(Scene scene)
+    public override Picture RenderScene(Scene scene)
     {
         Picture picture = new(1000, 1000);
         var pixelWidth = Fov / picture.Bitmap.Width;
@@ -69,10 +69,6 @@ public class PerspectiveCamera : AbstractCamera
             picture.SetPixel(i, j, intersection?.LightIntensity ?? new LightIntensity(0.64, 0.67, 1));
         }
 
-        using (var data = picture.Bitmap.Encode(SKEncodedImageFormat.Png, 80))
-        using (var stream = File.OpenWrite(Path.Combine("./", "Picture.png")))
-        {
-            data.SaveTo(stream);
-        }
+        return picture;
     }
 }

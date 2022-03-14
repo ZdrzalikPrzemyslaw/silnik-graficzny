@@ -1,4 +1,4 @@
-namespace Structures.Math;
+namespace Structures.MathObjects;
 
 public class Ray : IEquatable<Ray>
 {

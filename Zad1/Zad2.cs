@@ -1,6 +1,6 @@
 ﻿using Structures;
 using Structures.Figures;
-using Structures.Math;
+using Structures.MathObjects;
 using Structures.Render;
 using Structures.Render.Camera;
 

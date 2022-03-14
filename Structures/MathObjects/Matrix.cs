@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Structures.Math;
+namespace Structures.MathObjects;
 
 // https://codereview.stackexchange.com/questions/194732/class-matrix-implementation
 public class Matrix : IEquatable<Matrix>

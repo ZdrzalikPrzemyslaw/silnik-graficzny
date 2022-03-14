@@ -1,6 +1,8 @@
-﻿namespace Structures.Render.Camera;
+﻿using SkiaSharp;
+
+namespace Structures.Render.Camera;
 
 public interface ICamera
 {
-    public void RenderScene(Scene scene);
+    public Picture RenderScene(Scene scene);
 }

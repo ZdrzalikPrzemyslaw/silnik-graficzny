@@ -1,4 +1,5 @@
-﻿using Structures.Math;
+﻿using SkiaSharp;
+using Structures.MathObjects;
 
 namespace Structures.Render.Camera;
 
@@ -18,5 +19,5 @@ public abstract class AbstractCamera : ICamera
     public Vector3 Position { get; set; }
     public Vector3 Target { get; set; }
     public Vector3 Up { get; set; }
-    public abstract void RenderScene(Scene scene);
+    public abstract Picture RenderScene(Scene scene);
 }

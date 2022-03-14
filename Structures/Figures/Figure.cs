@@ -1,4 +1,4 @@
-﻿using Structures.Math;
+﻿using Structures.MathObjects;
 using Structures.Render;
 
 namespace Structures.Figures;
