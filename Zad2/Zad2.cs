@@ -15,7 +15,7 @@ internal class Zad2
         ICamera perspectiveCamera =
             new PerspectiveCamera(new Vector3(0, 0, 0), new Vector3(0, 0, 1), new Vector3(0, 1, 0));
         // ICamera perspectiveCamera = new PerspectiveCamera(new Vector3(15, 0, 10), new Vector3(-1, 0, 0), new Vector3(0, 1, 0));
-        var picture = orthogonalCamera.RenderScene(
+        var picture = perspectiveCamera.RenderScene(
             new Scene(
                 new Sphere(
                     new Vector3(0, 0, 10), 3,

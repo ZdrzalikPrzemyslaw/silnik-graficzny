@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Structures.Figures;
 using Structures.MathObjects;
+using Structures.Render.Sampler;
 
 namespace Structures.Render.Camera;
 
@@ -30,6 +31,8 @@ public class PerspectiveCamera : AbstractCamera
     public Plane FarPlane { get; set; }
     public double Fov { get; set; }
 
+    public ISampler Sampler { get; } = new PerspectiveSampler();
+
     [SuppressMessage("ReSharper.DPA", "DPA0001: Memory allocation issues")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH",
         MessageId = "type: System.Double[,]")]
@@ -56,16 +59,9 @@ public class PerspectiveCamera : AbstractCamera
             var matrix2 = Matrix.Rotate(locX * Math.PI / 180, Up);
             ray = new Ray(Position, Target).Rotate(matrix * matrix2);
 
-            Figure? intersection = null;
-            try
-            {
-                intersection = scene.GetClosest(ray);
-            }
-            catch (Plane.InfiniteIntersectionsException)
-            {
-            }
+            var intersection = Sampler.Sample(scene, ray, pixelWidth, Up);
 
-            picture.SetPixel(i, j, intersection?.LightIntensity ?? new LightIntensity(0.64, 0.67, 1));
+            picture.SetPixel(i, j, intersection);
         }
 
         return picture;
