@@ -32,14 +32,7 @@ public class PerspectiveCamera : AbstractCamera
     public double Fov { get; set; }
 
     public ISampler Sampler { get; } = new PerspectiveSampler();
-
-    [SuppressMessage("ReSharper.DPA", "DPA0001: Memory allocation issues")]
-    [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH",
-        MessageId = "type: System.Double[,]")]
-    [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH",
-        MessageId = "type: System.Double[,]")]
-    [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH",
-        MessageId = "type: System.Double[,]")]
+    
     public override Picture RenderScene(Scene scene)
     {
         Picture picture = new(1000, 1000);
@@ -47,21 +40,22 @@ public class PerspectiveCamera : AbstractCamera
         var pixelHeight = Fov / picture.Bitmap.Height;
         var startX = -Fov / 2;
         var startY = Fov / 2;
-        Matrix matrix = null;
-        Ray ray = null;
+        Ray ray = new Ray(Position, Target);
+        Matrix matrixX = null;
+        Matrix matrixY = null;
+        LightIntensity intersection = null;
         for (var i = 0; i < picture.Bitmap.Width; i++)
-        for (var j = 0; j < picture.Bitmap.Height; j++)
         {
-            var locX = startX + i * pixelWidth;
-            var locY = startY - j * pixelHeight;
+            matrixX = Matrix.Rotate((startX + i * pixelWidth) * Math.PI / 180, Up);
+            for (var j = 0; j < picture.Bitmap.Height; j++)
+            {
+                matrixY = Matrix.Rotate((startY + -j * pixelHeight) * Math.PI / 180, Target.Cross(Up));
+                ray = new Ray(Position, Target).Rotate(matrixY * matrixX);
 
-            matrix = Matrix.Rotate(locY * Math.PI / 180, Target.Cross(Up));
-            var matrix2 = Matrix.Rotate(locX * Math.PI / 180, Up);
-            ray = new Ray(Position, Target).Rotate(matrix * matrix2);
+                intersection = Sampler.Sample(scene, ray, pixelWidth, Up);
 
-            var intersection = Sampler.Sample(scene, ray, pixelWidth, Up);
-
-            picture.SetPixel(i, j, intersection);
+                picture.SetPixel(i, j, intersection);
+            }
         }
 
         return picture;

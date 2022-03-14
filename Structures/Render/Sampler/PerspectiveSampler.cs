@@ -4,7 +4,6 @@ namespace Structures.Render.Sampler;
 
 public class PerspectiveSampler : AbstractSampler
 {
-    
     public PerspectiveSampler(LightIntensity lightIntensity) : base(lightIntensity)
     {
     }
@@ -12,8 +11,8 @@ public class PerspectiveSampler : AbstractSampler
     public PerspectiveSampler()
     {
     }
-    
-    
+
+
     public override LightIntensity Sample(Scene scene, Ray rayLeftUp, double step, Vector3 up, int recursionLevel = 0)
     {
         var matrixRight = Matrix.Rotate(step * Math.PI / 180, up);
