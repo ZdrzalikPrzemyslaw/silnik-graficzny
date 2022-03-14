@@ -57,8 +57,10 @@ public class PlaneSlice : Plane
         return intersection is not null ? new List<Vector3>{intersection} : new List<Vector3>();
     }
 
-    protected bool Equals(PlaneSlice other)
+    protected bool Equals(PlaneSlice? other)
     {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
         return base.Equals(other) && LeftUpPoint.Equals(other.LeftUpPoint) && RightUpPoint.Equals(other.RightUpPoint) &&
                RightDownPoint.Equals(other.RightDownPoint) && LeftDownPoint.Equals(other.LeftDownPoint);
     }
