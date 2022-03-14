@@ -1,6 +1,9 @@
-namespace Structures;
+using Structures.MathObjects;
+using Structures.Render;
 
-public class Plane : IEquatable<Plane>
+namespace Structures.Figures;
+
+public class Plane : Figure, IEquatable<Plane>
 {
     /// <summary>
     ///     Coordinates of the point which is closest to {0, 0, 0}.
@@ -12,10 +15,15 @@ public class Plane : IEquatable<Plane>
     /// </summary>
     /// <param name="inNormal">Normal Vector</param>
     /// <param name="distance">Distance from {0, 0, 0}</param>
-    public Plane(Vector3 inNormal, double distance)
+    public Plane(Vector3 inNormal, double distance) : this(inNormal, distance, LightIntensity.DefaultObject())
+    {
+    }
+    
+    public Plane(Vector3 inNormal, double distance, LightIntensity lightIntensity)
     {
         Distance = distance;
         Normal = inNormal.GetNormalized();
+        LightIntensity = lightIntensity;
     }
 
     /// <summary>
@@ -24,6 +32,10 @@ public class Plane : IEquatable<Plane>
     /// <param name="inNormal">Normal Vector</param>
     /// <param name="point">Point belonging to Plane</param>
     public Plane(Vector3 inNormal, Vector3 point) : this(inNormal, GetDistanceAlongNormal(inNormal, point))
+    {
+    }
+    
+    public Plane(Vector3 inNormal, Vector3 point, LightIntensity lightIntensity) : this(inNormal, GetDistanceAlongNormal(inNormal, point), lightIntensity)
     {
     }
 
@@ -93,7 +105,7 @@ public class Plane : IEquatable<Plane>
     /// </summary>
     /// <param name="ray">Ray to calculate the intersection point with the plane.</param>
     /// <returns>True if the ray and the plane intersects, false if they don't intersects.</returns>
-    public bool Intersects(Ray ray)
+    public override bool Intersects(Ray ray)
     {
         var dot = Normal.Dot(ray.Direction);
         if (Math.Abs(dot) > 0.0001f)
@@ -103,9 +115,28 @@ public class Plane : IEquatable<Plane>
             if (t >= 0) return true;
         }
 
+        if (DistanceToPoint(ray.Origin) == 0) return true;
+
         return false;
     }
 
+    /// <summary>
+    ///     Checks if the ray intersects the plane.
+    /// </summary>
+    /// <param name="ray">Ray to calculate the intersection point with the plane.</param>
+    /// <returns>True if the ray and the plane intersects, false if they don't intersects.</returns>
+    private bool IsInfiniteIntersection(Ray ray)
+    {
+        if (DistanceToPoint(ray.Origin) != 0) return false;
+        if (Math.Abs(Normal.Dot(ray.Direction)) < 0.0001f) return true;
+        return false;
+    }
+
+
+    public double DistanceToPoint(Vector3 point)
+    {
+        return Normal.Dot(point - new Ray(Vector3.Zero(), Normal).PointAtDistanceFromOrigin(Distance));
+    }
 
     /// <summary>
     ///     Calculates the shortest distance from (0, 0, 0) to plane and return the results.
@@ -126,17 +157,27 @@ public class Plane : IEquatable<Plane>
     /// <param name="ray">Ray to calculate the intersection point with the plane.</param>
     /// <returns>The point of the intersection or null if the point doesn't exist.</returns>
     //https://stackoverflow.com/a/53437900/17176800
-    public Vector3? Intersection(Ray ray)
+    public override Vector3? Intersection(Ray ray)
     {
-        if (Intersects(ray))
-        {
-            var d = Center.Dot(-Normal);
-            var t = -(d + ray.Origin.Z * Normal.Z + ray.Origin.Y * Normal.Y + ray.Origin.X * Normal.X)
-                    / (ray.Direction.Z * Normal.Z + ray.Direction.Y * Normal.Y + ray.Direction.X * Normal.X);
-            return ray.Origin + t * ray.Direction;
-        }
+        if (!Intersects(ray)) return null;
+        if (IsInfiniteIntersection(ray)) throw new InfiniteIntersectionsException();
+        var d = Center.Dot(-Normal);
+        var t = -(d + ray.Origin.Z * Normal.Z + ray.Origin.Y * Normal.Y + ray.Origin.X * Normal.X)
+                / (ray.Direction.Z * Normal.Z + ray.Direction.Y * Normal.Y + ray.Direction.X * Normal.X);
+        return ray.Origin + t * ray.Direction;
+    }
 
-        return null;
+    public override List<Vector3> Intersections(Ray ray)
+    {
+        var point = Intersection(ray);
+        if (point is null) return new List<Vector3>();
+        // Inaczej zwroci sie 1 element null
+        return new List<Vector3> { point };
+    }
+
+    public override bool Equals(Figure? other)
+    {
+        return Equals(other as Plane);
     }
 
     /// <inheritdoc />
@@ -155,5 +196,9 @@ public class Plane : IEquatable<Plane>
     public override int GetHashCode()
     {
         return HashCode.Combine(Distance, Normal);
+    }
+
+    public class InfiniteIntersectionsException : Exception
+    {
     }
 }

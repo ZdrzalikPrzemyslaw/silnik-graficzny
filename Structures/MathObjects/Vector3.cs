@@ -1,4 +1,4 @@
-﻿namespace Structures;
+﻿namespace Structures.MathObjects;
 
 public class Vector3 : IEquatable<Vector3>
 {
@@ -71,6 +71,11 @@ public class Vector3 : IEquatable<Vector3>
         return X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
     }
 
+    public static Vector3 PointBetweenTwoPoints(Vector3 first, Vector3 second)
+    {
+        return new Ray(second, first).PointAtDistanceFromOrigin(second.Distance(first) / 2);
+    }
+
     /// <summary>
     ///     Creates new vector with coordinates (0, 0, 0) and returns the results.
     /// </summary>
@@ -79,6 +84,37 @@ public class Vector3 : IEquatable<Vector3>
     {
         return new Vector3();
     }
+
+    public static Vector3 Back()
+    {
+        return new Vector3(0, 0, -1);
+    }
+
+    public static Vector3 Forward()
+    {
+        return new Vector3(0, 0, 1);
+    }
+
+    public static Vector3 Left()
+    {
+        return new Vector3(-1, 0, 0);
+    }
+
+    public static Vector3 Right()
+    {
+        return new Vector3(1, 0, 0);
+    }
+
+    public static Vector3 Up()
+    {
+        return new Vector3(0, 1, 0);
+    }
+
+    public static Vector3 Down()
+    {
+        return new Vector3(0, -1, 0);
+    }
+
 
     /// <inheritdoc />
     public override string ToString()
@@ -295,6 +331,17 @@ public class Vector3 : IEquatable<Vector3>
         );
     }
 
+
+    /// <summary>
+    ///     Calculates the distance between this and a ray's origin and return the results.
+    /// </summary>
+    /// <param name="ray">Ray to calculate the distance.</param>
+    /// <returns>The distance between this and a ray's origin.</returns>
+    public double Distance(Ray ray)
+    {
+        return Distance(ray.Origin);
+    }
+
     /// <summary>
     ///     Divides two vectors and returns the results.
     /// </summary>
@@ -309,5 +356,55 @@ public class Vector3 : IEquatable<Vector3>
     {
         if (second.X == 0 || second.Y == 0 || second.Z == 0) throw new DivideByZeroException();
         return new Vector3(first.X / second.X, first.Y / second.Y, first.Z / second.Z);
+    }
+
+    public Matrix AsMatrix()
+    {
+        return new Matrix(
+            new[,]
+            {
+                { X },
+                { Y },
+                { Z }
+            });
+    }
+
+    public Matrix AsMatrix4x1()
+    {
+        return new Matrix(
+            new[,]
+            {
+                { X },
+                { Y },
+                { Z },
+                { 1 }
+            });
+    }
+
+    public static Vector3 FromMatrix(Matrix matrix)
+    {
+        if (matrix.ColumnCount != 1 || matrix.RowCount < 3) throw new Matrix.MismatchedMatrixException();
+
+        return new Vector3(matrix[0, 0], matrix[1, 0], matrix[2, 0]);
+    }
+
+    public Vector3 Rotate(Matrix matrix)
+    {
+        return FromMatrix(matrix * AsMatrix4x1());
+    }
+
+    // https://math.stackexchange.com/questions/2093314/rotation-matrix-of-rotation-around-a-point-other-than-the-origin
+    public Vector3 Rotate(Matrix matrix, Vector3 pointOfRotation)
+    {
+        var translation1 = new Matrix(4, true);
+        translation1[0, 3] = pointOfRotation.X;
+        translation1[1, 3] = pointOfRotation.Y;
+        translation1[2, 3] = pointOfRotation.Z;
+        var translation2 = new Matrix(4, true);
+        translation2[0, 3] = -pointOfRotation.X;
+        translation2[1, 3] = -pointOfRotation.Y;
+        translation2[2, 3] = -pointOfRotation.Z;
+        var translationMatrix = translation1 * matrix * translation2;
+        return Rotate(translationMatrix);
     }
 }

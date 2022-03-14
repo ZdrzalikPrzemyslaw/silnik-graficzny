@@ -1,4 +1,4 @@
-namespace Structures;
+namespace Structures.MathObjects;
 
 public class Ray : IEquatable<Ray>
 {
@@ -58,6 +58,11 @@ public class Ray : IEquatable<Ray>
         return a.Equals(b);
     }
 
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Origin, Direction);
+    }
+
     /// <summary>
     ///     Checks inequality between two rays.
     /// </summary>
@@ -83,6 +88,11 @@ public class Ray : IEquatable<Ray>
     public Vector3 PointAtDistanceFromOrigin(double distance)
     {
         return Origin + Direction * distance;
+    }
+
+    public Ray Rotate(Matrix matrix)
+    {
+        return new Ray(Origin, Direction.Rotate(matrix, Vector3.Zero()));
     }
 
     /// <inheritdoc />

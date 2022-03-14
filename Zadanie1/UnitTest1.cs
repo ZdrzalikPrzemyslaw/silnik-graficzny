@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Structures;
+using Structures.Figures;
+using Structures.MathObjects;
 
 namespace Zadanie1;
 
@@ -36,24 +39,45 @@ public class UnitTest1
     {
         // 5. Proszę sprawdzić, czy istnieje przecięcie sfery S z promieniami R1 oraz R2. 
         //    Wynik w postaci współrzędnych punktu przecięcia należy wyświetlić.
-        var x1 = S.Intersection(R1);
+        var x1 = S.Intersections(R1);
         Assert.AreEqual(2, x1.Count);
         Assert.AreEqual(new Vector3(0, 0, -10), x1[0]);
         Assert.AreEqual(new Vector3(0, 0, 10), x1[1]);
 
         Console.WriteLine($"Przeciecie Promienia R1 ze sferą S: p1: {x1[0]} p2:{x1[0]}");
 
-        var x2 = S.Intersection(R2);
+        var x2 = S.Intersections(R2);
         Assert.AreEqual(0, x2.Count);
 
         Console.WriteLine("Przeciecie Promienia R2 ze sferą S: brak");
 
         // 6. Podać współrzędne punktu przecięcia
-        var x3 = S.Intersection(R3);
+        var x3 = S.Intersections(R3);
         Assert.AreEqual(1, x3.Count);
         Assert.AreEqual(new Vector3(10, 0, 0), x3[0]);
 
         Console.WriteLine($"Przeciecie Promienia R2 ze sferą S: p: {x3[0]}");
+    }
+
+    public static string WriteToConsole<T>(List<T> list)
+    {
+        var toret = new StringBuilder("List: ");
+        foreach (var x1 in list) toret.Append(x1).Append(" ");
+
+        return toret.ToString();
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(Plane.InfiniteIntersectionsException))]
+    public void TestSphere()
+    {
+        var sphere = new Sphere(new Vector3(0, 0, 10), 1);
+        var ray = new Ray(new Vector3(0, 0, 10), new Vector3(0, 0, 1));
+        var x = sphere.Intersections(ray);
+        Console.WriteLine($"{WriteToConsole(x)}");
+        var plane = new Plane(new Vector3(0, 0, 1), 0);
+        var ray2 = new Ray(new Vector3(0, 0, 0), new Vector3(0, 1, 0));
+        var invalidIntersection = plane.Intersection(ray2);
     }
 
     [TestMethod]
@@ -74,7 +98,7 @@ public class UnitTest1
         var R4 = new Ray(new Vector3(0, 0, 9),
             new Vector3(0, 0, 1));
 
-        var intersection = S.Intersection(R4);
+        var intersection = S.Intersections(R4);
 
         Assert.AreEqual(1, intersection.Count);
         Assert.AreEqual(new Vector3(0, 0, 10), intersection[0]);

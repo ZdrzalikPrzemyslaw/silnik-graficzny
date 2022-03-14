@@ -1,14 +1,19 @@
-namespace Structures;
+using Structures.MathObjects;
+using Structures.Render;
 
-public class Sphere : IEquatable<Sphere>
+namespace Structures.Figures;
+
+public class Sphere : Figure, IEquatable<Sphere>
 {
     /// <summary>
     ///     Creates new Sphere starting at {0, 0, 0} with radius equal to 0.
     /// </summary>
-    public Sphere()
+    public Sphere() : this(Vector3.Zero(), 0)
     {
-        Center = Vector3.Zero();
-        Radius = 0;
+    }
+
+    public Sphere(LightIntensity lightIntensity) : this(Vector3.Zero(), 0, lightIntensity)
+    {
     }
 
     /// <summary>
@@ -16,10 +21,15 @@ public class Sphere : IEquatable<Sphere>
     /// </summary>
     /// <param name="center">Given center location</param>
     /// <param name="radius">Given radius</param>
-    public Sphere(Vector3 center, double radius)
+    public Sphere(Vector3 center, double radius) : this(center, radius, LightIntensity.DefaultObject())
+    {
+    }
+
+    public Sphere(Vector3 center, double radius, LightIntensity lightIntensity)
     {
         Center = center;
         Radius = radius;
+        LightIntensity = lightIntensity;
     }
 
     /// <summary>
@@ -56,7 +66,7 @@ public class Sphere : IEquatable<Sphere>
     /// </summary>
     /// <param name="ray">Given Ray</param>
     /// <returns>True if intersects of is tangent, false otherwise.</returns>
-    public bool Intersects(Ray ray)
+    public override bool Intersects(Ray ray)
     {
         return Distance(ray) <= Radius;
     }
@@ -91,7 +101,7 @@ public class Sphere : IEquatable<Sphere>
     /// <param name="ray">Given Ray</param>
     /// <returns>Empty list if no intersections, one element in list if tangent, two elements otherwise.</returns>
     // 
-    public List<Vector3> Intersection(Ray ray)
+    public override List<Vector3> Intersections(Ray ray)
     {
         var L = new Vector3(ray.Origin, Center);
         var tc = L.Dot(ray.Direction);
@@ -116,6 +126,21 @@ public class Sphere : IEquatable<Sphere>
         return retList;
     }
 
+    public override bool Equals(Figure? other)
+    {
+        return Equals(other as Sphere);
+    }
+
+    //TODO: spojrzec czy tu [0] zawsze nie bedzie blizej
+    public override Vector3? Intersection(Ray ray)
+    {
+        var points = Intersections(ray);
+        if (points.Count == 2)
+            return ray.Origin.Distance(points[0]) < ray.Origin.Distance(points[1]) ? points[0] : points[1];
+
+        return points.Count == 1 ? points[0] : null;
+    }
+
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
@@ -131,6 +156,6 @@ public class Sphere : IEquatable<Sphere>
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"Plane(Center: {Center}, Radius: {Radius})";
+        return $"Sphere (Center: {Center}, Radius: {Radius})";
     }
 }

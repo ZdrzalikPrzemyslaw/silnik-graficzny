@@ -2,7 +2,8 @@
 
 
 using System.Text;
-using Structures;
+using Structures.Figures;
+using Structures.MathObjects;
 
 namespace Zad1;
 
@@ -32,11 +33,11 @@ internal class Zad1
             new Vector3(new Vector3(10, 10, 0), new Vector3(10, 0, 0)).GetNormalized());
 
         // Przecina
-        var x1 = S.Intersection(R1);
+        var x1 = S.Intersections(R1);
         // Nie przecina
-        var x2 = S.Intersection(R2);
+        var x2 = S.Intersections(R2);
         // Styczny
-        var x3 = S.Intersection(R3);
+        var x3 = S.Intersections(R3);
 
         Console.WriteLine($"{WriteToConsole(x1)}\n{WriteToConsole(x2)}\n{WriteToConsole(x3)}");
 
