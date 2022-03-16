@@ -27,7 +27,21 @@ public class Triangle : Figure
 
     public override bool Intersects(Ray ray)
     {
+        Vector3? planeIntersectionPoint = null;
+        try
+        {
+            planeIntersectionPoint = _plane.Intersection(ray);
+        }
+        catch (Plane.InfiniteIntersectionsException)
+        {
+        }
+        if (planeIntersectionPoint is null)
+        {
+            return false;
+        }
+
         throw new NotImplementedException();
+
     }
 
     public override Vector3? Intersection(Ray ray)
