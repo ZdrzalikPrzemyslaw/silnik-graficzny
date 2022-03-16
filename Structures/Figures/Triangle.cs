@@ -45,15 +45,24 @@ public class Triangle : Figure
         C = c;
     }
 
-    public override bool Equals(Figure? other)
-    {
-        throw new NotImplementedException();
-    }
-
     public override bool Intersects(Ray ray)
     {
         return Intersection(ray) is not null;
     }
+    
+    protected bool Equals(Triangle? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return A.Equals(other.A) && B.Equals(other.B) &&
+               C.Equals(other.C) && _plane.Equals(other._plane);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return Equals(obj as Triangle);
+    }
+
 
     public override Vector3? Intersection(Ray ray)
     {
