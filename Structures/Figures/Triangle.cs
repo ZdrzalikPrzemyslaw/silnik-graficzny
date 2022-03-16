@@ -27,6 +27,12 @@ public class Triangle : Figure
 
     public override bool Intersects(Ray ray)
     {
+        return this.Intersection(ray) is not null;
+
+    }
+
+    public override Vector3? Intersection(Ray ray)
+    {
         Vector3? planeIntersectionPoint = null;
         try
         {
@@ -37,20 +43,17 @@ public class Triangle : Figure
         }
         if (planeIntersectionPoint is null)
         {
-            return false;
+            return null;
         }
 
         throw new NotImplementedException();
 
-    }
-
-    public override Vector3? Intersection(Ray ray)
-    {
-        throw new NotImplementedException();
+        return planeIntersectionPoint;
     }
 
     public override List<Vector3> Intersections(Ray ray)
     {
-        throw new NotImplementedException();
+        Vector3? intersection = this.Intersection(ray);
+        return intersection is not null ? new List<Vector3> { intersection } : new List<Vector3>();
     }
 }
