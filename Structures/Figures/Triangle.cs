@@ -5,10 +5,10 @@ namespace Structures.Figures;
 
 public class Triangle : Figure
 {
-    public Vector3 A { get; set; } = Vector3.Zero();
-    private Plane _plane;
-    public Vector3 B { get; set; } = Vector3.Zero();
-    public Vector3 C { get; set; } = Vector3.Zero();
+    public Vector3 A { get; set; }
+    private readonly Plane _plane;
+    public Vector3 B { get; set; }
+    public Vector3 C { get; set; }
 
 
     public Triangle(Vector3 inNormal, Vector3 point, LightIntensity lightIntensity, Vector3 a,
@@ -27,8 +27,7 @@ public class Triangle : Figure
 
     public override bool Intersects(Ray ray)
     {
-        return this.Intersection(ray) is not null;
-
+        return Intersection(ray) is not null;
     }
 
     public override Vector3? Intersection(Ray ray)
@@ -41,19 +40,26 @@ public class Triangle : Figure
         catch (Plane.InfiniteIntersectionsException)
         {
         }
-        if (planeIntersectionPoint is null)
-        {
-            return null;
-        }
 
-        throw new NotImplementedException();
+        if (planeIntersectionPoint is null) return null;
+
+        var vA = A - planeIntersectionPoint;
+        var vB = B - planeIntersectionPoint;
+        var vC = C - planeIntersectionPoint;
+        var vX = vA.Cross(vB);
+
+        if (vX.Dot(_plane.Normal) < 0) return null;
+        vX = vB.Cross(vC);
+        if (vX.Dot(_plane.Normal) < 0) return null;
+        vX = vC.Cross(vA);
+        if (vX.Dot(_plane.Normal) < 0) return null;
 
         return planeIntersectionPoint;
     }
 
     public override List<Vector3> Intersections(Ray ray)
     {
-        Vector3? intersection = this.Intersection(ray);
-        return intersection is not null ? new List<Vector3> { intersection } : new List<Vector3>();
+        var intersection = Intersection(ray);
+        return intersection is not null ? new List<Vector3> {intersection} : new List<Vector3>();
     }
 }
