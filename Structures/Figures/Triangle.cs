@@ -6,15 +6,41 @@ namespace Structures.Figures;
 public class Triangle : Figure
 {
     public Vector3 A { get; set; } = Vector3.Zero();
+    
     private Plane _plane;
     public Vector3 B { get; set; } = Vector3.Zero();
     public Vector3 C { get; set; } = Vector3.Zero();
 
 
+    public Triangle(Plane plane) : this(plane, Vector3.Zero(), Vector3.Zero(), Vector3.Zero())
+    {
+    }
+    
+    public Triangle(Plane plane, LightIntensity lightIntensity) : this(plane, lightIntensity, Vector3.Zero(), Vector3.Zero(), Vector3.Zero())
+    {
+    }
+    
+    public Triangle(Plane plane, Vector3 a, Vector3 b, Vector3 c) : this(plane.Normal, plane.Distance, plane.LightIntensity, a,b,c)
+    {
+    }
+    
+    public Triangle(Plane plane, LightIntensity lightIntensity, Vector3 a, Vector3 b, Vector3 c) : this(plane.Normal, plane.Distance, lightIntensity, a,b,c)
+    {
+    }
+    
     public Triangle(Vector3 inNormal, Vector3 point, LightIntensity lightIntensity, Vector3 a,
         Vector3 b, Vector3 c)
     {
         _plane = new Plane(inNormal, point, lightIntensity);
+        A = a;
+        B = b;
+        C = c;
+    }
+    
+    public Triangle(Vector3 inNormal, double distance, LightIntensity lightIntensity, Vector3 a,
+        Vector3 b, Vector3 c)
+    {
+        _plane = new Plane(inNormal, distance, lightIntensity);
         A = a;
         B = b;
         C = c;
