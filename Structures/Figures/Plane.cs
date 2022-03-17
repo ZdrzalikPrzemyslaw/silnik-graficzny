@@ -5,6 +5,8 @@ namespace Structures.Figures;
 
 public class Plane : SimpleFigure, IEquatable<Plane>
 {
+    //TODO: Dodać konstruktor z trzech punktów
+    
     /// <summary>
     ///     Coordinates of the point which is closest to {0, 0, 0}.
     /// </summary>
@@ -17,6 +19,17 @@ public class Plane : SimpleFigure, IEquatable<Plane>
     /// <param name="distance">Distance from {0, 0, 0}</param>
     public Plane(Vector3 inNormal, double distance) : this(inNormal, distance, LightIntensity.DefaultObject())
     {
+    }
+    
+    public Plane(Vector3 a, Vector3 b, Vector3 c): this(calculateNormalVector(a, b, c), GetDistanceAlongNormal(calculateNormalVector(a, b, c), a), LightIntensity.DefaultObject())
+    {
+    }
+
+    private static Vector3 calculateNormalVector(Vector3 a, Vector3 b, Vector3 c)
+    {
+        var ab = new Vector3(a, b);
+        var ac = new Vector3(a, c);
+        return ab.Cross(ac).GetNormalized();
     }
 
     public Plane(Vector3 inNormal, double distance, LightIntensity lightIntensity)
