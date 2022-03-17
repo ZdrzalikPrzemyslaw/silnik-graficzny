@@ -14,19 +14,22 @@ public class Triangle : Figure
     public Triangle(Plane plane) : this(plane, Vector3.Zero(), Vector3.Zero(), Vector3.Zero())
     {
     }
-    
-    public Triangle(Plane plane, LightIntensity lightIntensity) : this(plane, lightIntensity, Vector3.Zero(), Vector3.Zero(), Vector3.Zero())
+
+    public Triangle(Plane plane, LightIntensity lightIntensity) : this(plane, lightIntensity, Vector3.Zero(),
+        Vector3.Zero(), Vector3.Zero())
     {
     }
-    
-    public Triangle(Plane plane, Vector3 a, Vector3 b, Vector3 c) : this(plane.Normal, plane.Distance, plane.LightIntensity, a,b,c)
+
+    public Triangle(Plane plane, Vector3 a, Vector3 b, Vector3 c) : this(plane.Normal, plane.Distance,
+        plane.LightIntensity, a, b, c)
     {
     }
-    
-    public Triangle(Plane plane, LightIntensity lightIntensity, Vector3 a, Vector3 b, Vector3 c) : this(plane.Normal, plane.Distance, lightIntensity, a,b,c)
+
+    public Triangle(Plane plane, LightIntensity lightIntensity, Vector3 a, Vector3 b, Vector3 c) : this(plane.Normal,
+        plane.Distance, lightIntensity, a, b, c)
     {
     }
-    
+
     public Triangle(Vector3 inNormal, Vector3 point, LightIntensity lightIntensity, Vector3 a,
         Vector3 b, Vector3 c)
     {
@@ -35,7 +38,7 @@ public class Triangle : Figure
         B = b;
         C = c;
     }
-    
+
     public Triangle(Vector3 inNormal, double distance, LightIntensity lightIntensity, Vector3 a,
         Vector3 b, Vector3 c)
     {
@@ -45,17 +48,21 @@ public class Triangle : Figure
         C = c;
     }
 
+    public override bool Equals(Figure? other)
+    {
+        return Equals(other as Triangle);
+    }
+
     public override bool Intersects(Ray ray)
     {
         return Intersection(ray) is not null;
     }
-    
+
     protected bool Equals(Triangle? other)
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
-        return A.Equals(other.A) && B.Equals(other.B) &&
-               C.Equals(other.C) && _plane.Equals(other._plane);
+        return _plane.Equals(other._plane) && A.Equals(other.A) && B.Equals(other.B) && C.Equals(other.C);
     }
 
     public override bool Equals(object? obj)
@@ -63,6 +70,10 @@ public class Triangle : Figure
         return Equals(obj as Triangle);
     }
 
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(_plane, A, B, C);
+    }
 
     public override Vector3? Intersection(Ray ray)
     {
@@ -95,5 +106,11 @@ public class Triangle : Figure
     {
         var intersection = Intersection(ray);
         return intersection is not null ? new List<Vector3> {intersection} : new List<Vector3>();
+    }
+
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return $"Triangle (A: {A}, B: {B}, C: {C}, _plane: {_plane})";
     }
 }
