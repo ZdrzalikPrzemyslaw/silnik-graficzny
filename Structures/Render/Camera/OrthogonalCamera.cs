@@ -53,39 +53,34 @@ public class OrthogonalCamera : AbstractCamera
 
             picture.SetPixel(i, j, intersection);
         }
-  
     }
 
     public override Picture RenderScene(Scene scene)
     {
-        int size = 500;
+        var size = 500;
         Picture picture = new(size, size);
-        
-        List<Thread> threads = new List<Thread>();
-        for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 4; j++)
+
+        var threads = new List<Thread>();
+        for (var i = 0; i < 4; i++)
+        for (var j = 0; j < 4; j++)
         {
-            {
-                int copyI = i;
-                int copyJ = j;
-                var thread = new Thread(() => RenderPiece(
-                    picture,
-                    scene,
-                    (size / 4) * copyI,
-                    (size / 4) * (copyI + 1),
-                    (size / 4) * copyJ,
-                    (size / 4) * (copyJ + 1)
-                ));
-                thread.Start();
-                threads.Add(thread);
-            }
-        }
-        foreach (var t in threads)
-        {
-            t.Join();
+            var copyI = i;
+            var copyJ = j;
+            var thread = new Thread(() => RenderPiece(
+                picture,
+                scene,
+                size / 4 * copyI,
+                size / 4 * (copyI + 1),
+                size / 4 * copyJ,
+                size / 4 * (copyJ + 1)
+            ));
+            thread.Start();
+            threads.Add(thread);
         }
 
-        
+        foreach (var t in threads) t.Join();
+
+
         return picture;
     }
 }

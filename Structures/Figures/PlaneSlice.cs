@@ -5,11 +5,6 @@ namespace Structures.Figures;
 
 public class PlaneSlice : Plane
 {
-    public Vector3 LeftUpPoint { get; set; } = Vector3.Zero();
-    public Vector3 RightUpPoint { get; set; } = Vector3.Zero();
-    public Vector3 RightDownPoint { get; set; } = Vector3.Zero();
-    public Vector3 LeftDownPoint { get; set; } = Vector3.Zero();
-
     public PlaneSlice(Vector3 inNormal, Vector3 point, LightIntensity lightIntensity, Vector3 leftUpPoint,
         Vector3 rightUpPoint, Vector3 rightDownPoint, Vector3 leftDownPoint) : base(inNormal, point, lightIntensity)
     {
@@ -36,6 +31,12 @@ public class PlaneSlice : Plane
         lightIntensity)
     {
     }
+
+    public Vector3 LeftUpPoint { get; set; } = Vector3.Zero();
+    public Vector3 RightUpPoint { get; set; } = Vector3.Zero();
+    public Vector3 RightDownPoint { get; set; } = Vector3.Zero();
+    public Vector3 LeftDownPoint { get; set; } = Vector3.Zero();
+
     public override Vector3? Intersection(Ray ray)
     {
         var intersectionPoint = base.Intersection(ray);
@@ -53,8 +54,8 @@ public class PlaneSlice : Plane
 
     public override List<Vector3> Intersections(Ray ray)
     {
-        Vector3? intersection = Intersection(ray);
-        return intersection is not null ? new List<Vector3>{intersection} : new List<Vector3>();
+        var intersection = Intersection(ray);
+        return intersection is not null ? new List<Vector3> { intersection } : new List<Vector3>();
     }
 
     protected bool Equals(PlaneSlice? other)

@@ -3,25 +3,63 @@ using Structures.MathObjects;
 
 namespace Structures.Render;
 
-public class Scene : IRaycastable
+public class Scene : Figure
 {
-    private readonly List<Figure> _figures = new();
+    private readonly List<ComplexFigure> _figures = new();
 
     public Scene()
     {
     }
 
-    public Scene(params Figure[] figures)
+    public Scene(List<SimpleFigure?> simpleFigures) : this(simpleFigures.Where(i => i is not null).Cast<SimpleFigure>()
+        .ToArray())
+    {
+    }
+
+    public Scene(params SimpleFigure[] figures)
+    {
+        _figures.Add(new ComplexFigure(figures));
+    }
+    
+    public Scene(params ComplexFigure[] figures)
     {
         _figures.AddRange(figures);
     }
+    
+    public Scene(ComplexFigure figure)
+    {
+        _figures.Add(figure);
+    }
 
-    public bool Intersects(Ray ray)
+
+    public override bool Equals(Figure? other)
+    {
+        return Equals(other as Scene);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return Equals(obj as Scene);
+    }
+
+    public override int GetHashCode()
+    {
+        return _figures.GetSequenceHashCode();
+    }
+
+    protected bool Equals(Scene? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return _figures.SequenceEqual(other._figures);
+    }
+
+    public override bool Intersects(Ray ray)
     {
         return _figures.Any(figure => figure.Intersects(ray));
     }
 
-    public Vector3? Intersection(Ray ray)
+    public override Vector3? Intersection(Ray ray)
     {
         var intersections = Intersections(ray);
         if (intersections.Count == 0) return null;
@@ -40,7 +78,7 @@ public class Scene : IRaycastable
         return closest;
     }
 
-    public List<Vector3> Intersections(Ray ray)
+    public override List<Vector3> Intersections(Ray ray)
     {
         List<Vector3> returnList = new();
         foreach (var figure in _figures) returnList.AddRange(figure.Intersections(ray));
@@ -48,38 +86,38 @@ public class Scene : IRaycastable
         return returnList;
     }
 
-    public Figure? GetClosest(Ray ray)
+    public SimpleFigure? GetClosest(Ray ray)
     {
-        Figure? closest = null;
-        var closestDistance = double.MaxValue;
-        foreach (var figure in _figures)
-            try
+        Intersection? closest = null;
+        this._figures.ForEach(i =>
+        {
+            var intersection = i.GetClosest(ray);
+            if (closest is null)
             {
-                var x = figure.Intersections(ray);
-                foreach (var intersection in x)
-                {
-                    var distance = intersection.Distance(ray);
-                    if (distance < closestDistance)
-                    {
-                        closestDistance = distance;
-                        closest = figure;
-                    }
-                }
+                closest = intersection;
             }
-            catch (Plane.InfiniteIntersectionsException)
+            else if (intersection is not null)
             {
+                closest = ray.Origin.Distance(intersection.Position) < ray.Origin.Distance(closest.Position)
+                    ? intersection
+                    : closest;
             }
-
-        return closest;
+        });
+        return closest?.Figure ?? null;
     }
 
-    public void AddFigure(Figure figure)
+    public void AddFigure(SimpleFigure figure)
+    {
+        _figures.Add(new ComplexFigure(figure));
+    }
+    
+    public void AddFigure(ComplexFigure figure)
     {
         _figures.Add(figure);
     }
 
     // To usuwa po identycznosci, nie po referencji
-    public void RemoveFigure(Figure figure)
+    public void RemoveFigure(ComplexFigure figure)
     {
         _figures.Remove(figure);
     }

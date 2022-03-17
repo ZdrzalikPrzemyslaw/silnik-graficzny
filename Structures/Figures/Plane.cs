@@ -3,7 +3,7 @@ using Structures.Render;
 
 namespace Structures.Figures;
 
-public class Plane : Figure, IEquatable<Plane>
+public class Plane : SimpleFigure, IEquatable<Plane>
 {
     /// <summary>
     ///     Coordinates of the point which is closest to {0, 0, 0}.
@@ -18,7 +18,7 @@ public class Plane : Figure, IEquatable<Plane>
     public Plane(Vector3 inNormal, double distance) : this(inNormal, distance, LightIntensity.DefaultObject())
     {
     }
-    
+
     public Plane(Vector3 inNormal, double distance, LightIntensity lightIntensity)
     {
         Distance = distance;
@@ -34,8 +34,9 @@ public class Plane : Figure, IEquatable<Plane>
     public Plane(Vector3 inNormal, Vector3 point) : this(inNormal, GetDistanceAlongNormal(inNormal, point))
     {
     }
-    
-    public Plane(Vector3 inNormal, Vector3 point, LightIntensity lightIntensity) : this(inNormal, GetDistanceAlongNormal(inNormal, point), lightIntensity)
+
+    public Plane(Vector3 inNormal, Vector3 point, LightIntensity lightIntensity) : this(inNormal,
+        GetDistanceAlongNormal(inNormal, point), lightIntensity)
     {
     }
 

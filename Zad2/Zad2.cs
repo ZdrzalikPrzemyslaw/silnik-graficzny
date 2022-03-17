@@ -1,9 +1,4 @@
-﻿using Structures.Figures;
-using Structures.MathObjects;
-using Structures.Render;
-using Structures.Render.Camera;
-
-namespace Zad2;
+﻿namespace Zad2;
 
 internal class Zad2
 {

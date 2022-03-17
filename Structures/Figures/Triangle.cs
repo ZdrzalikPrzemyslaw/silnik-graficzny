@@ -3,12 +3,9 @@ using Structures.Render;
 
 namespace Structures.Figures;
 
-public class Triangle : Figure
+public class Triangle : SimpleFigure
 {
-    public Vector3 A { get; set; }
     private readonly Plane _plane;
-    public Vector3 B { get; set; }
-    public Vector3 C { get; set; }
 
 
     public Triangle(Plane plane) : this(plane, Vector3.Zero(), Vector3.Zero(), Vector3.Zero())
@@ -47,6 +44,10 @@ public class Triangle : Figure
         B = b;
         C = c;
     }
+
+    public Vector3 A { get; set; }
+    public Vector3 B { get; set; }
+    public Vector3 C { get; set; }
 
     public override bool Equals(Figure? other)
     {
@@ -105,7 +106,7 @@ public class Triangle : Figure
     public override List<Vector3> Intersections(Ray ray)
     {
         var intersection = Intersection(ray);
-        return intersection is not null ? new List<Vector3> {intersection} : new List<Vector3>();
+        return intersection is not null ? new List<Vector3> { intersection } : new List<Vector3>();
     }
 
     /// <inheritdoc />
