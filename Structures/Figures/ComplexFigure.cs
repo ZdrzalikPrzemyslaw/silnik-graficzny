@@ -6,6 +6,13 @@ namespace Structures.Figures;
 // TODO: to jest prawie to samo co scena i nwm co z tym fantem zrobic
 //  Tylko scena ma ComplexFigure a nie SimpleFigure 
 //  W szczegolnosci chodzi mi o metody przeciec
+//  To i scene mozesz uogulnic do tego Abstract<T> ktory mowilem i potem implementacje beda tylko sie roznic listą i co w niej jest
+//  public class Abstract<T> where T: Figure
+//  Tylko inna nazwa niz abstract oczywiscie
+//  I wtedy abstract ma abstrkacyjna metode protected T getFigureList();
+//  A klasy bazowe sobie nadpisuja taka listą jaką one maja
+//  Bardzo to mądre szkoda że na to wpadlem akurat jak musze robic obiad ale wiem że to super zrobisz
+
 public class ComplexFigure : Figure
 {
     
