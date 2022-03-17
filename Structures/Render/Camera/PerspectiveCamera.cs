@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Structures.Figures;
+﻿using Structures.Figures;
 using Structures.MathObjects;
 using Structures.Render.Sampler;
 
@@ -39,7 +38,7 @@ public class PerspectiveCamera : AbstractCamera
         var pixelHeight = Fov / picture.Bitmap.Height;
         var startX = -Fov / 2;
         var startY = Fov / 2;
-        Ray ray = new Ray(Position, Target);
+        var ray = new Ray(Position, Target);
         Matrix matrixX = null;
         Matrix matrixY = null;
         LightIntensity intersection = null;
@@ -57,34 +56,30 @@ public class PerspectiveCamera : AbstractCamera
             }
         }
     }
-    
+
     public override Picture RenderScene(Scene scene)
     {
-        int size = 500;
+        var size = 500;
         Picture picture = new(size, size);
-        List<Thread> threads = new List<Thread>();
-        for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 4; j++)
+        var threads = new List<Thread>();
+        for (var i = 0; i < 4; i++)
+        for (var j = 0; j < 4; j++)
         {
-            {
-                int copyI = i;
-                int copyJ = j;
-                var thread = new Thread(() => RenderPiece(
-                    picture,
-                    scene,
-                    (size / 4) * copyI,
-                    (size / 4) * (copyI + 1),
-                    (size / 4) * copyJ,
-                    (size / 4) * (copyJ + 1)
-                ));
-                thread.Start();
-                threads.Add(thread);
-            }
+            var copyI = i;
+            var copyJ = j;
+            var thread = new Thread(() => RenderPiece(
+                picture,
+                scene,
+                size / 4 * copyI,
+                size / 4 * (copyI + 1),
+                size / 4 * copyJ,
+                size / 4 * (copyJ + 1)
+            ));
+            thread.Start();
+            threads.Add(thread);
         }
-        foreach (var t in threads)
-        {
-            t.Join();
-        }
+
+        foreach (var t in threads) t.Join();
 
         return picture;
     }

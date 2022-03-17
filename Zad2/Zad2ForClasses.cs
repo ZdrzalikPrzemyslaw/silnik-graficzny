@@ -43,15 +43,15 @@ internal class Zad2ForClasses
                 new Vector3(-2 + i, 2 - j, 5),
                 new Vector3(-3 + i, 2 - j, 5)
             ));
-        
-        Stopwatch stopwatch = new Stopwatch();
- 
+
+        var stopwatch = new Stopwatch();
+
         stopwatch.Start();
         var picture1 = cameraOrth.RenderScene(scene);
         var picture2 = cameraPersp.RenderScene(scene);
         stopwatch.Stop();
         Console.WriteLine("Elapsed Time is {0} ms", stopwatch.ElapsedMilliseconds);
-        picture1.PrintToPath("./","PicOrth.png");
-        picture2.PrintToPath("./","PicPersp.png");
+        picture1.PrintToPath("./", "PicOrth.png");
+        picture2.PrintToPath("./", "PicPersp.png");
     }
 }

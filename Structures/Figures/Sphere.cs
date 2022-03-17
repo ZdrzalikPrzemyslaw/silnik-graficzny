@@ -3,7 +3,7 @@ using Structures.Render;
 
 namespace Structures.Figures;
 
-public class Sphere : Figure, IEquatable<Sphere>
+public class Sphere : SimpleFigure, IEquatable<Sphere>
 {
     /// <summary>
     ///     Creates new Sphere starting at {0, 0, 0} with radius equal to 0.
