@@ -11,7 +11,7 @@ public abstract class AbstractCamera : ICamera
     public AbstractCamera(Vector3 position, Vector3 target, Vector3 up)
     {
         Position = position;
-        Target = target;
+        Target = target.GetNormalized();
         Up = up;
     }
 

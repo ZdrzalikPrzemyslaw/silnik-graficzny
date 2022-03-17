@@ -50,7 +50,7 @@ public class ComplexFigureBuilder
 
     public ComplexFigureBuilder AddVn(Vector3 vn)
     {
-        _vn.Add(vn);
+        _vn.Add(vn.GetNormalized());
         return this;
     }
 

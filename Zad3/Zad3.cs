@@ -12,7 +12,7 @@ internal class Zad3
     {
         ICamera cameraOrth = new OrthogonalCamera(new Vector3(0, 0, -2), new Vector3(0, 0, 1), new Vector3(0, 1, 0));
         ICamera cameraPersp =
-            new PerspectiveCamera(new Vector3(0, 0, -2), new Vector3(0, 0, 1), new Vector3(0, 1, 0));
+            new PerspectiveCamera(new Vector3(3, 2, -2), new Vector3(new Vector3(3, 2, -2), new Vector3(0, 0, 4)), new Vector3(0, 1, 0));
         var scene = new Scene(
             new Sphere(
                 new Vector3(0, 0, 4), 1.1,
@@ -29,7 +29,6 @@ internal class Zad3
                     .SetB(0)
                     .Build())
         );
-        
         scene.AddFigure(new OBJFileParser().ParseFile("./cube.obj"));
 
         var picture1 = cameraOrth.RenderScene(scene);
