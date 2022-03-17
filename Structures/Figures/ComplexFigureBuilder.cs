@@ -1,4 +1,5 @@
 ﻿using System.Collections.Specialized;
+using System.Linq;
 using Structures.MathObjects;
 using Structures.Render;
 
@@ -26,16 +27,29 @@ public class ComplexFigureBuilder
         }
         foreach (var fDataLine in _f)
         {
-            var oneOfF = fDataLine[0].Split("//");
-            var pointA = _v[int.Parse(oneOfF[0]) - 1];
-            oneOfF = fDataLine[1].Split("//");
-            var pointB = _v[int.Parse(oneOfF[0]) - 1];
-            oneOfF = fDataLine[2].Split("//");
-            var pointC = _v[int.Parse(oneOfF[0]) - 1];
+            if (fDataLine[0].Contains("//"))
+            {
+                var oneOfF = fDataLine[0].Split("//");
+                var pointA = _v[int.Parse(oneOfF[0]) - 1];
+                oneOfF = fDataLine[1].Split("//");
+                var pointB = _v[int.Parse(oneOfF[0]) - 1];
+                oneOfF = fDataLine[2].Split("//");
+                var pointC = _v[int.Parse(oneOfF[0]) - 1];
 
-            var normal = _vn[int.Parse(oneOfF[1]) - 1];
+                var normal = _vn[int.Parse(oneOfF[1]) - 1];
+                figures.Add(new Triangle(normal, pointA, LightIntensity.DefaultObject(), pointA, pointB, pointC));
+            }
+            else
+            {
+                var pointA = _v[int.Parse(fDataLine[0]) - 1];
+                var pointB = _v[int.Parse(fDataLine[1]) - 1];
+                var pointC = _v[int.Parse(fDataLine[2]) - 1];
 
-            figures.Add(new Triangle(normal, pointA, LightIntensity.DefaultObject(), pointA, pointB, pointC));
+                figures.Add(new Triangle(pointA, pointB, pointC));
+            }
+       
+
+        
         }
 
 

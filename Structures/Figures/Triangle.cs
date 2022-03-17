@@ -21,6 +21,10 @@ public class Triangle : SimpleFigure
         plane.LightIntensity, a, b, c)
     {
     }
+    
+    public Triangle(Vector3 a, Vector3 b, Vector3 c): this(Plane.CalculateNormalVector(a, b, c), Plane.GetDistanceAlongNormal(Plane.CalculateNormalVector(a, b, c), a), LightIntensity.DefaultObject(), a, b, c)
+    {
+    }
 
     public Triangle(Plane plane, LightIntensity lightIntensity, Vector3 a, Vector3 b, Vector3 c) : this(plane.Normal,
         plane.Distance, lightIntensity, a, b, c)

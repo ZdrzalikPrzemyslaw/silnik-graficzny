@@ -21,11 +21,11 @@ public class Plane : SimpleFigure, IEquatable<Plane>
     {
     }
     
-    public Plane(Vector3 a, Vector3 b, Vector3 c): this(calculateNormalVector(a, b, c), GetDistanceAlongNormal(calculateNormalVector(a, b, c), a), LightIntensity.DefaultObject())
+    public Plane(Vector3 a, Vector3 b, Vector3 c): this(CalculateNormalVector(a, b, c), GetDistanceAlongNormal(CalculateNormalVector(a, b, c), a), LightIntensity.DefaultObject())
     {
     }
 
-    private static Vector3 calculateNormalVector(Vector3 a, Vector3 b, Vector3 c)
+    public static Vector3 CalculateNormalVector(Vector3 a, Vector3 b, Vector3 c)
     {
         var ab = new Vector3(a, b);
         var ac = new Vector3(a, c);
@@ -158,7 +158,7 @@ public class Plane : SimpleFigure, IEquatable<Plane>
     /// <param name="inNormal">The normal of the plane.</param>
     /// <param name="point">The point on the plane.</param>
     /// <returns>The distance from (0, 0, 0) to plane.</returns>
-    private static double GetDistanceAlongNormal(Vector3 inNormal, Vector3 point)
+    public static double GetDistanceAlongNormal(Vector3 inNormal, Vector3 point)
     {
         if (inNormal.Dot(point) < 0)
             return -(inNormal * (inNormal.Dot(point) / inNormal.Dot(inNormal))).Magnitude();

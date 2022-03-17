@@ -29,7 +29,7 @@ internal class Zad3
                     .SetB(0)
                     .Build())
         );
-        scene.AddFigure(new OBJFileParser().ParseFile("./cube.obj"));
+        scene.AddFigure(new OBJFileParser().ParseFile("./ostroslup.obj"));
 
         var picture1 = cameraOrth.RenderScene(scene);
         var picture2 = cameraPersp.RenderScene(scene);
