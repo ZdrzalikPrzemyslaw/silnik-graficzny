@@ -1,32 +1,23 @@
 using Structures.MathObjects;
-using Structures.Render;
 
 namespace Structures.Figures;
 
-// TODO: to jest prawie to samo co scena i nwm co z tym fantem zrobic
-//  Tylko scena ma ComplexFigure a nie SimpleFigure 
-//  W szczegolnosci chodzi mi o metody przeciec
-//  To i scene mozesz uogulnic do tego Abstract<T> ktory mowilem i potem implementacje beda tylko sie roznic listą i co w niej jest
-//  public class Abstract<T> where T: Figure
-//  Tylko inna nazwa niz abstract oczywiscie
-//  I wtedy abstract ma abstrkacyjna metode protected T getFigureList();
-//  A klasy bazowe sobie nadpisuja taka listą jaką one maja
-//  Bardzo to mądre szkoda że na to wpadlem akurat jak musze robic obiad ale wiem że to super zrobisz
-
-public class ComplexFigure : Figure
+public class ComplexFigure : AbstractFigureList<SimpleFigure>
 {
-    
     private readonly List<SimpleFigure> _figures = new();
-    
-    public string Name { get; private init; }
-    
+
+    public string Name { get; }
+
     public ComplexFigure() : this(string.Empty)
     {
     }
-    
-    public ComplexFigure(string name) : this(Array.Empty<SimpleFigure>(), name) {}
 
-    public ComplexFigure(IEnumerable<SimpleFigure?> simpleFigures) : this(simpleFigures.Where(i => i is not null).Cast<SimpleFigure>()
+    public ComplexFigure(string name) : this(Array.Empty<SimpleFigure>(), name)
+    {
+    }
+
+    public ComplexFigure(IEnumerable<SimpleFigure?> simpleFigures) : this(simpleFigures.Where(i => i is not null)
+        .Cast<SimpleFigure>()
         .ToArray())
     {
     }
@@ -34,32 +25,32 @@ public class ComplexFigure : Figure
     public ComplexFigure(params SimpleFigure[] figures) : this(figures, string.Empty)
     {
     }
-    
+
     public ComplexFigure(string name, params SimpleFigure[] figures) : this(figures, name)
     {
     }
-    
-    public ComplexFigure(IEnumerable<SimpleFigure> figures, string name) 
+
+    public ComplexFigure(IEnumerable<SimpleFigure> figures, string name)
     {
         _figures.AddRange(figures);
         Name = name;
     }
-    
-    public ComplexFigure(SimpleFigure figure, string name) : this (new []{figure}, name)
-    {
 
-    }
-    
-    public override bool Equals(Figure? other)
+    public ComplexFigure(SimpleFigure figure, string name) : this(new[] {figure}, name)
     {
-        throw new NotImplementedException();
     }
-    
-    public Intersection? GetClosest(Ray ray)
+
+    protected override List<SimpleFigure> GetList()
     {
-        Intersection? intersection = null;
+        return _figures;
+    }
+
+    public override PointOfIntersection? GetClosest(Ray ray)
+    {
+        PointOfIntersection? intersection = null;
         var closestDistance = double.MaxValue;
-        foreach (var figure in _figures)
+        _figures.ForEach(figure =>
+        {
             try
             {
                 var x = figure.Intersections(ray);
@@ -69,58 +60,15 @@ public class ComplexFigure : Figure
                     if (distance < closestDistance)
                     {
                         closestDistance = distance;
-                        intersection = new Intersection(figure, position);
+                        intersection = new PointOfIntersection(figure, position);
                     }
                 }
             }
             catch (Plane.InfiniteIntersectionsException)
             {
             }
+        });
 
         return intersection;
-    }
-
-    public override bool Intersects(Ray ray)
-    {
-        return _figures.Any(figure => figure.Intersects(ray));
-    }
-
-    public override Vector3? Intersection(Ray ray)
-    {
-        var intersections = Intersections(ray);
-        if (intersections.Count == 0) return null;
-        var closest = intersections[0];
-        var closestDistance = closest.Distance(ray);
-        foreach (var intersection in intersections)
-        {
-            var loopDistance = intersection.Distance(ray);
-            if (closestDistance > loopDistance)
-            {
-                closestDistance = loopDistance;
-                closest = intersection;
-            }
-        }
-
-        return closest;
-    }
-
-    public override List<Vector3> Intersections(Ray ray)
-    {
-        List<Vector3> returnList = new();
-        foreach (var figure in _figures) returnList.AddRange(figure.Intersections(ray));
-
-        return returnList;
-    }
-
-    
-    public void AddFigure(SimpleFigure figure)
-    {
-        _figures.Add(figure);
-    }
-    
-    // To usuwa po identycznosci, nie po referencji
-    public void RemoveFigure(SimpleFigure figure)
-    {
-        _figures.Remove(figure);
     }
 }

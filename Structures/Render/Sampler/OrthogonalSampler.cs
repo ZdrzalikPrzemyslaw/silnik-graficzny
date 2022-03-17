@@ -24,11 +24,11 @@ public class OrthogonalSampler : AbstractSampler
         var rayCenter = new Ray(Vector3.PointBetweenTwoPoints(rayLeftDown.Origin, rayLeftUp.Origin),
             rayLeftUp.Direction);
 
-        var intensityLeftUp = scene.GetClosest(rayLeftUp)?.LightIntensity ?? LightIntensity.DefaultBackground();
-        var intensityRightUp = scene.GetClosest(rayRightUp)?.LightIntensity ?? LightIntensity.DefaultBackground();
-        var intensityRightDown = scene.GetClosest(rayRightDown)?.LightIntensity ?? LightIntensity.DefaultBackground();
-        var intensityLeftDown = scene.GetClosest(rayLeftDown)?.LightIntensity ?? LightIntensity.DefaultBackground();
-        var intensityCenter = scene.GetClosest(rayCenter)?.LightIntensity ?? LightIntensity.DefaultBackground();
+        var intensityLeftUp = scene.GetClosest(rayLeftUp)?.Figure.LightIntensity ?? LightIntensity.DefaultBackground();
+        var intensityRightUp = scene.GetClosest(rayRightUp)?.Figure.LightIntensity ?? LightIntensity.DefaultBackground();
+        var intensityRightDown = scene.GetClosest(rayRightDown)?.Figure.LightIntensity ?? LightIntensity.DefaultBackground();
+        var intensityLeftDown = scene.GetClosest(rayLeftDown)?.Figure.LightIntensity ?? LightIntensity.DefaultBackground();
+        var intensityCenter = scene.GetClosest(rayCenter)?.Figure.LightIntensity ?? LightIntensity.DefaultBackground();
 
         if (recursionLevel >= RecursionLimit)
             return intensityLeftUp / 5 + intensityLeftDown / 5 + intensityRightDown / 5 + intensityRightUp / 5 +
