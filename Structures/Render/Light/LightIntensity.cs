@@ -1,4 +1,4 @@
-﻿namespace Structures.Render;
+﻿namespace Structures.Render.Light;
 
 public class LightIntensity : IEquatable<LightIntensity>
 {

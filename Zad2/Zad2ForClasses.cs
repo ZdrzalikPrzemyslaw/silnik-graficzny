@@ -3,6 +3,7 @@ using Structures.Figures;
 using Structures.MathObjects;
 using Structures.Render;
 using Structures.Render.Camera;
+using Structures.Render.Light;
 
 namespace Zad2;
 

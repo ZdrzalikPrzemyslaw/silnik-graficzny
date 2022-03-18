@@ -1,5 +1,6 @@
 ﻿using Structures.Figures;
 using Structures.MathObjects;
+using Structures.Render.Light;
 using Structures.Render.Sampler;
 
 namespace Structures.Render.Camera;

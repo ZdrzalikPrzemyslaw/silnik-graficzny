@@ -1,5 +1,6 @@
 using Structures.MathObjects;
 using Structures.Render;
+using Structures.Render.Light;
 
 namespace Structures.Figures;
 
