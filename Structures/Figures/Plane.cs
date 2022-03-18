@@ -5,8 +5,6 @@ namespace Structures.Figures;
 
 public class Plane : SimpleFigure, IEquatable<Plane>
 {
-    //TODO: Dodać konstruktor z trzech punktów
-    
     /// <summary>
     ///     Coordinates of the point which is closest to {0, 0, 0}.
     /// </summary>
