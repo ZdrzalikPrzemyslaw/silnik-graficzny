@@ -5,14 +5,13 @@ namespace Structures.Render.Light;
 
 public class AmbientLightSource : LightSource
 {
-    public override Vector3 GetDiffuse(Vector3 cameraPosition, PointOfIntersection pointOfIntersection)
+    public override LightIntensity GetIntensity(Vector3 position)
     {
-        throw new NotImplementedException();
+        return this.Colour;
     }
 
-    public override Vector3 GetSpecular(Vector3 cameraPosition, PointOfIntersection pointOfIntersection)
+    public AmbientLightSource(LightIntensity lightIntensity) : base(lightIntensity)
     {
-        throw new NotImplementedException();
     }
 
     public override bool IsInShadow(PointOfIntersection pointOfIntersection, Scene scene)

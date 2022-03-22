@@ -3,17 +3,26 @@ using Structures.MathObjects;
 
 namespace Structures.Render.Light;
 
-public class DirectionalLightSource : LightSource
+public class DirectionalLightSource : ComplexLightSource
 {
     public Vector3 Direction { get; set; }
+    
+    public DirectionalLightSource(LightIntensity lightIntensity): this (lightIntensity, Vector3.Down())
+    {
+    }
 
-    public DirectionalLightSource(Vector3 direction)
+    public DirectionalLightSource(LightIntensity lightIntensity, Vector3 direction) : base(lightIntensity)
     {
         Direction = direction.GetNormalized();
     }
 
-    public DirectionalLightSource() : this(Vector3.Down())
+    public DirectionalLightSource() : this(new LightIntensity())
     {
+    }
+
+    public override LightIntensity GetIntensity(Vector3 position)
+    {
+        return this.Colour;
     }
 
     public override Vector3 GetDiffuse(Vector3 cameraPosition, PointOfIntersection pointOfIntersection)

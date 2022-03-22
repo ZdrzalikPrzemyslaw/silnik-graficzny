@@ -3,7 +3,7 @@ using Structures.MathObjects;
 
 namespace Structures.Render.Light;
 
-public class PointLightSource : LightSource
+public class PointLightSource : ComplexLightSource
 {
     public Vector3 location { get; set; }
     
@@ -17,8 +17,17 @@ public class PointLightSource : LightSource
         throw new NotImplementedException();
     }
 
+    public override LightIntensity GetIntensity(Vector3 position)
+    {
+        throw new NotImplementedException();
+    }
+
     public override bool IsInShadow(PointOfIntersection pointOfIntersection, Scene scene)
     {
         throw new NotImplementedException();
+    }
+
+    public PointLightSource(LightIntensity colour) : base(colour)
+    {
     }
 }

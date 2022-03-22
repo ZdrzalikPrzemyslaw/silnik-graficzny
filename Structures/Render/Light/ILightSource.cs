@@ -5,8 +5,6 @@ namespace Structures.Render.Light;
 
 public interface ILightSource
 {
-    public Vector3 GetDiffuse(Vector3 cameraPosition, PointOfIntersection pointOfIntersection);
-    public Vector3 GetSpecular(Vector3 cameraPosition, PointOfIntersection pointOfIntersection);
-
-    public bool IsInShadow(PointOfIntersection pointOfIntersection, Scene scene);
+    public LightIntensity GetIntensity(Vector3 position);
+    public abstract bool IsInShadow(PointOfIntersection pointOfIntersection, Scene scene);
 }

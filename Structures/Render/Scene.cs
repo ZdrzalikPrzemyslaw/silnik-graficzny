@@ -16,7 +16,15 @@ public class Scene : AbstractFigureList<ComplexFigure>
     public override PointOfIntersection? Intersection(Ray ray)
     {
         PointOfIntersection? pointOfIntersection = base.Intersection(ray);
-        
+        if (pointOfIntersection == null) return null;
+        LightIntensity lightIntensity = new LightIntensity();
+        foreach (var lightSource in _lightSources)
+        {
+           lightIntensity += !lightSource.IsInShadow(pointOfIntersection, this) ? lightSource.GetIntensity(pointOfIntersection.Position) : new LightIntensity();
+        }
+
+        return new PointOfIntersection(pointOfIntersection.Figure,
+            pointOfIntersection.Position, lightIntensity);
     }
 
     public Scene(List<SimpleFigure?> simpleFigures) : this(simpleFigures.Where(i => i is not null).Cast<SimpleFigure>()

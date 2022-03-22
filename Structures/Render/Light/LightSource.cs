@@ -5,10 +5,14 @@ namespace Structures.Render.Light;
 
 public abstract class LightSource : ILightSource
 {
-    public LightIntensity Colour { get; set; }
+    protected LightIntensity Colour { get; }
 
-    public abstract Vector3 GetDiffuse(Vector3 cameraPosition, PointOfIntersection pointOfIntersection);
+    protected LightSource(LightIntensity colour)
+    {
+        Colour = colour ?? throw new ArgumentNullException(nameof(colour));
+    }
 
-    public abstract Vector3 GetSpecular(Vector3 cameraPosition, PointOfIntersection pointOfIntersection);
+    public abstract LightIntensity GetIntensity(Vector3 position);
+    
     public abstract bool IsInShadow(PointOfIntersection pointOfIntersection, Scene scene);
 }
