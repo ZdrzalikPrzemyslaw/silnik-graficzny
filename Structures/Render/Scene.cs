@@ -13,6 +13,12 @@ public class Scene : AbstractFigureList<ComplexFigure>
     {
     }
 
+    public override PointOfIntersection? Intersection(Ray ray)
+    {
+        PointOfIntersection? pointOfIntersection = base.Intersection(ray);
+        
+    }
+
     public Scene(List<SimpleFigure?> simpleFigures) : this(simpleFigures.Where(i => i is not null).Cast<SimpleFigure>()
         .ToArray())
     {
@@ -51,22 +57,6 @@ public class Scene : AbstractFigureList<ComplexFigure>
     public Scene(ComplexFigure figure)
     {
         _figures.Add(figure);
-    }
-
-    public override PointOfIntersection? GetClosest(Ray ray)
-    {
-        PointOfIntersection? intersection = null;
-        _figures.ForEach(figure =>
-        {
-            var closest1 = figure.GetClosest(ray);
-            if (intersection is null)
-                intersection = closest1;
-            else if (closest1 is not null)
-                intersection = ray.Origin.Distance(closest1.Position) < ray.Origin.Distance(intersection.Position)
-                    ? closest1
-                    : intersection;
-        });
-        return intersection;
     }
 
     public void AddFigure(SimpleFigure figure)

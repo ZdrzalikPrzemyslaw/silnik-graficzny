@@ -38,7 +38,7 @@ public class ComplexFigureBuilder
                 var pointC = _v[int.Parse(oneOfF[0]) - 1];
 
                 var normal = _vn[int.Parse(oneOfF[1]) - 1];
-                figures.Add(new Triangle(normal, pointA, LightIntensity.DefaultObject(), pointA, pointB, pointC));
+                figures.Add(new Triangle(pointA, pointB, pointC));
             }
             else
             {

@@ -8,9 +8,9 @@ public abstract class Figure : IRaycastable, IEquatable<Figure>
     public abstract bool Equals(Figure? other);
     public abstract bool Intersects(Ray ray);
 
-    public abstract Vector3? Intersection(Ray ray);
+    public abstract PointOfIntersection? Intersection(Ray ray);
 
-    public abstract List<Vector3> Intersections(Ray ray);
+    public abstract List<PointOfIntersection> Intersections(Ray ray);
 
     public override bool Equals(object? obj)
     {

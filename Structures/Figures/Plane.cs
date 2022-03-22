@@ -11,16 +11,7 @@ public class Plane : SimpleFigure, IEquatable<Plane>
     /// </summary>
     private Vector3? _center;
 
-    /// <summary>
-    ///     Creates new Plane from a normal vector and it's distance from {0, 0, 0}
-    /// </summary>
-    /// <param name="inNormal">Normal Vector</param>
-    /// <param name="distance">Distance from {0, 0, 0}</param>
-    public Plane(Vector3 inNormal, double distance) : this(inNormal, distance, LightIntensity.DefaultObject())
-    {
-    }
-    
-    public Plane(Vector3 a, Vector3 b, Vector3 c): this(CalculateNormalVector(a, b, c), GetDistanceAlongNormal(CalculateNormalVector(a, b, c), a), LightIntensity.DefaultObject())
+    public Plane(Vector3 a, Vector3 b, Vector3 c): this(CalculateNormalVector(a, b, c), GetDistanceAlongNormal(CalculateNormalVector(a, b, c), a))
     {
     }
 
@@ -31,11 +22,10 @@ public class Plane : SimpleFigure, IEquatable<Plane>
         return ab.Cross(ac).GetNormalized();
     }
 
-    public Plane(Vector3 inNormal, double distance, LightIntensity lightIntensity)
+    public Plane(Vector3 inNormal, double distance)
     {
         Distance = distance;
         Normal = inNormal.GetNormalized();
-        LightIntensity = lightIntensity;
     }
 
     /// <summary>
@@ -44,11 +34,6 @@ public class Plane : SimpleFigure, IEquatable<Plane>
     /// <param name="inNormal">Normal Vector</param>
     /// <param name="point">Point belonging to Plane</param>
     public Plane(Vector3 inNormal, Vector3 point) : this(inNormal, GetDistanceAlongNormal(inNormal, point))
-    {
-    }
-
-    public Plane(Vector3 inNormal, Vector3 point, LightIntensity lightIntensity) : this(inNormal,
-        GetDistanceAlongNormal(inNormal, point), lightIntensity)
     {
     }
 
@@ -170,22 +155,22 @@ public class Plane : SimpleFigure, IEquatable<Plane>
     /// <param name="ray">Ray to calculate the intersection point with the plane.</param>
     /// <returns>The point of the intersection or null if the point doesn't exist.</returns>
     //https://stackoverflow.com/a/53437900/17176800
-    public override Vector3? Intersection(Ray ray)
+    public override PointOfIntersection? Intersection(Ray ray)
     {
         if (!Intersects(ray)) return null;
         if (IsInfiniteIntersection(ray)) throw new InfiniteIntersectionsException();
         var d = Center.Dot(-Normal);
         var t = -(d + ray.Origin.Z * Normal.Z + ray.Origin.Y * Normal.Y + ray.Origin.X * Normal.X)
                 / (ray.Direction.Z * Normal.Z + ray.Direction.Y * Normal.Y + ray.Direction.X * Normal.X);
-        return ray.Origin + t * ray.Direction;
+        return new PointOfIntersection(this, ray.Origin + t * ray.Direction);
     }
 
-    public override List<Vector3> Intersections(Ray ray)
+    public override List<PointOfIntersection> Intersections(Ray ray)
     {
         var point = Intersection(ray);
-        if (point is null) return new List<Vector3>();
+        if (point is null) return new List<PointOfIntersection>();
         // Inaczej zwroci sie 1 element null
-        return new List<Vector3> { point };
+        return new List<PointOfIntersection> { point };
     }
 
     public override bool Equals(Figure? other)

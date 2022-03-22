@@ -44,31 +44,4 @@ public class ComplexFigure : AbstractFigureList<SimpleFigure>
     {
         return _figures;
     }
-
-    public override PointOfIntersection? GetClosest(Ray ray)
-    {
-        PointOfIntersection? intersection = null;
-        var closestDistance = double.MaxValue;
-        _figures.ForEach(figure =>
-        {
-            try
-            {
-                var x = figure.Intersections(ray);
-                foreach (var position in x)
-                {
-                    var distance = position.Distance(ray);
-                    if (distance < closestDistance)
-                    {
-                        closestDistance = distance;
-                        intersection = new PointOfIntersection(figure, position);
-                    }
-                }
-            }
-            catch (Plane.InfiniteIntersectionsException)
-            {
-            }
-        });
-
-        return intersection;
-    }
 }

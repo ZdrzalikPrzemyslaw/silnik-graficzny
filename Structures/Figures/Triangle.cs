@@ -1,6 +1,4 @@
 ﻿using Structures.MathObjects;
-using Structures.Render;
-using Structures.Render.Light;
 
 namespace Structures.Figures;
 
@@ -8,43 +6,9 @@ public class Triangle : SimpleFigure
 {
     private readonly Plane _plane;
 
-
-    public Triangle(Plane plane) : this(plane, Vector3.Zero(), Vector3.Zero(), Vector3.Zero())
+    public Triangle(Vector3 a, Vector3 b, Vector3 c)
     {
-    }
-
-    public Triangle(Plane plane, LightIntensity lightIntensity) : this(plane, lightIntensity, Vector3.Zero(),
-        Vector3.Zero(), Vector3.Zero())
-    {
-    }
-
-    public Triangle(Plane plane, Vector3 a, Vector3 b, Vector3 c) : this(plane.Normal, plane.Distance,
-        plane.LightIntensity, a, b, c)
-    {
-    }
-    
-    public Triangle(Vector3 a, Vector3 b, Vector3 c): this(Plane.CalculateNormalVector(a, b, c), Plane.GetDistanceAlongNormal(Plane.CalculateNormalVector(a, b, c), a), LightIntensity.DefaultObject(), a, b, c)
-    {
-    }
-
-    public Triangle(Plane plane, LightIntensity lightIntensity, Vector3 a, Vector3 b, Vector3 c) : this(plane.Normal,
-        plane.Distance, lightIntensity, a, b, c)
-    {
-    }
-
-    public Triangle(Vector3 inNormal, Vector3 point, LightIntensity lightIntensity, Vector3 a,
-        Vector3 b, Vector3 c)
-    {
-        _plane = new Plane(inNormal, point, lightIntensity);
-        A = a;
-        B = b;
-        C = c;
-    }
-
-    public Triangle(Vector3 inNormal, double distance, LightIntensity lightIntensity, Vector3 a,
-        Vector3 b, Vector3 c)
-    {
-        _plane = new Plane(inNormal, distance, lightIntensity);
+        _plane = new Plane(a, b, c);
         A = a;
         B = b;
         C = c;
@@ -81,9 +45,9 @@ public class Triangle : SimpleFigure
         return HashCode.Combine(_plane, A, B, C);
     }
 
-    public override Vector3? Intersection(Ray ray)
+    public override PointOfIntersection? Intersection(Ray ray)
     {
-        Vector3? planeIntersectionPoint = null;
+        PointOfIntersection? planeIntersectionPoint = null;
         try
         {
             planeIntersectionPoint = _plane.Intersection(ray);
@@ -94,9 +58,9 @@ public class Triangle : SimpleFigure
 
         if (planeIntersectionPoint is null) return null;
 
-        var vA = A - planeIntersectionPoint;
-        var vB = B - planeIntersectionPoint;
-        var vC = C - planeIntersectionPoint;
+        var vA = A - planeIntersectionPoint.Position;
+        var vB = B - planeIntersectionPoint.Position;
+        var vC = C - planeIntersectionPoint.Position;
         var vX = vA.Cross(vB);
 
         if (vX.Dot(_plane.Normal) < 0) return null;
@@ -108,10 +72,10 @@ public class Triangle : SimpleFigure
         return planeIntersectionPoint;
     }
 
-    public override List<Vector3> Intersections(Ray ray)
+    public override List<PointOfIntersection> Intersections(Ray ray)
     {
         var intersection = Intersection(ray);
-        return intersection is not null ? new List<Vector3> { intersection } : new List<Vector3>();
+        return intersection is not null ? new List<PointOfIntersection> {intersection} : new List<PointOfIntersection>();
     }
 
     /// <inheritdoc />
