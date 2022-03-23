@@ -7,7 +7,7 @@ public class AmbientLightSource : LightSource
 {
     public override LightIntensity GetIntensity(Vector3 position)
     {
-        return this.Colour;
+        return Colour;
     }
 
     public AmbientLightSource(LightIntensity lightIntensity) : base(lightIntensity)
