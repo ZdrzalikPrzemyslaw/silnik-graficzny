@@ -1,4 +1,5 @@
-﻿using Structures.Figures;
+﻿using System.Collections.ObjectModel;
+using Structures.Figures;
 using Structures.MathObjects;
 using Structures.Render.Light;
 
@@ -39,6 +40,8 @@ public class Scene : AbstractFigureList<ComplexFigure>
         .ToArray())
     {
     }
+    
+    
 
     public LightIntensity GetLightIntensity(PointOfIntersection? pointOfIntersection)
     {
@@ -50,6 +53,7 @@ public class Scene : AbstractFigureList<ComplexFigure>
         }
         foreach (var lightSource in _lightSources)
         {
+            if(lightSource.IsInShadow(pointOfIntersection, this)) continue;
             lightIntensityBuilder += lightSource.GetIntensity(pointOfIntersection);
         }
         return lightIntensityBuilder.Build();
@@ -86,9 +90,24 @@ public class Scene : AbstractFigureList<ComplexFigure>
     {
         _figures.Add(new ComplexFigure(figure));
     }
+    
+    public void AddLight(LightSource lightSource)
+    {
+        _lightSources.Add(lightSource);
+    }
 
     protected override List<ComplexFigure> GetList()
     {
         return _figures;
+    }
+    
+    public ReadOnlyCollection<LightSource> GetReadOnlyLightList()
+    {
+        return _lightSources.AsReadOnly();
+    }
+    
+    public ReadOnlyCollection<ComplexFigure> GetReadOnlyFiguresList()
+    {
+        return _figures.AsReadOnly();
     }
 }
