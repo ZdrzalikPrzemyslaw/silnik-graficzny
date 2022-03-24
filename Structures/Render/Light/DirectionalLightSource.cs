@@ -25,6 +25,11 @@ public class DirectionalLightSource : ComplexLightSource
         return Colour; // czy tutaj nie zwracamy koloru tylko wtedy kiedy nie jest w cieniu?
     }
 
+    public override LightIntensity GetIntensity(PointOfIntersection point)
+    {
+        return Colour; // czy tutaj nie zwracamy koloru tylko wtedy kiedy nie jest w cieniu?
+    }
+
     public override Vector3 GetDiffuse(Vector3 cameraPosition, PointOfIntersection pointOfIntersection)
     {
         throw new NotImplementedException();

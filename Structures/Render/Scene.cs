@@ -40,6 +40,21 @@ public class Scene : AbstractFigureList<ComplexFigure>
     {
     }
 
+    public LightIntensity GetLightIntensity(PointOfIntersection? pointOfIntersection)
+    {
+        //TODO: Poprawić
+        LightIntensity.LightIntensityBuilder lightIntensityBuilder = new();
+        if (pointOfIntersection is null)
+        {
+            return lightIntensityBuilder.Build();
+        }
+        foreach (var lightSource in _lightSources)
+        {
+            lightIntensityBuilder += lightSource.GetIntensity(pointOfIntersection);
+        }
+        return lightIntensityBuilder.Build();
+    }
+
     public Scene(params SimpleFigure[] figures)
     {
         _figures.Add(new ComplexFigure(figures));

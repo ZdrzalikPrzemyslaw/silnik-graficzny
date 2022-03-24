@@ -26,6 +26,12 @@ public class SpotLight : ComplexLightSource
         return Colour * Math.Pow(meter, Ca) / ((A1 + A2) * position.Distance(Location));
     }
 
+    public override LightIntensity GetIntensity(PointOfIntersection point)
+    {
+        var meter = Location.Dot(point.Position - Location) / point.Position.Distance(Location);
+        return Colour * Math.Pow(meter, Ca) / ((A1 + A2) * point.Position.Distance(Location));
+    }
+
     public override bool IsInShadow(PointOfIntersection pointOfIntersection, Scene scene)
     {
         throw new NotImplementedException();

@@ -24,6 +24,11 @@ public class PointLightSource : ComplexLightSource
         return Colour * (1 / ((A1 + A2) * position.Distance(Location)));
     }
 
+    public override LightIntensity GetIntensity(PointOfIntersection point)
+    {
+        return Colour * (1 / ((A1 + A2) * point.Position.Distance(Location)));
+    }
+
     public override bool IsInShadow(PointOfIntersection pointOfIntersection, Scene scene)
     {
         throw new NotImplementedException();

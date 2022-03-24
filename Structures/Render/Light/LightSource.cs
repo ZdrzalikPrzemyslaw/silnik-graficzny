@@ -13,6 +13,7 @@ public abstract class LightSource : ILightSource
     }
 
     public abstract LightIntensity GetIntensity(Vector3 position);
+    public abstract LightIntensity GetIntensity(PointOfIntersection point);
     
     public abstract bool IsInShadow(PointOfIntersection pointOfIntersection, Scene scene);
 }

@@ -25,11 +25,11 @@ public class PerspectiveSampler : AbstractSampler
         var rayLeftDown = rayLeftUp.Rotate(matrixDown);
         var rayCenter = rayLeftUp.Rotate(matrixHalfRight * matrixHalfDown);
 
-        var intensityLeftUp = scene.GetClosest(rayLeftUp)?.Figure.LightIntensity ?? LightIntensity.DefaultBackground();
-        var intensityRightUp = scene.GetClosest(rayRightUp)?.Figure.LightIntensity ?? LightIntensity.DefaultBackground();
-        var intensityRightDown = scene.GetClosest(rayRightDown)?.Figure.LightIntensity ?? LightIntensity.DefaultBackground();
-        var intensityLeftDown = scene.GetClosest(rayLeftDown)?.Figure.LightIntensity ?? LightIntensity.DefaultBackground();
-        var intensityCenter = scene.GetClosest(rayCenter)?.Figure.LightIntensity ?? LightIntensity.DefaultBackground();
+        var intensityLeftUp = scene.GetLightIntensity(scene.Intersection(rayLeftUp));
+        var intensityRightUp = scene.GetLightIntensity(scene.Intersection(rayRightUp));
+        var intensityRightDown = scene.GetLightIntensity(scene.Intersection(rayRightDown));
+        var intensityLeftDown = scene.GetLightIntensity(scene.Intersection(rayLeftDown));
+        var intensityCenter = scene.GetLightIntensity(scene.Intersection(rayCenter));
 
         if (recursionLevel >= RecursionLimit)
             return intensityLeftUp / 5 + intensityLeftDown / 5 + intensityRightDown / 5 + intensityRightUp / 5 +

@@ -10,6 +10,11 @@ public class AmbientLightSource : LightSource
         return Colour;
     }
 
+    public override LightIntensity GetIntensity(PointOfIntersection point)
+    {
+        return Colour;
+    }
+
     public AmbientLightSource(LightIntensity lightIntensity) : base(lightIntensity)
     {
     }

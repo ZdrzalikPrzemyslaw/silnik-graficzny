@@ -1,4 +1,6 @@
-﻿namespace Structures.Render.Light;
+﻿using System.Runtime.CompilerServices;
+
+namespace Structures.Render.Light;
 
 public class LightIntensity : IEquatable<LightIntensity>
 {
@@ -133,6 +135,19 @@ public class LightIntensity : IEquatable<LightIntensity>
         public LightIntensityBuilder SetB(double B)
         {
             this.B = B;
+            return this;
+        }
+        
+        public static LightIntensityBuilder operator +(LightIntensityBuilder lightIntensityBuilder, LightIntensity lightIntensity)
+        {
+            return lightIntensityBuilder.AddLightIntensity(lightIntensity);
+        }
+
+        public LightIntensityBuilder AddLightIntensity(LightIntensity lightIntensity)
+        {
+            R += lightIntensity.R;
+            G += lightIntensity.G;
+            B += lightIntensity.B;
             return this;
         }
     }
