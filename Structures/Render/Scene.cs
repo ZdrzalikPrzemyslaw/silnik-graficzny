@@ -136,6 +136,11 @@ public class Scene : AbstractFigureList<ComplexFigure>
     {
         _lightSources.Add(new[] {lightSource});
     }
+    
+    public void AddLight(AbstractLightSource[] lightSource)
+    {
+        _lightSources.Add(lightSource);
+    }
 
     protected override List<ComplexFigure> GetList()
     {

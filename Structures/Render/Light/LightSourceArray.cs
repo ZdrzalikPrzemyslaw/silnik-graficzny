@@ -21,7 +21,7 @@ public class LightSourceArray : AbstractLightSourceArray
         return me._lightSource;
     }
 
-    protected override AbstractLightSource[] GetLightSources()
+    public override AbstractLightSource[] GetLightSources()
     {
         return _lightSource;
     }

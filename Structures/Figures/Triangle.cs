@@ -65,10 +65,8 @@ public class Triangle : Figure
         {
             planeIntersectionPoint = _plane.Intersection(ray);
         }
-        catch (Plane.InfiniteIntersectionsException e)
+        catch (Plane.InfiniteIntersectionsException)
         {
-            Console.WriteLine(e.StackTrace);
-            return null;
         }
 
         if (planeIntersectionPoint is null) return null;

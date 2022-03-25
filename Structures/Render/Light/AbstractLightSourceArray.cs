@@ -4,7 +4,7 @@ namespace Structures.Render.Light;
 
 public abstract class AbstractLightSourceArray : IEnumerable<AbstractLightSource>
 {
-    protected abstract AbstractLightSource[] GetLightSources();
+    public abstract AbstractLightSource[] GetLightSources();
     public ref AbstractLightSource this[int row] => ref GetLightSources()[row];
     public IEnumerator<AbstractLightSource> GetEnumerator()
     {

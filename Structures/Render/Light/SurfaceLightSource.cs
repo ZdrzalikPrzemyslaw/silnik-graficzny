@@ -43,7 +43,7 @@ public class SurfaceLightSource : AbstractLightSourceArray
 
     public Vector3 Up { get; }
     
-    protected override AbstractLightSource[] GetLightSources()
+    public override AbstractLightSource[] GetLightSources()
     {
         return _pointLightSources.Cast<AbstractLightSource>().ToArray();
     }
