@@ -5,9 +5,7 @@ namespace Structures.Render.Light;
 
 public class DirectionalLightSource : ComplexLightSource
 {
-    public Vector3 Direction { get; set; }
-    
-    public DirectionalLightSource(LightIntensity lightIntensity): this (lightIntensity, Vector3.Down())
+    public DirectionalLightSource(LightIntensity lightIntensity) : this(lightIntensity, Vector3.Down())
     {
     }
 
@@ -19,6 +17,8 @@ public class DirectionalLightSource : ComplexLightSource
     public DirectionalLightSource() : this(new LightIntensity())
     {
     }
+
+    public Vector3 Direction { get; set; }
 
     public override LightIntensity GetIntensity(Vector3 position)
     {
@@ -42,6 +42,15 @@ public class DirectionalLightSource : ComplexLightSource
 
     public override bool IsInShadow(PointOfIntersection pointOfIntersection, Scene scene)
     {
-        throw new NotImplementedException();
+        var ray = new Ray(pointOfIntersection.Position, -Direction);
+        foreach (var complexFigure in scene.GetReadOnlyFiguresList())
+        {
+            var intersection = complexFigure.Intersection(ray);
+            if (intersection is null) continue;
+            if (intersection.Position == pointOfIntersection.Position) continue;
+            return true;
+        }
+
+        return false;
     }
 }

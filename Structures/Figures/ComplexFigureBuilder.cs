@@ -1,17 +1,13 @@
-﻿using System.Collections.Specialized;
-using System.Linq;
-using Structures.MathObjects;
-using Structures.Render;
-using Structures.Render.Light;
+﻿using Structures.MathObjects;
 
 namespace Structures.Figures;
 
 public class ComplexFigureBuilder
 {
-    private List<Vector3> _v = new();
-    private List<Vector3> _vn = new();
-    private List<string[]> _f = new();
+    private readonly List<string[]> _f = new();
+    private readonly List<Vector3> _vn = new();
     private string _name = "";
+    private List<Vector3> _v = new();
 
     public ComplexFigure Build(Vector3 transaltion = null)
     {
@@ -19,15 +15,12 @@ public class ComplexFigureBuilder
         if (transaltion is not null)
         {
             List<Vector3> list = new();
-            foreach (var v in _v)
-            {
-                list.Add(v + transaltion);
-            }
+            foreach (var v in _v) list.Add(v + transaltion);
 
             _v = list;
         }
+
         foreach (var fDataLine in _f)
-        {
             if (fDataLine[0].Contains("//"))
             {
                 var oneOfF = fDataLine[0].Split("//");
@@ -48,10 +41,6 @@ public class ComplexFigureBuilder
 
                 figures.Add(new Triangle(pointA, pointB, pointC));
             }
-       
-
-        
-        }
 
 
         return new ComplexFigure(_name, figures.ToArray());
@@ -74,7 +63,7 @@ public class ComplexFigureBuilder
         _f.Add(f);
         return this;
     }
-    
+
     public ComplexFigureBuilder SetName(string name)
     {
         _name = name;

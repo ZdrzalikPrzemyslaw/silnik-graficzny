@@ -1,6 +1,4 @@
 ﻿using Structures.MathObjects;
-using Structures.Render;
-using Structures.Render.Light;
 
 namespace Structures.Figures;
 
@@ -18,7 +16,7 @@ public class PlaneSlice : Plane
     public PlaneSlice(Vector3 inNormal, double distance) : base(inNormal, distance)
     {
     }
-    
+
     public PlaneSlice(Vector3 inNormal, Vector3 point) : base(inNormal, point)
     {
     }
@@ -46,7 +44,9 @@ public class PlaneSlice : Plane
     public override List<PointOfIntersection> Intersections(Ray ray)
     {
         var intersection = Intersection(ray);
-        return intersection is not null ? new List<PointOfIntersection> { intersection } : new List<PointOfIntersection>();
+        return intersection is not null
+            ? new List<PointOfIntersection> { intersection }
+            : new List<PointOfIntersection>();
     }
 
     protected bool Equals(PlaneSlice? other)

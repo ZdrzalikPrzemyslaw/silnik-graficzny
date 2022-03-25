@@ -75,7 +75,9 @@ public class Triangle : SimpleFigure
     public override List<PointOfIntersection> Intersections(Ray ray)
     {
         var intersection = Intersection(ray);
-        return intersection is not null ? new List<PointOfIntersection> {intersection} : new List<PointOfIntersection>();
+        return intersection is not null
+            ? new List<PointOfIntersection> { intersection }
+            : new List<PointOfIntersection>();
     }
 
     /// <inheritdoc />

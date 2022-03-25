@@ -1,6 +1,4 @@
 using Structures.MathObjects;
-using Structures.Render;
-using Structures.Render.Light;
 
 namespace Structures.Figures;
 
@@ -11,15 +9,9 @@ public class Plane : SimpleFigure, IEquatable<Plane>
     /// </summary>
     private Vector3? _center;
 
-    public Plane(Vector3 a, Vector3 b, Vector3 c): this(CalculateNormalVector(a, b, c), GetDistanceAlongNormal(CalculateNormalVector(a, b, c), a))
+    public Plane(Vector3 a, Vector3 b, Vector3 c) : this(CalculateNormalVector(a, b, c),
+        GetDistanceAlongNormal(CalculateNormalVector(a, b, c), a))
     {
-    }
-
-    public static Vector3 CalculateNormalVector(Vector3 a, Vector3 b, Vector3 c)
-    {
-        var ab = new Vector3(a, b);
-        var ac = new Vector3(a, c);
-        return ab.Cross(ac).GetNormalized();
     }
 
     public Plane(Vector3 inNormal, double distance)
@@ -65,6 +57,13 @@ public class Plane : SimpleFigure, IEquatable<Plane>
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
         return Distance.Equals(other.Distance) && Normal.Equals(other.Normal);
+    }
+
+    public static Vector3 CalculateNormalVector(Vector3 a, Vector3 b, Vector3 c)
+    {
+        var ab = new Vector3(a, b);
+        var ac = new Vector3(a, c);
+        return ab.Cross(ac).GetNormalized();
     }
 
     /// <summary>

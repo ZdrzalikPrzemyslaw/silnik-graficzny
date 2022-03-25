@@ -5,6 +5,10 @@ namespace Structures.Render.Light;
 
 public class AmbientLightSource : LightSource
 {
+    public AmbientLightSource(LightIntensity lightIntensity) : base(lightIntensity)
+    {
+    }
+
     public override LightIntensity GetIntensity(Vector3 position)
     {
         return Colour;
@@ -13,10 +17,6 @@ public class AmbientLightSource : LightSource
     public override LightIntensity GetIntensity(PointOfIntersection point)
     {
         return Colour;
-    }
-
-    public AmbientLightSource(LightIntensity lightIntensity) : base(lightIntensity)
-    {
     }
 
     public override bool IsInShadow(PointOfIntersection pointOfIntersection, Scene scene)

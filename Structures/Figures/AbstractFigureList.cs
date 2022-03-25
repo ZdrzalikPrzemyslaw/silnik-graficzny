@@ -10,7 +10,7 @@ public abstract class AbstractFigureList<T> : Figure where T : Figure
     {
         GetList().Add(figure);
     }
-    
+
     public void AddFigure(List<T> figures)
     {
         GetList().AddRange(figures);

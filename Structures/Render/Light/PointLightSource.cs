@@ -5,9 +5,24 @@ namespace Structures.Render.Light;
 
 public class PointLightSource : ComplexLightSource
 {
+    public PointLightSource(LightIntensity colour, Vector3 location, double constAttenuation, double linearAttenuation)
+        : base(colour)
+    {
+        Location = location;
+        ConstAttenuation = constAttenuation;
+        LinearAttenuation = linearAttenuation;
+    }
+
+    public PointLightSource(PointLightSource pointLightSource, Vector3 location) : base(pointLightSource.Colour)
+    {
+        Location = location;
+        ConstAttenuation = pointLightSource.ConstAttenuation;
+        LinearAttenuation = pointLightSource.LinearAttenuation;
+    }
+
     public Vector3 Location { get; set; }
-    public double A1 { get; set; } //współczynnik zanikania 
-    public double A2 { get; set; } //współczynnik zanikania 
+    public double ConstAttenuation { get; set; } //współczynnik zanikania 
+    public double LinearAttenuation { get; set; } //współczynnik zanikania 
 
     public override Vector3 GetDiffuse(Vector3 cameraPosition, PointOfIntersection pointOfIntersection)
     {
@@ -21,22 +36,25 @@ public class PointLightSource : ComplexLightSource
 
     public override LightIntensity GetIntensity(Vector3 position)
     {
-        return Colour * (1 / ((A1 + A2) * position.Distance(Location)));
+        return GetIntensity(new PointOfIntersection(null, position));
     }
 
     public override LightIntensity GetIntensity(PointOfIntersection point)
     {
-        return Colour * (1 / ((A1 + A2) * point.Position.Distance(Location)));
+        return Colour * (1 / (ConstAttenuation + LinearAttenuation * point.Position.Distance(Location)));
     }
 
     public override bool IsInShadow(PointOfIntersection pointOfIntersection, Scene scene)
     {
-        throw new NotImplementedException();
-    }
+        var ray = new Ray(Location, pointOfIntersection.Position);
+        var distance = Location.Distance(pointOfIntersection.Position);
+        foreach (var complexFigure in scene.GetReadOnlyFiguresList())
+        {
+            var intersection = complexFigure.Intersection(ray);
+            if (intersection is null) continue;
+            if (intersection.Position.Distance(Location) < distance) return true;
+        }
 
-    public PointLightSource(LightIntensity colour, double a1, double a2) : base(colour)
-    {
-        A1 = a1;
-        A2 = a2;
+        return false;
     }
 }

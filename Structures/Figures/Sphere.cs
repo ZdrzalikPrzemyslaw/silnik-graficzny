@@ -1,6 +1,4 @@
 using Structures.MathObjects;
-using Structures.Render;
-using Structures.Render.Light;
 
 namespace Structures.Figures;
 
@@ -102,13 +100,13 @@ public class Sphere : SimpleFigure, IEquatable<Sphere>
         var retList = new List<PointOfIntersection>();
         if (t1c == 0)
         {
-            retList.Add(new(this, ray.PointAtDistanceFromOrigin(t1)));
+            retList.Add(new PointOfIntersection(this, ray.PointAtDistanceFromOrigin(t1)));
             return retList;
         }
 
-        if (t1 > 0) retList.Add(new(this, ray.PointAtDistanceFromOrigin(t1)));
+        if (t1 > 0) retList.Add(new PointOfIntersection(this, ray.PointAtDistanceFromOrigin(t1)));
 
-        if (t2 > 0) retList.Add(new(this, ray.PointAtDistanceFromOrigin(t2)));
+        if (t2 > 0) retList.Add(new PointOfIntersection(this, ray.PointAtDistanceFromOrigin(t2)));
 
         return retList;
     }
@@ -123,7 +121,9 @@ public class Sphere : SimpleFigure, IEquatable<Sphere>
     {
         var points = Intersections(ray);
         if (points.Count == 2)
-            return ray.Origin.Distance(points[0].Position) < ray.Origin.Distance(points[1].Position) ? points[0] : points[1];
+            return ray.Origin.Distance(points[0].Position) < ray.Origin.Distance(points[1].Position)
+                ? points[0]
+                : points[1];
 
         return points.Count == 1 ? points[0] : null;
     }

@@ -1,12 +1,8 @@
-using Structures.MathObjects;
-
 namespace Structures.Figures;
 
 public class ComplexFigure : AbstractFigureList<SimpleFigure>
 {
     private readonly List<SimpleFigure> _figures = new();
-
-    public string Name { get; }
 
     public ComplexFigure() : this(string.Empty)
     {
@@ -36,9 +32,11 @@ public class ComplexFigure : AbstractFigureList<SimpleFigure>
         Name = name;
     }
 
-    public ComplexFigure(SimpleFigure figure, string name) : this(new[] {figure}, name)
+    public ComplexFigure(SimpleFigure figure, string name) : this(new[] { figure }, name)
     {
     }
+
+    public string Name { get; }
 
     protected override List<SimpleFigure> GetList()
     {

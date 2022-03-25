@@ -3,39 +3,33 @@ using Structures.MathObjects;
 
 namespace Structures.Render.Light;
 
-public class SpotLight : ComplexLightSource
+public class SpotLight : PointLightSource
 {
-    public Vector3 Location { get; set; }
-    public double A1 { get; set; } //współczynnik zanikania 
-    public double A2 { get; set; } //współczynnik zanikania 
-    public double Ca { get; set; } //współczynnik koncentracji natężenia światła
-    public double Theta { get; set; } //kąt rozwarcia promieni światła
-    
-    public SpotLight(LightIntensity colour, Vector3 location, double a1, double a2, double ca, double theta) : base(colour)
+    public SpotLight(LightIntensity colour, Vector3 location, double constAttenuation, double linearAttenuation,
+        double dropOffRate, double cutOffAngle) : base(
+        colour, location, constAttenuation, linearAttenuation)
     {
-        Location = location;
-        A1 = a1;
-        A2 = a2;
-        Ca = ca;
-        Theta = theta;
+        DropOffRate = dropOffRate;
+        CutOffAngle = cutOffAngle;
     }
+
+    public double DropOffRate { get; set; } //współczynnik koncentracji natężenia światła
+    public double CutOffAngle { get; set; } //kąt rozwarcia promieni światła
 
     public override LightIntensity GetIntensity(Vector3 position)
     {
         var meter = Location.Dot(position - Location) / position.Distance(Location);
-        return Colour * Math.Pow(meter, Ca) / ((A1 + A2) * position.Distance(Location));
+        return Colour * Math.Pow(meter, DropOffRate) /
+               ((ConstAttenuation + LinearAttenuation) * position.Distance(Location));
     }
 
     public override LightIntensity GetIntensity(PointOfIntersection point)
     {
         var meter = Location.Dot(point.Position - Location) / point.Position.Distance(Location);
-        return Colour * Math.Pow(meter, Ca) / ((A1 + A2) * point.Position.Distance(Location));
+        return Colour * Math.Pow(meter, DropOffRate) /
+               ((ConstAttenuation + LinearAttenuation) * point.Position.Distance(Location));
     }
 
-    public override bool IsInShadow(PointOfIntersection pointOfIntersection, Scene scene)
-    {
-        throw new NotImplementedException();
-    }
 
     public override Vector3 GetDiffuse(Vector3 cameraPosition, PointOfIntersection pointOfIntersection)
     {

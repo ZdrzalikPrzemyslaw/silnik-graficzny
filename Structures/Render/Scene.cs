@@ -8,24 +8,10 @@ namespace Structures.Render;
 public class Scene : AbstractFigureList<ComplexFigure>
 {
     private readonly List<ComplexFigure> _figures = new();
-    private readonly List<LightSource> _lightSources = new();
+    private readonly List<LightSourceArray> _lightSources = new();
 
     public Scene()
     {
-    }
-
-    public override PointOfIntersection? Intersection(Ray ray)
-    {
-        PointOfIntersection? pointOfIntersection = base.Intersection(ray);
-        if (pointOfIntersection == null) return null;
-        LightIntensity lightIntensity = new LightIntensity();
-        foreach (var lightSource in _lightSources)
-        {
-           lightIntensity += !lightSource.IsInShadow(pointOfIntersection, this) ? lightSource.GetIntensity(pointOfIntersection.Position) : new LightIntensity();
-        }
-
-        return new PointOfIntersection(pointOfIntersection.Figure,
-            pointOfIntersection.Position, lightIntensity);
     }
 
     public Scene(List<SimpleFigure?> simpleFigures) : this(simpleFigures.Where(i => i is not null).Cast<SimpleFigure>()
@@ -40,24 +26,6 @@ public class Scene : AbstractFigureList<ComplexFigure>
         .ToArray())
     {
     }
-    
-    
-
-    public LightIntensity GetLightIntensity(PointOfIntersection? pointOfIntersection)
-    {
-        //TODO: Poprawić
-        LightIntensity.LightIntensityBuilder lightIntensityBuilder = new();
-        if (pointOfIntersection is null)
-        {
-            return lightIntensityBuilder.Build();
-        }
-        foreach (var lightSource in _lightSources)
-        {
-            if(lightSource.IsInShadow(pointOfIntersection, this)) continue;
-            lightIntensityBuilder += lightSource.GetIntensity(pointOfIntersection);
-        }
-        return lightIntensityBuilder.Build();
-    }
 
     public Scene(params SimpleFigure[] figures)
     {
@@ -67,7 +35,7 @@ public class Scene : AbstractFigureList<ComplexFigure>
     public Scene(SimpleFigure[] figures, LightSource[] lightSources)
     {
         _figures.Add(new ComplexFigure(figures));
-        _lightSources.AddRange(lightSources);
+        _lightSources.Add(new LightSourceArray(lightSources));
     }
 
     public Scene(params ComplexFigure[] figures)
@@ -78,7 +46,7 @@ public class Scene : AbstractFigureList<ComplexFigure>
     public Scene(ComplexFigure[] figures, LightSource[] lightSources)
     {
         _figures.AddRange(figures);
-        _lightSources.AddRange(lightSources);
+        _lightSources.Add(lightSources);
     }
 
     public Scene(ComplexFigure figure)
@@ -86,26 +54,63 @@ public class Scene : AbstractFigureList<ComplexFigure>
         _figures.Add(figure);
     }
 
+    public override PointOfIntersection? Intersection(Ray ray)
+    {
+        var pointOfIntersection = base.Intersection(ray);
+        if (pointOfIntersection == null) return null;
+        var lightIntensity = new LightIntensity();
+        foreach (var lightSourceArray in _lightSources)
+        {
+            foreach (var lightSource in lightSourceArray)
+            {
+                lightIntensity += !lightSource.IsInShadow(pointOfIntersection, this)
+                    ? lightSource.GetIntensity(pointOfIntersection.Position)
+                    : new LightIntensity();  
+            }
+        }
+
+        return new PointOfIntersection(pointOfIntersection.Figure,
+            pointOfIntersection.Position, lightIntensity);
+    }
+
+
+    public LightIntensity GetLightIntensity(PointOfIntersection? pointOfIntersection)
+    {
+        //TODO: Poprawić
+        LightIntensity.LightIntensityBuilder lightIntensityBuilder = new();
+        if (pointOfIntersection is null) return lightIntensityBuilder.Build();
+        foreach (var lightSourceArray in _lightSources)
+        {
+            foreach (var lightSource in lightSourceArray)
+            {
+                if (lightSource.IsInShadow(pointOfIntersection, this)) continue;
+                lightIntensityBuilder += lightSource.GetIntensity(pointOfIntersection);
+            }
+        }
+
+        return lightIntensityBuilder.Build();
+    }
+
     public void AddFigure(SimpleFigure figure)
     {
         _figures.Add(new ComplexFigure(figure));
     }
-    
+
     public void AddLight(LightSource lightSource)
     {
-        _lightSources.Add(lightSource);
+        _lightSources.Add(new LightSource[] { lightSource});
     }
 
     protected override List<ComplexFigure> GetList()
     {
         return _figures;
     }
-    
-    public ReadOnlyCollection<LightSource> GetReadOnlyLightList()
+
+    public ReadOnlyCollection<LightSourceArray> GetReadOnlyLightList()
     {
         return _lightSources.AsReadOnly();
     }
-    
+
     public ReadOnlyCollection<ComplexFigure> GetReadOnlyFiguresList()
     {
         return _figures.AsReadOnly();
