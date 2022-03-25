@@ -10,7 +10,7 @@ public abstract class AbstractFigureList<T> : Figure where T : Figure
     {
         GetList().Add(figure);
     }
-    
+
     public void AddFigure(List<T> figures)
     {
         GetList().AddRange(figures);
@@ -36,6 +36,12 @@ public abstract class AbstractFigureList<T> : Figure where T : Figure
     {
         return Equals(other as AbstractFigureList<T>);
     }
+    
+    public override Vector3 GetNormal(PointOfIntersection? pointOfIntersection = null)
+    {
+        //TODO: wyjatki ):
+        return pointOfIntersection?.Figure?.GetNormal() ?? throw new ArgumentException();
+    }
 
     public override int GetHashCode()
     {
@@ -47,22 +53,20 @@ public abstract class AbstractFigureList<T> : Figure where T : Figure
         return GetList().DeepToString();
     }
 
-    public abstract PointOfIntersection? GetClosest(Ray ray);
-
     public override bool Intersects(Ray ray)
     {
         return GetList().Any(figure => figure.Intersects(ray));
     }
 
-    public override Vector3? Intersection(Ray ray)
+    public override PointOfIntersection? Intersection(Ray ray)
     {
         var intersections = Intersections(ray);
         if (intersections.Count == 0) return null;
         var closest = intersections[0];
-        var closestDistance = closest.Distance(ray);
+        var closestDistance = closest.Position.Distance(ray);
         foreach (var intersection in intersections)
         {
-            var loopDistance = intersection.Distance(ray);
+            var loopDistance = intersection.Position.Distance(ray);
             if (closestDistance > loopDistance)
             {
                 closestDistance = loopDistance;
@@ -73,9 +77,9 @@ public abstract class AbstractFigureList<T> : Figure where T : Figure
         return closest;
     }
 
-    public override List<Vector3> Intersections(Ray ray)
+    public override List<PointOfIntersection> Intersections(Ray ray)
     {
-        List<Vector3> returnList = new();
+        List<PointOfIntersection> returnList = new();
         foreach (var figure in GetList()) returnList.AddRange(figure.Intersections(ray));
 
         return returnList;

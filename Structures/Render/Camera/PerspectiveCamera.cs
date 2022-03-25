@@ -1,5 +1,6 @@
 ﻿using Structures.Figures;
 using Structures.MathObjects;
+using Structures.Render.Light;
 using Structures.Render.Sampler;
 
 namespace Structures.Render.Camera;
@@ -47,6 +48,7 @@ public class PerspectiveCamera : AbstractCamera
             matrixX = Matrix.Rotate((startX + i * pixelWidth) * Math.PI / 180, Up);
             for (var j = fromY; j < toY; j++)
             {
+                if(i == 200 && j == 200){Console.WriteLine("");}
                 matrixY = Matrix.Rotate((startY + -j * pixelHeight) * Math.PI / 180, Target.Cross(Up));
                 ray = new Ray(Position, Target).Rotate(matrixY * matrixX);
 
@@ -59,7 +61,7 @@ public class PerspectiveCamera : AbstractCamera
 
     public override Picture RenderScene(Scene scene)
     {
-        var size = 500;
+        var size = 200;
         Picture picture = new(size, size);
         var threads = new List<Thread>();
         for (var i = 0; i < 4; i++)

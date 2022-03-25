@@ -6,11 +6,21 @@ namespace Structures.OBJParser;
 
 public class OBJFileParser : IFileParser<ComplexFigure>
 {
+    public List<ComplexFigure> ParseFile(params string[] filePaths)
+    {
+        return ParseFile(Vector3.Zero(), filePaths);
+    }
+
+    public List<ComplexFigure> ParseDirectory(string dirPath)
+    {
+        throw new NotImplementedException();
+    }
+
     public List<ComplexFigure> ParseFile(string filePath)
     {
         return ParseFile(Vector3.Zero(), filePath);
     }
-    
+
     public List<ComplexFigure> ParseFile(Vector3 translation, string filePath)
     {
         var complexFigures = new List<ComplexFigure>();
@@ -45,28 +55,16 @@ public class OBJFileParser : IFileParser<ComplexFigure>
                     throw new InvalidOperationException();
             }
         }
+
         if (complexFigureBuilder is not null) complexFigures.Add(complexFigureBuilder.Build(translation));
         return complexFigures;
     }
-    
+
     public List<ComplexFigure> ParseFile(Vector3 translation, params string[] filePaths)
     {
         List<ComplexFigure> complexFigures = new();
-        foreach (var filePath in filePaths)
-        {
-            complexFigures.AddRange(ParseFile(translation, filePath));
-        }
+        foreach (var filePath in filePaths) complexFigures.AddRange(ParseFile(translation, filePath));
 
         return complexFigures;
-    }
-    
-    public List<ComplexFigure> ParseFile(params string[] filePaths)
-    {
-        return ParseFile(Vector3.Zero(), filePaths);
-    }
-
-    public List<ComplexFigure> ParseDirectory(string dirPath)
-    {
-        throw new NotImplementedException();
     }
 }

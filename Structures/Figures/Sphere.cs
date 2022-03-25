@@ -1,9 +1,8 @@
 using Structures.MathObjects;
-using Structures.Render;
 
 namespace Structures.Figures;
 
-public class Sphere : SimpleFigure, IEquatable<Sphere>
+public class Sphere : Figure, IEquatable<Sphere>
 {
     /// <summary>
     ///     Creates new Sphere starting at {0, 0, 0} with radius equal to 0.
@@ -12,24 +11,10 @@ public class Sphere : SimpleFigure, IEquatable<Sphere>
     {
     }
 
-    public Sphere(LightIntensity lightIntensity) : this(Vector3.Zero(), 0, lightIntensity)
-    {
-    }
-
-    /// <summary>
-    ///     Creates new Sphere with given center location and radius.
-    /// </summary>
-    /// <param name="center">Given center location</param>
-    /// <param name="radius">Given radius</param>
-    public Sphere(Vector3 center, double radius) : this(center, radius, LightIntensity.DefaultObject())
-    {
-    }
-
-    public Sphere(Vector3 center, double radius, LightIntensity lightIntensity)
+    public Sphere(Vector3 center, double radius)
     {
         Center = center;
         Radius = radius;
-        LightIntensity = lightIntensity;
     }
 
     /// <summary>
@@ -101,29 +86,36 @@ public class Sphere : SimpleFigure, IEquatable<Sphere>
     /// <param name="ray">Given Ray</param>
     /// <returns>Empty list if no intersections, one element in list if tangent, two elements otherwise.</returns>
     // 
-    public override List<Vector3> Intersections(Ray ray)
+    public override List<PointOfIntersection> Intersections(Ray ray)
     {
         var L = new Vector3(ray.Origin, Center);
         var tc = L.Dot(ray.Direction);
 
         var d = Math.Sqrt(L.MagnitudeSquared() - tc * tc);
-        if (d > Radius) return new List<Vector3>();
+        if (d > Radius) return new List<PointOfIntersection>();
 
         var t1c = Math.Sqrt(Radius * Radius - d * d);
         var t1 = tc - t1c;
         var t2 = tc + t1c;
-        var retList = new List<Vector3>();
+        var retList = new List<PointOfIntersection>();
         if (t1c == 0)
         {
-            retList.Add(ray.PointAtDistanceFromOrigin(t1));
+            retList.Add(new PointOfIntersection(this, ray.PointAtDistanceFromOrigin(t1)));
             return retList;
         }
 
-        if (t1 > 0) retList.Add(ray.PointAtDistanceFromOrigin(t1));
+        if (t1 > 0) retList.Add(new PointOfIntersection(this, ray.PointAtDistanceFromOrigin(t1)));
 
-        if (t2 > 0) retList.Add(ray.PointAtDistanceFromOrigin(t2));
+        if (t2 > 0) retList.Add(new PointOfIntersection(this, ray.PointAtDistanceFromOrigin(t2)));
 
         return retList;
+    }
+
+    public override Vector3 GetNormal(PointOfIntersection? pointOfIntersection = null)
+    {
+        //Todo: poprawić wyjątki :(
+        if (Math.Abs(pointOfIntersection.Position.Distance(Center) - Radius) > 0.0001) throw new ArgumentException();
+        return new Vector3(Center, pointOfIntersection.Position).GetNormalized();
     }
 
     public override bool Equals(Figure? other)
@@ -132,11 +124,13 @@ public class Sphere : SimpleFigure, IEquatable<Sphere>
     }
 
     //TODO: spojrzec czy tu [0] zawsze nie bedzie blizej
-    public override Vector3? Intersection(Ray ray)
+    public override PointOfIntersection? Intersection(Ray ray)
     {
         var points = Intersections(ray);
         if (points.Count == 2)
-            return ray.Origin.Distance(points[0]) < ray.Origin.Distance(points[1]) ? points[0] : points[1];
+            return ray.Origin.Distance(points[0].Position) < ray.Origin.Distance(points[1].Position)
+                ? points[0]
+                : points[1];
 
         return points.Count == 1 ? points[0] : null;
     }

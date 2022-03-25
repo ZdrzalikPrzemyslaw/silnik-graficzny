@@ -73,7 +73,7 @@ public class Vector3 : IEquatable<Vector3>
 
     public static Vector3 PointBetweenTwoPoints(Vector3 first, Vector3 second)
     {
-        return new Ray(second, first).PointAtDistanceFromOrigin(second.Distance(first) / 2);
+        return new Ray(second, (second - first).GetNormalized()).PointAtDistanceFromOrigin(second.Distance(first) / 2);
     }
 
     /// <summary>

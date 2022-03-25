@@ -1,4 +1,5 @@
 ﻿using Structures.MathObjects;
+using Structures.Render.Light;
 
 namespace Structures.Render.Sampler;
 
@@ -24,11 +25,11 @@ public class PerspectiveSampler : AbstractSampler
         var rayLeftDown = rayLeftUp.Rotate(matrixDown);
         var rayCenter = rayLeftUp.Rotate(matrixHalfRight * matrixHalfDown);
 
-        var intensityLeftUp = scene.GetClosest(rayLeftUp)?.Figure.LightIntensity ?? LightIntensity.DefaultBackground();
-        var intensityRightUp = scene.GetClosest(rayRightUp)?.Figure.LightIntensity ?? LightIntensity.DefaultBackground();
-        var intensityRightDown = scene.GetClosest(rayRightDown)?.Figure.LightIntensity ?? LightIntensity.DefaultBackground();
-        var intensityLeftDown = scene.GetClosest(rayLeftDown)?.Figure.LightIntensity ?? LightIntensity.DefaultBackground();
-        var intensityCenter = scene.GetClosest(rayCenter)?.Figure.LightIntensity ?? LightIntensity.DefaultBackground();
+        var intensityLeftUp = scene.GetLightIntensity(rayLeftUp);
+        var intensityRightUp = scene.GetLightIntensity(rayRightUp);
+        var intensityRightDown = scene.GetLightIntensity(rayRightDown);
+        var intensityLeftDown = scene.GetLightIntensity(rayLeftDown);
+        var intensityCenter = scene.GetLightIntensity(rayCenter);
 
         if (recursionLevel >= RecursionLimit)
             return intensityLeftUp / 5 + intensityLeftDown / 5 + intensityRightDown / 5 + intensityRightUp / 5 +

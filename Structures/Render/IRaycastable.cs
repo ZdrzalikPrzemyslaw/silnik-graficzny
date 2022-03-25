@@ -1,3 +1,4 @@
+using Structures.Figures;
 using Structures.MathObjects;
 
 namespace Structures.Render;
@@ -8,8 +9,8 @@ public interface IRaycastable
     bool Intersects(Ray ray);
 
     // Najblizsze przeciecie
-    Vector3? Intersection(Ray ray);
+    PointOfIntersection? Intersection(Ray ray);
 
     // Wszystkie przeciecia
-    List<Vector3> Intersections(Ray ray);
+    List<PointOfIntersection> Intersections(Ray ray);
 }

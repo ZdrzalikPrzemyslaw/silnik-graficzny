@@ -1,11 +1,12 @@
 ﻿using Structures.MathObjects;
+using Structures.Render.Light;
 
 namespace Structures.Render.Sampler;
 
 public abstract class AbstractSampler : ISampler
 {
     private static readonly LightIntensity DefaultLightIntensity = new(0.05, 0.05, 0.05);
-    private static readonly int _defaultRecursionLimit = 3;
+    private static readonly int _defaultRecursionLimit = 2;
 
     public AbstractSampler(LightIntensity lightIntensity, int recursionLimit)
     {

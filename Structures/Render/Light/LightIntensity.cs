@@ -1,4 +1,4 @@
-﻿namespace Structures.Render;
+﻿namespace Structures.Render.Light;
 
 public class LightIntensity : IEquatable<LightIntensity>
 {
@@ -20,6 +20,13 @@ public class LightIntensity : IEquatable<LightIntensity>
     public LightIntensity()
     {
         R = B = G = 0.0;
+    }
+
+    public LightIntensity(LightIntensity lightIntensity)
+    {
+        R = lightIntensity.R;
+        G = lightIntensity.G;
+        B = lightIntensity.B;
     }
 
     public double R { get; set; }
@@ -53,6 +60,16 @@ public class LightIntensity : IEquatable<LightIntensity>
         return this + other;
     }
 
+    public LightIntensity Add(double r = 0.0, double g = 0.0, double b = 0.0)
+    {
+        return this + new LightIntensity(r, g, b);
+    }
+
+    public LightIntensity Divide(double k)
+    {
+        return this / k;
+    }
+
     public static LightIntensity operator +(LightIntensity a, LightIntensity b)
     {
         return new LightIntensity(a.R + b.R, a.G + b.G, a.B + b.B);
@@ -65,7 +82,7 @@ public class LightIntensity : IEquatable<LightIntensity>
 
     public static LightIntensity operator /(LightIntensity a, double k)
     {
-        if (k == 0) throw new DivideByZeroException();
+        if (k == 0) return a * 0;
         return a * (1 / k);
     }
 
@@ -116,6 +133,32 @@ public class LightIntensity : IEquatable<LightIntensity>
         public LightIntensityBuilder SetB(double B)
         {
             this.B = B;
+            return this;
+        }
+
+        public static LightIntensityBuilder operator +(LightIntensityBuilder lightIntensityBuilder,
+            LightIntensity lightIntensity)
+        {
+            return lightIntensityBuilder.AddLightIntensity(lightIntensity);
+        }
+
+        public static LightIntensityBuilder operator *(LightIntensityBuilder lightIntensityBuilder,
+            double k)
+        {
+            return new LightIntensityBuilder().SetB(lightIntensityBuilder.B * k).SetG(lightIntensityBuilder.G * k)
+                .SetR(lightIntensityBuilder.R * k);
+        }
+        
+        public static LightIntensityBuilder operator *(double k, LightIntensityBuilder lightIntensityBuilder)
+        {
+            return lightIntensityBuilder * k;
+        }
+
+        public LightIntensityBuilder AddLightIntensity(LightIntensity lightIntensity)
+        {
+            R += lightIntensity.R;
+            G += lightIntensity.G;
+            B += lightIntensity.B;
             return this;
         }
     }
