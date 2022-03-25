@@ -57,7 +57,7 @@ public class OrthogonalCamera : AbstractCamera
 
     public override Picture RenderScene(Scene scene)
     {
-        var size = 1000;
+        var size = 500;
         Picture picture = new(size, size);
 
         var threads = new List<Thread>();
