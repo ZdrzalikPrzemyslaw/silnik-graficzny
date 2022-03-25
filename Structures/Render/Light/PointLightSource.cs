@@ -57,7 +57,7 @@ public class PointLightSource : ComplexLightSource
         {
             var intersection = complexFigure.Intersection(ray);
             if (intersection is null) continue;
-            if (intersection.Position.Distance(Location) < distance) return true;
+            if (distance - intersection.Position.Distance(Location) > 0.0001) return true;
         }
 
         return false;
