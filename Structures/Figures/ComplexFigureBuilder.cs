@@ -9,9 +9,9 @@ public class ComplexFigureBuilder
     private string _name = "";
     private List<Vector3> _v = new();
 
-    public ComplexFigure Build(Vector3 transaltion = null)
+    public ComplexFigure Build(Vector3? transaltion = null)
     {
-        var figures = new List<SimpleFigure>();
+        var figures = new List<Figure>();
         if (transaltion is not null)
         {
             List<Vector3> list = new();

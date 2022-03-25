@@ -2,7 +2,7 @@ using Structures.MathObjects;
 
 namespace Structures.Figures;
 
-public class Sphere : SimpleFigure, IEquatable<Sphere>
+public class Sphere : Figure, IEquatable<Sphere>
 {
     /// <summary>
     ///     Creates new Sphere starting at {0, 0, 0} with radius equal to 0.

@@ -7,7 +7,7 @@ public record PointOfIntersection
 {
     private readonly LightIntensity _intensity;
 
-    public PointOfIntersection(SimpleFigure? figure, Vector3 position, LightIntensity? lightIntensity = null)
+    public PointOfIntersection(Figure? figure, Vector3 position, LightIntensity? lightIntensity = null)
     {
         Figure = figure;
         Position = position;
@@ -20,7 +20,7 @@ public record PointOfIntersection
     }
 
 
-    public SimpleFigure? Figure { get; }
+    public Figure? Figure { get; }
 
     public Vector3 Position { get; }
 }

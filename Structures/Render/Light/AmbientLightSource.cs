@@ -3,7 +3,7 @@ using Structures.MathObjects;
 
 namespace Structures.Render.Light;
 
-public class AmbientLightSource : LightSource
+public class AmbientLightSource : AbstractLightSource
 {
     public AmbientLightSource(LightIntensity lightIntensity) : base(lightIntensity)
     {

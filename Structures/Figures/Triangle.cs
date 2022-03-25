@@ -2,7 +2,7 @@
 
 namespace Structures.Figures;
 
-public class Triangle : SimpleFigure
+public class Triangle : Figure
 {
     private readonly Plane _plane;
 

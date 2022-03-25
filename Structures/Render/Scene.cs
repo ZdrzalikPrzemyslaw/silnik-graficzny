@@ -14,25 +14,25 @@ public class Scene : AbstractFigureList<ComplexFigure>
     {
     }
 
-    public Scene(List<SimpleFigure?> simpleFigures) : this(simpleFigures.Where(i => i is not null).Cast<SimpleFigure>()
+    public Scene(List<Figure?> Figures) : this(Figures.Where(i => i is not null).Cast<Figure>()
         .ToArray())
     {
     }
 
-    public Scene(List<SimpleFigure?> simpleFigures, List<LightSource?> lightSources) : this(simpleFigures
-        .Where(i => i is not null).Cast<SimpleFigure>()
+    public Scene(List<Figure?> Figures, List<AbstractLightSource?> lightSources) : this(Figures
+        .Where(i => i is not null).Cast<Figure>()
         .ToArray(), lightSources
-        .Where(i => i is not null).Cast<LightSource>()
+        .Where(i => i is not null).Cast<AbstractLightSource>()
         .ToArray())
     {
     }
 
-    public Scene(params SimpleFigure[] figures)
+    public Scene(params Figure[] figures)
     {
         _figures.Add(new ComplexFigure(figures));
     }
 
-    public Scene(SimpleFigure[] figures, LightSource[] lightSources)
+    public Scene(Figure[] figures, AbstractLightSource[] lightSources)
     {
         _figures.Add(new ComplexFigure(figures));
         _lightSources.Add(new LightSourceArray(lightSources));
@@ -43,7 +43,7 @@ public class Scene : AbstractFigureList<ComplexFigure>
         _figures.AddRange(figures);
     }
 
-    public Scene(ComplexFigure[] figures, LightSource[] lightSources)
+    public Scene(ComplexFigure[] figures, AbstractLightSource[] lightSources)
     {
         _figures.AddRange(figures);
         _lightSources.Add(lightSources);
@@ -91,14 +91,14 @@ public class Scene : AbstractFigureList<ComplexFigure>
         return lightIntensityBuilder.Build();
     }
 
-    public void AddFigure(SimpleFigure figure)
+    public void AddFigure(Figure figure)
     {
         _figures.Add(new ComplexFigure(figure));
     }
 
-    public void AddLight(LightSource lightSource)
+    public void AddLight(AbstractLightSource lightSource)
     {
-        _lightSources.Add(new LightSource[] { lightSource});
+        _lightSources.Add(new AbstractLightSource[] { lightSource});
     }
 
     protected override List<ComplexFigure> GetList()

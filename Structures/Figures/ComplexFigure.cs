@@ -1,44 +1,44 @@
 namespace Structures.Figures;
 
-public class ComplexFigure : AbstractFigureList<SimpleFigure>
+public class ComplexFigure : AbstractFigureList<Figure>
 {
-    private readonly List<SimpleFigure> _figures = new();
+    private readonly List<Figure> _figures = new();
 
     public ComplexFigure() : this(string.Empty)
     {
     }
 
-    public ComplexFigure(string name) : this(Array.Empty<SimpleFigure>(), name)
+    public ComplexFigure(string name) : this(Array.Empty<Figure>(), name)
     {
     }
 
-    public ComplexFigure(IEnumerable<SimpleFigure?> simpleFigures) : this(simpleFigures.Where(i => i is not null)
-        .Cast<SimpleFigure>()
+    public ComplexFigure(IEnumerable<Figure?> Figures) : this(Figures.Where(i => i is not null)
+        .Cast<Figure>()
         .ToArray())
     {
     }
 
-    public ComplexFigure(params SimpleFigure[] figures) : this(figures, string.Empty)
+    public ComplexFigure(params Figure[] figures) : this(figures, string.Empty)
     {
     }
 
-    public ComplexFigure(string name, params SimpleFigure[] figures) : this(figures, name)
+    public ComplexFigure(string name, params Figure[] figures) : this(figures, name)
     {
     }
 
-    public ComplexFigure(IEnumerable<SimpleFigure> figures, string name)
+    public ComplexFigure(IEnumerable<Figure> figures, string name)
     {
         _figures.AddRange(figures);
         Name = name;
     }
 
-    public ComplexFigure(SimpleFigure figure, string name) : this(new[] { figure }, name)
+    public ComplexFigure(Figure figure, string name) : this(new[] { figure }, name)
     {
     }
 
     public string Name { get; }
 
-    protected override List<SimpleFigure> GetList()
+    protected override List<Figure> GetList()
     {
         return _figures;
     }

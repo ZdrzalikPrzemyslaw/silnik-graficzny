@@ -2,13 +2,13 @@ using System.Collections;
 
 namespace Structures.Render.Light;
 
-public abstract class AbstractLightSourceArray : IEnumerable<LightSource>
+public abstract class AbstractLightSourceArray : IEnumerable<AbstractLightSource>
 {
-    protected abstract LightSource[] GetLightSources();
-    public ref LightSource this[int row] => ref GetLightSources()[row];
-    public IEnumerator<LightSource> GetEnumerator()
+    protected abstract AbstractLightSource[] GetLightSources();
+    public ref AbstractLightSource this[int row] => ref GetLightSources()[row];
+    public IEnumerator<AbstractLightSource> GetEnumerator()
     {
-        return ((IEnumerable<LightSource>)GetLightSources()).GetEnumerator();
+        return ((IEnumerable<AbstractLightSource>)GetLightSources()).GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()

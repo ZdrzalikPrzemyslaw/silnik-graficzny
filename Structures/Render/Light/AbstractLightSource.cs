@@ -3,9 +3,9 @@ using Structures.MathObjects;
 
 namespace Structures.Render.Light;
 
-public abstract class LightSource : ILightSource
+public abstract class AbstractLightSource : ILightSource
 {
-    protected LightSource(LightIntensity colour)
+    protected AbstractLightSource(LightIntensity colour)
     {
         Colour = colour ?? throw new ArgumentNullException(nameof(colour));
     }

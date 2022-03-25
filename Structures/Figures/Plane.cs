@@ -2,7 +2,7 @@ using Structures.MathObjects;
 
 namespace Structures.Figures;
 
-public class Plane : SimpleFigure, IEquatable<Plane>
+public class Plane : Figure, IEquatable<Plane>
 {
     /// <summary>
     ///     Coordinates of the point which is closest to {0, 0, 0}.

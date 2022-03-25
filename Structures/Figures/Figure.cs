@@ -5,6 +5,7 @@ namespace Structures.Figures;
 
 public abstract class Figure : IRaycastable, IEquatable<Figure>
 {
+    // Todo: doddac referenje do materiału
     public abstract bool Equals(Figure? other);
     public abstract bool Intersects(Ray ray);
 

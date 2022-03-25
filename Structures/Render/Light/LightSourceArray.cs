@@ -4,24 +4,24 @@ namespace Structures.Render.Light;
 
 public class LightSourceArray : AbstractLightSourceArray
 {
-    private LightSource [] _lightSource;
+    private AbstractLightSource [] _lightSource;
 
-    public LightSourceArray(params LightSource[] lightSources)
+    public LightSourceArray(params AbstractLightSource[] lightSources)
     {
         _lightSource = lightSources;
     }
 
-    public static implicit operator LightSourceArray(LightSource[] value)
+    public static implicit operator LightSourceArray(AbstractLightSource[] value)
     {
         return new LightSourceArray(value);
     }
 
-    public static implicit operator LightSource[](LightSourceArray me)
+    public static implicit operator AbstractLightSource[](LightSourceArray me)
     {
         return me._lightSource;
     }
 
-    protected override LightSource[] GetLightSources()
+    protected override AbstractLightSource[] GetLightSources()
     {
         return _lightSource;
     }
