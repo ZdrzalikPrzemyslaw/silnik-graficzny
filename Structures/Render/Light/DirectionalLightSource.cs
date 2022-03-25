@@ -45,10 +45,18 @@ public class DirectionalLightSource : ComplexLightSource
         var ray = new Ray(pointOfIntersection.Position, -Direction);
         foreach (var complexFigure in scene.GetReadOnlyFiguresList())
         {
-            var intersection = complexFigure.Intersection(ray);
-            if (intersection is null) continue;
-            if (intersection.Position == pointOfIntersection.Position) continue;
-            return true;
+            try
+            {
+                var intersection = complexFigure.Intersection(ray);
+                if (intersection is null) continue;
+                if (intersection.Position == pointOfIntersection.Position) continue;
+                return true;
+            }
+            catch (Plane.InfiniteIntersectionsException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                return false;
+            }
         }
 
         return false;

@@ -28,25 +28,41 @@ public class PlaneSlice : Plane
 
     public override PointOfIntersection? Intersection(Ray ray)
     {
-        var intersectionPoint = base.Intersection(ray);
-        if (intersectionPoint is null) return null;
-        var rightUpCorner = (LeftUpPoint.Dot(RightUpPoint - LeftUpPoint) <=
-                             intersectionPoint.Position.Dot(RightUpPoint - LeftUpPoint))
-                            & (intersectionPoint.Position.Dot(RightUpPoint - LeftUpPoint) <=
-                               RightUpPoint.Dot(RightUpPoint - LeftUpPoint));
-        var leftDownCorner = (LeftUpPoint.Dot(LeftDownPoint - LeftUpPoint) <=
-                              intersectionPoint.Position.Dot(LeftDownPoint - LeftUpPoint))
-                             & (intersectionPoint.Position.Dot(LeftDownPoint - LeftUpPoint) <=
-                                LeftDownPoint.Dot(LeftDownPoint - LeftUpPoint));
-        return rightUpCorner && leftDownCorner ? intersectionPoint : null;
+        try
+        {
+            var intersectionPoint = base.Intersection(ray);
+            if (intersectionPoint is null) return null;
+            var rightUpCorner = (LeftUpPoint.Dot(RightUpPoint - LeftUpPoint) <=
+                                 intersectionPoint.Position.Dot(RightUpPoint - LeftUpPoint))
+                                & (intersectionPoint.Position.Dot(RightUpPoint - LeftUpPoint) <=
+                                   RightUpPoint.Dot(RightUpPoint - LeftUpPoint));
+            var leftDownCorner = (LeftUpPoint.Dot(LeftDownPoint - LeftUpPoint) <=
+                                  intersectionPoint.Position.Dot(LeftDownPoint - LeftUpPoint))
+                                 & (intersectionPoint.Position.Dot(LeftDownPoint - LeftUpPoint) <=
+                                    LeftDownPoint.Dot(LeftDownPoint - LeftUpPoint));
+            return rightUpCorner && leftDownCorner ? intersectionPoint : null;
+        }
+        catch (InfiniteIntersectionsException e)
+        {
+            Console.WriteLine(e.StackTrace);
+            return null;
+        }
     }
 
     public override List<PointOfIntersection> Intersections(Ray ray)
     {
-        var intersection = Intersection(ray);
-        return intersection is not null
-            ? new List<PointOfIntersection> { intersection }
-            : new List<PointOfIntersection>();
+        try
+        {
+            var intersection = Intersection(ray);
+            return intersection is not null
+                ? new List<PointOfIntersection> {intersection}
+                : new List<PointOfIntersection>();
+        }
+        catch (InfiniteIntersectionsException e)
+        {
+            Console.WriteLine(e.StackTrace);
+            return new List<PointOfIntersection>();
+        }
     }
 
     protected bool Equals(PlaneSlice? other)

@@ -166,10 +166,18 @@ public class Plane : Figure, IEquatable<Plane>
 
     public override List<PointOfIntersection> Intersections(Ray ray)
     {
-        var point = Intersection(ray);
-        if (point is null) return new List<PointOfIntersection>();
-        // Inaczej zwroci sie 1 element null
-        return new List<PointOfIntersection> { point };
+        try
+        {
+            var point = Intersection(ray);
+            if (point is null) return new List<PointOfIntersection>();
+            // Inaczej zwroci sie 1 element null
+            return new List<PointOfIntersection> {point};
+        }
+        catch (InfiniteIntersectionsException e)
+        {
+            Console.WriteLine(e.StackTrace);
+            return new List<PointOfIntersection>();
+        }
     }
 
     public override Vector3 GetNormal(PointOfIntersection? pointOfIntersection = null)

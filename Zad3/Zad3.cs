@@ -11,10 +11,10 @@ internal class Zad3
 {
     public static void Main(string[] args)
     {
-        ICamera cameraOrth = new OrthogonalCamera(new Vector3(0, 0, 0), new Vector3(0, 0, 1), new Vector3(0, 1, 0));
+        ICamera cameraOrth = new OrthogonalCamera(new Vector3(1, 2, 0), new Vector3(0, 0, 1), new Vector3(0, 1, 0));
         ICamera cameraPersp =
-            new PerspectiveCamera(new Vector3(0, 0, 0), new Vector3(0, 0, 1),
-                new Vector3(0, 1, 0));
+            new PerspectiveCamera(new Vector3(-1, 4, 5), new Vector3(0, -1, 0),
+                new Vector3(1, 0, 0));
         var scene = new Scene(
             // new Sphere(
                 // new Vector3(0, 0, 4), 1.1),

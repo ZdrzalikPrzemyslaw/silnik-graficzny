@@ -1,4 +1,5 @@
-﻿using Structures.Figures;
+﻿using System.Runtime.CompilerServices;
+using Structures.Figures;
 using Structures.MathObjects;
 
 namespace Structures.Render.Light;
@@ -55,9 +56,17 @@ public class PointLightSource : ComplexLightSource
         var distance = Location.Distance(pointOfIntersection.Position);
         foreach (var complexFigure in scene.GetReadOnlyFiguresList())
         {
-            var intersection = complexFigure.Intersection(ray);
-            if (intersection is null) continue;
-            if (distance - intersection.Position.Distance(Location) > 0.0001) return true;
+            try
+            {
+                var intersection = complexFigure.Intersection(ray);
+                if (intersection is null) continue;
+                if (distance - intersection.Position.Distance(Location) > 0.0001) return true;
+            }
+            catch (Plane.InfiniteIntersectionsException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                return false;
+            }
         }
 
         return false;

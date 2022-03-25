@@ -30,7 +30,15 @@ public class Triangle : Figure
 
     public override bool Intersects(Ray ray)
     {
-        return Intersection(ray) is not null;
+        try
+        {
+            return Intersection(ray) is not null;
+        }
+        catch (Plane.InfiniteIntersectionsException e)
+        {
+            Console.WriteLine(e.StackTrace);
+            return false;
+        }
     }
 
     protected bool Equals(Triangle? other)
@@ -57,8 +65,10 @@ public class Triangle : Figure
         {
             planeIntersectionPoint = _plane.Intersection(ray);
         }
-        catch (Plane.InfiniteIntersectionsException)
+        catch (Plane.InfiniteIntersectionsException e)
         {
+            Console.WriteLine(e.StackTrace);
+            return null;
         }
 
         if (planeIntersectionPoint is null) return null;
@@ -79,10 +89,18 @@ public class Triangle : Figure
 
     public override List<PointOfIntersection> Intersections(Ray ray)
     {
-        var intersection = Intersection(ray);
-        return intersection is not null
-            ? new List<PointOfIntersection> {intersection}
-            : new List<PointOfIntersection>();
+        try
+        {
+            var intersection = Intersection(ray);
+            return intersection is not null
+                ? new List<PointOfIntersection> {intersection}
+                : new List<PointOfIntersection>();
+        }
+        catch (Plane.InfiniteIntersectionsException e)
+        {
+            Console.WriteLine(e.StackTrace);
+            return new List<PointOfIntersection>();
+        }
     }
 
     /// <inheritdoc />
