@@ -46,7 +46,12 @@ public class PointLightSource : ComplexLightSource
 
     public override bool IsInShadow(PointOfIntersection pointOfIntersection, Scene scene)
     {
-        var ray = new Ray(Location, pointOfIntersection.Position);
+        if (Location == pointOfIntersection.Position)
+        {
+            return false;
+        }
+        
+        var ray = new Ray(Location, new Vector3(Location, pointOfIntersection.Position));
         var distance = Location.Distance(pointOfIntersection.Position);
         foreach (var complexFigure in scene.GetReadOnlyFiguresList())
         {

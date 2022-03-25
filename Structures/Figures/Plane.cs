@@ -172,6 +172,11 @@ public class Plane : Figure, IEquatable<Plane>
         return new List<PointOfIntersection> { point };
     }
 
+    public override Vector3 GetNormal(PointOfIntersection? pointOfIntersection = null)
+    {
+        return Normal;
+    }
+
     public override bool Equals(Figure? other)
     {
         return Equals(other as Plane);

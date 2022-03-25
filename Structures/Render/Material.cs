@@ -2,36 +2,33 @@
 
 public class Material
 {
-    private readonly double[] KAmbient = new double[3];
-    private readonly double[] KDiffuse = new double[3];
-    private readonly double[] KSpecular = new double[3];
+    public double KAmbient { get; set; }
+    public double KDiffuse { get; set; }
+    public double KSpecular { get; set; }
 
-    private double Alpha;
+    public double ShinessConstant { get; set; }
 
     // private Texture TextureA;
     private bool HasTexture;
 
     public Material()
     {
-        for (var i = 0; i < 3; i++)
-        {
-            KAmbient[i] = 0.3f;
-            KDiffuse[i] = 0.5f;
-            KSpecular[i] = 0.8f;
-        }
+        KAmbient = 0.3f;
+        KDiffuse = 0.5f;
+        KSpecular = 0.8f;
 
-        Alpha = 100;
+        ShinessConstant = 100;
         HasTexture = false;
     }
 
-    public Material(double[] kAmbient, double[] kDiffuse, double[] kSpecular, double alpha,
+    public Material(double kAmbient, double kDiffuse, double kSpecular, double shinessConstant,
         // Texture texture,
         bool hasTexture)
     {
         KAmbient = kAmbient;
         KDiffuse = kDiffuse;
         KSpecular = kSpecular;
-        Alpha = alpha;
+        ShinessConstant = shinessConstant;
         // TextureA = texture;
         HasTexture = hasTexture;
     }

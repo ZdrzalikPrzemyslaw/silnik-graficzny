@@ -18,6 +18,11 @@ public class Triangle : Figure
     public Vector3 B { get; set; }
     public Vector3 C { get; set; }
 
+    public override Vector3 GetNormal(PointOfIntersection? pointOfIntersection = null)
+    {
+        return _plane.Normal;
+    }
+
     public override bool Equals(Figure? other)
     {
         return Equals(other as Triangle);
@@ -76,7 +81,7 @@ public class Triangle : Figure
     {
         var intersection = Intersection(ray);
         return intersection is not null
-            ? new List<PointOfIntersection> { intersection }
+            ? new List<PointOfIntersection> {intersection}
             : new List<PointOfIntersection>();
     }
 

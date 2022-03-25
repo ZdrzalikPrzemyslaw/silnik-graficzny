@@ -111,6 +111,13 @@ public class Sphere : Figure, IEquatable<Sphere>
         return retList;
     }
 
+    public override Vector3 GetNormal(PointOfIntersection? pointOfIntersection = null)
+    {
+        //Todo: poprawić wyjątki :(
+        if (Math.Abs(pointOfIntersection.Position.Distance(Center) - Radius) > 0.0001) throw new ArgumentException();
+        return new Vector3(Center, pointOfIntersection.Position).GetNormalized();
+    }
+
     public override bool Equals(Figure? other)
     {
         return Equals(other as Sphere);

@@ -36,6 +36,12 @@ public abstract class AbstractFigureList<T> : Figure where T : Figure
     {
         return Equals(other as AbstractFigureList<T>);
     }
+    
+    public override Vector3 GetNormal(PointOfIntersection? pointOfIntersection = null)
+    {
+        //TODO: wyjatki ):
+        return pointOfIntersection?.Figure?.GetNormal() ?? throw new ArgumentException();
+    }
 
     public override int GetHashCode()
     {

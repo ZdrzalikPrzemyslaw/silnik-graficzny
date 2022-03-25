@@ -11,18 +11,19 @@ internal class Zad3
 {
     public static void Main(string[] args)
     {
-        ICamera cameraOrth = new OrthogonalCamera(new Vector3(0, 0, -2), new Vector3(0, 0, 1), new Vector3(0, 1, 0));
+        ICamera cameraOrth = new OrthogonalCamera(new Vector3(0, 0, 0), new Vector3(0, 0, 1), new Vector3(0, 1, 0));
         ICamera cameraPersp =
-            new PerspectiveCamera(new Vector3(3, 2, -2), new Vector3(new Vector3(3, 2, -2), new Vector3(0, 0, 4)),
+            new PerspectiveCamera(new Vector3(0, 0, 0), new Vector3(0, 0, 1),
                 new Vector3(0, 1, 0));
         var scene = new Scene(
-            new Sphere(
-                new Vector3(0, 0, 4), 1.1),
-            new Sphere(
-                new Vector3(1.5, 0, 5), 0.6)
+            // new Sphere(
+                // new Vector3(0, 0, 4), 1.1)
+            // new Sphere(
+            //     new Vector3(1.5, 0, 5), 0.6)
         );
-        scene.AddFigure(new OBJFileParser().ParseFile("./ostroslup.obj"));
-        scene.AddLight(new AmbientLightSource(new LightIntensity(0.5, 0.5, 0.5)));
+        scene.AddFigure(new OBJFileParser().ParseFile(new Vector3(0, 0, 4), "./ostroslup.obj"));
+        scene.AddLight(new AmbientLightSource(new LightIntensity(0.1, 0.1, 0.1)));
+        scene.AddLight(new PointLightSource(new LightIntensity(1, 0, 0), new Vector3(-3, 0, 0), 1, 1));
 
         var picture1 = cameraOrth.RenderScene(scene);
         var picture2 = cameraPersp.RenderScene(scene);

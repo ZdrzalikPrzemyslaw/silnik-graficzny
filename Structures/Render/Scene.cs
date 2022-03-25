@@ -14,12 +14,12 @@ public class Scene : AbstractFigureList<ComplexFigure>
     {
     }
 
-    public Scene(List<Figure?> Figures) : this(Figures.Where(i => i is not null).Cast<Figure>()
+    public Scene(List<Figure?> figures) : this(figures.Where(i => i is not null).Cast<Figure>()
         .ToArray())
     {
     }
 
-    public Scene(List<Figure?> Figures, List<AbstractLightSource?> lightSources) : this(Figures
+    public Scene(List<Figure?> figures, List<AbstractLightSource?> lightSources) : this(figures
         .Where(i => i is not null).Cast<Figure>()
         .ToArray(), lightSources
         .Where(i => i is not null).Cast<AbstractLightSource>()
@@ -60,30 +60,46 @@ public class Scene : AbstractFigureList<ComplexFigure>
         if (pointOfIntersection == null) return null;
         var lightIntensity = new LightIntensity();
         foreach (var lightSourceArray in _lightSources)
-        {
-            foreach (var lightSource in lightSourceArray)
-            {
-                lightIntensity += !lightSource.IsInShadow(pointOfIntersection, this)
-                    ? lightSource.GetIntensity(pointOfIntersection.Position)
-                    : new LightIntensity();  
-            }
-        }
+        foreach (var lightSource in lightSourceArray)
+            lightIntensity += !lightSource.IsInShadow(pointOfIntersection, this)
+                ? lightSource.GetIntensity(pointOfIntersection.Position)
+                : new LightIntensity();
 
         return new PointOfIntersection(pointOfIntersection.Figure,
             pointOfIntersection.Position, lightIntensity);
     }
 
 
-    public LightIntensity GetLightIntensity(PointOfIntersection? pointOfIntersection)
+    public LightIntensity GetLightIntensity(Ray ray)
     {
-        //TODO: Poprawić
+        var pointOfIntersection = Intersection(ray);
         LightIntensity.LightIntensityBuilder lightIntensityBuilder = new();
         if (pointOfIntersection is null) return lightIntensityBuilder.Build();
         foreach (var lightSourceArray in _lightSources)
+        foreach (var lightSource in lightSourceArray)
         {
-            foreach (var lightSource in lightSourceArray)
+            if (lightSource.IsInShadow(pointOfIntersection, this)) continue;
+            if (lightSource is PointLightSource)
             {
-                if (lightSource.IsInShadow(pointOfIntersection, this)) continue;
+                var I = ray.Direction;
+                if (pointOfIntersection.Figure is null) continue;
+                var N = pointOfIntersection.Figure.GetNormal(pointOfIntersection);
+                var R = I - N * N.Dot(I) * 2.0;
+                var ss = ray.Direction.Dot(R);
+                var specular = 0.0;
+                if (ss < 0) specular = Math.Pow(ss, pointOfIntersection.Figure.Material.ShinessConstant);
+
+                specular *= pointOfIntersection.Figure.Material.KSpecular;
+                var sIntensity = lightSource.Colour * specular;
+                var cos = ray.Direction.Dot(N);
+                var r = -lightSource.Colour.R * pointOfIntersection.Figure.Material.KDiffuse * cos;
+                var g = -lightSource.Colour.G * pointOfIntersection.Figure.Material.KDiffuse * cos;
+                var b = -lightSource.Colour.B * pointOfIntersection.Figure.Material.KDiffuse * cos;
+                lightIntensityBuilder += new LightIntensity(r, g, b);
+                lightIntensityBuilder += sIntensity;
+            }
+            else
+            {
                 lightIntensityBuilder += lightSource.GetIntensity(pointOfIntersection);
             }
         }
@@ -98,7 +114,7 @@ public class Scene : AbstractFigureList<ComplexFigure>
 
     public void AddLight(AbstractLightSource lightSource)
     {
-        _lightSources.Add(new AbstractLightSource[] { lightSource});
+        _lightSources.Add(new[] {lightSource});
     }
 
     protected override List<ComplexFigure> GetList()
