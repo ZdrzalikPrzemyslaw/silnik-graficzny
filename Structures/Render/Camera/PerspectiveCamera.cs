@@ -48,7 +48,7 @@ public class PerspectiveCamera : AbstractCamera
             matrixX = Matrix.Rotate((startX + i * pixelWidth) * Math.PI / 180, Up);
             for (var j = fromY; j < toY; j++)
             {
-                if(i == 200 && j == 200){Console.WriteLine("");}
+                if (i == 200 && j == 200) Console.WriteLine("");
                 matrixY = Matrix.Rotate((startY + -j * pixelHeight) * Math.PI / 180, Target.Cross(Up));
                 ray = new Ray(Position, Target).Rotate(matrixY * matrixX);
 

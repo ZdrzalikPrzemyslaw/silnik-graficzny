@@ -1,4 +1,4 @@
-﻿namespace Structures.Render;
+﻿namespace Structures.Surface;
 
 public class Material
 {

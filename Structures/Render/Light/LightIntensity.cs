@@ -148,7 +148,7 @@ public class LightIntensity : IEquatable<LightIntensity>
             return new LightIntensityBuilder().SetB(lightIntensityBuilder.B * k).SetG(lightIntensityBuilder.G * k)
                 .SetR(lightIntensityBuilder.R * k);
         }
-        
+
         public static LightIntensityBuilder operator *(double k, LightIntensityBuilder lightIntensityBuilder)
         {
             return lightIntensityBuilder * k;

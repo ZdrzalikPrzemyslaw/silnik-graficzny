@@ -1,4 +1,3 @@
-using System.Collections;
 using Structures.Figures;
 using Structures.MathObjects;
 
@@ -26,13 +25,11 @@ public class SurfaceLightSource : AbstractLightSourceArray
         var yOffset = height / (rows <= 1 ? 1 : rows - 1);
         var rayX = new Ray(pointLightSource.Location, up.Cross(plane.Normal));
         for (var i = 0; i < rows; i++)
+        for (var j = 0; j < columns; j++)
         {
-            for (var j = 0; j < columns; j++)
-            {
-                var rayY = new Ray(rayX.PointAtDistanceFromOrigin(xOffset * i), -up);
-                var point = rayY.PointAtDistanceFromOrigin(yOffset * j);
-                _pointLightSources[i, j] = new PointLightSource(pointLightSource, point);
-            }
+            var rayY = new Ray(rayX.PointAtDistanceFromOrigin(xOffset * i), -up);
+            var point = rayY.PointAtDistanceFromOrigin(yOffset * j);
+            _pointLightSources[i, j] = new PointLightSource(pointLightSource, point);
         }
     }
 
@@ -42,7 +39,7 @@ public class SurfaceLightSource : AbstractLightSourceArray
     public Plane Plane { get; }
 
     public Vector3 Up { get; }
-    
+
     public override AbstractLightSource[] GetLightSources()
     {
         return _pointLightSources.Cast<AbstractLightSource>().ToArray();
