@@ -1,4 +1,5 @@
 ﻿using Structures.MathObjects;
+using Structures.Surface;
 
 namespace Structures.Figures;
 
@@ -6,12 +7,13 @@ public class Triangle : Figure
 {
     private readonly Plane _plane;
 
-    public Triangle(Vector3 a, Vector3 b, Vector3 c)
+    public Triangle(Vector3 a, Vector3 b, Vector3 c, Material? material = null)
     {
         _plane = new Plane(a, b, c);
         A = a;
         B = b;
         C = c;
+        Material = material ?? new Material();
     }
 
     public Vector3 A { get; set; }

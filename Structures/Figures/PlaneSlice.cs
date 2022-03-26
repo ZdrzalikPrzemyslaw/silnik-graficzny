@@ -1,11 +1,12 @@
 ﻿using Structures.MathObjects;
+using Structures.Surface;
 
 namespace Structures.Figures;
 
 public class PlaneSlice : Plane
 {
     public PlaneSlice(Vector3 inNormal, Vector3 point, Vector3 leftUpPoint,
-        Vector3 rightUpPoint, Vector3 rightDownPoint, Vector3 leftDownPoint) : base(inNormal, point)
+        Vector3 rightUpPoint, Vector3 rightDownPoint, Vector3 leftDownPoint, Material? material) : base(inNormal, point, material)
     {
         LeftUpPoint = leftUpPoint;
         RightUpPoint = rightUpPoint;
@@ -13,11 +14,11 @@ public class PlaneSlice : Plane
         LeftDownPoint = leftDownPoint;
     }
 
-    public PlaneSlice(Vector3 inNormal, double distance) : base(inNormal, distance)
+    public PlaneSlice(Vector3 inNormal, double distance, Material material) : base(inNormal, distance, material)
     {
     }
 
-    public PlaneSlice(Vector3 inNormal, Vector3 point) : base(inNormal, point)
+    public PlaneSlice(Vector3 inNormal, Vector3 point, Material material) : base(inNormal, point, material)
     {
     }
 

@@ -1,4 +1,5 @@
 using Structures.MathObjects;
+using Structures.Surface;
 
 namespace Structures.Figures;
 
@@ -7,14 +8,15 @@ public class Sphere : Figure, IEquatable<Sphere>
     /// <summary>
     ///     Creates new Sphere starting at {0, 0, 0} with radius equal to 0.
     /// </summary>
-    public Sphere() : this(Vector3.Zero(), 0)
+    public Sphere() : this(Vector3.Zero(), 0, null)
     {
     }
 
-    public Sphere(Vector3 center, double radius)
+    public Sphere(Vector3 center, double radius, Material? material = null)
     {
         Center = center;
         Radius = radius;
+        Material = material ?? new Material();
     }
 
     /// <summary>

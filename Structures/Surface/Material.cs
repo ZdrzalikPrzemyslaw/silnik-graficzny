@@ -8,17 +8,18 @@ public class Material
 
     public double ShinessConstant { get; set; }
 
-    private Texture? Texture { get; set; }
-    private bool HasTexture { get; set; }
+    private Texture? Texture { get; }
+    private bool HasTexture { get; }
 
-    public Material()
+    public Material(Texture? texture = null)
     {
         KAmbient = 0.3f;
         KDiffuse = 0.5f;
         KSpecular = 0.8f;
 
         ShinessConstant = 100;
-        HasTexture = false;
+        Texture = texture;
+        HasTexture = texture is not null;
     }
 
     public Material(double kAmbient, double kDiffuse, double kSpecular, double shinessConstant, Texture? texture = null)
@@ -27,13 +28,7 @@ public class Material
         KDiffuse = kDiffuse;
         KSpecular = kSpecular;
         ShinessConstant = shinessConstant;
-        if (texture is null)
-        {
-            Texture = null;
-            HasTexture = false;
-            return;
-        } 
         Texture = texture;
-        HasTexture = true;
+        HasTexture = texture is not null;
     }
 }
