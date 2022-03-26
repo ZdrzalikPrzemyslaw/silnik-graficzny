@@ -52,6 +52,7 @@ public class PlaneSlice : Plane
 
     public (double, double) GetPercentageOfPoint(Vector3 point)
     {
+        //TODO: poprawić bo jest źle
         var AE = LeftUpPoint.Distance(point);
         var AC = LeftUpPoint.Distance(LeftDownPoint);
         var AB = LeftUpPoint.Distance(RightUpPoint);
