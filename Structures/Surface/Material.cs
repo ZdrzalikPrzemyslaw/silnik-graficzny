@@ -8,8 +8,8 @@ public class Material
 
     public double ShinessConstant { get; set; }
 
-    private Texture? Texture { get; }
-    private bool HasTexture { get; }
+    public Texture? Texture { get; }
+    public bool HasTexture { get; }
 
     public Material(Texture? texture = null)
     {

@@ -50,6 +50,17 @@ public class PlaneSlice : Plane
         }
     }
 
+    public (double, double) GetPercentageOfPoint(Vector3 point)
+    {
+        var AE = LeftUpPoint.Distance(point);
+        var AC = LeftUpPoint.Distance(LeftDownPoint);
+        var AB = LeftUpPoint.Distance(RightUpPoint);
+        var AD = LeftUpPoint.Distance(RightDownPoint);
+        var AEPrim = AC * AE / AD;
+        var AEPrimPrim = AB * AE / AD;
+        return (AEPrim, AEPrimPrim);
+    }
+
     public override List<PointOfIntersection> Intersections(Ray ray)
     {
         try

@@ -4,23 +4,20 @@ namespace Structures.Surface;
 
 public class Texture
 {
-    public int Width { get; set; }
-    public int Height { get; set; }
     public LightIntensity[,] ColorMap { get; set; } = { };
 
-    public Texture(int width, int height, LightIntensity[,] colorMap)
+    public Texture(LightIntensity[,] colorMap)
     {
-        Width = width;
-        Height = height;
         ColorMap = colorMap;
     }
 
-    public LightIntensity RectangularMapping(double x, double z)
+    public LightIntensity GetByRectangularMapping(double x, double z)
     {
-        return ColorMap[(int) ((z + 1) / Width), (int) ((x - 1) / Height)];
+        return ColorMap[(int) (z * ColorMap.GetLength(0)),
+            (int) (x * ColorMap.GetLength(1))];
     }
 
-    public LightIntensity SphericalMapping(double x, double z)
+    public LightIntensity GetBySphericalMapping(double x, double z)
     {
         throw new NotImplementedException();
     }

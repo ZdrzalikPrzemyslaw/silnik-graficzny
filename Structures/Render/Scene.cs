@@ -86,6 +86,7 @@ public class Scene : AbstractFigureList<ComplexFigure>
             var pointOfIntersection = Intersection(ray);
             if (pointOfIntersection is null) return lightIntensityBuilder.Build();
             if (pointOfIntersection.Figure is null) return lightIntensityBuilder.Build();
+            var textureLight = pointOfIntersection.Figure.;
             foreach (var lightSourceArray in _lightSources)
             foreach (var lightSource in lightSourceArray)
             {
@@ -117,7 +118,6 @@ public class Scene : AbstractFigureList<ComplexFigure>
                     lightIntensityBuilder += lightSource.GetIntensity(pointOfIntersection);
                 }
             }
-
             return lightIntensityBuilder.Build();
         }
         catch (Plane.InfiniteIntersectionsException e)
