@@ -6,7 +6,7 @@ namespace Structures.Figures;
 public class PlaneSlice : Plane
 {
     public PlaneSlice(Vector3 inNormal, Vector3 point, Vector3 leftUpPoint,
-        Vector3 rightUpPoint, Vector3 rightDownPoint, Vector3 leftDownPoint, Material? material) : base(inNormal, point, material)
+        Vector3 rightUpPoint, Vector3 rightDownPoint, Vector3 leftDownPoint, Material? material = null) : base(inNormal, point, material)
     {
         LeftUpPoint = leftUpPoint;
         RightUpPoint = rightUpPoint;
@@ -14,11 +14,11 @@ public class PlaneSlice : Plane
         LeftDownPoint = leftDownPoint;
     }
 
-    public PlaneSlice(Vector3 inNormal, double distance, Material material) : base(inNormal, distance, material)
+    public PlaneSlice(Vector3 inNormal, double distance, Material? material = null) : base(inNormal, distance, material)
     {
     }
 
-    public PlaneSlice(Vector3 inNormal, Vector3 point, Material material) : base(inNormal, point, material)
+    public PlaneSlice(Vector3 inNormal, Vector3 point, Material? material = null) : base(inNormal, point, material)
     {
     }
 
