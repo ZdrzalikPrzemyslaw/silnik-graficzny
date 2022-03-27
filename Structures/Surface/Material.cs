@@ -4,13 +4,13 @@ namespace Structures.Surface;
 
 public class Material
 {
-    public Material(Texture? texture = null, IReflection? reflection = null) : this(0.3f, 0.5f, 0.8f, 100, texture,
+    public Material(Texture? texture = null, AbstractReflection? reflection = null) : this(0.3f, 0.5f, 0.8f, 100, texture,
         reflection)
     {
     }
 
     public Material(double kAmbient, double kDiffuse, double kSpecular, double shinessConstant, Texture? texture = null,
-        IReflection? reflection = null)
+        AbstractReflection? reflection = null)
     {
         KAmbient = kAmbient;
         KDiffuse = kDiffuse;
@@ -25,7 +25,7 @@ public class Material
     public double KDiffuse { get; set; }
     public double KSpecular { get; set; }
 
-    public IReflection? Reflection { get; set; }
+    public AbstractReflection? Reflection { get; set; }
     public double ShinessConstant { get; set; }
 
     public Texture? Texture { get; set; }
