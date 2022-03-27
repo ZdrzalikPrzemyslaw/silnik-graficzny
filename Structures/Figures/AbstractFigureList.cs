@@ -62,11 +62,12 @@ public abstract class AbstractFigureList<T> : Figure where T : Figure
     {
         var intersections = Intersections(ray);
         if (intersections.Count == 0) return null;
-        var closest = intersections[0];
-        var closestDistance = closest.Position.Distance(ray);
+        PointOfIntersection? closest = null;
+        double closestDistance = double.MaxValue;
         foreach (var intersection in intersections)
         {
             var loopDistance = intersection.Position.Distance(ray);
+            if(loopDistance == 0) continue;
             if (closestDistance > loopDistance)
             {
                 closestDistance = loopDistance;

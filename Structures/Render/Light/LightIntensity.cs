@@ -49,6 +49,11 @@ public class LightIntensity : IEquatable<LightIntensity>
     {
         return new LightIntensity(1, 1, 1);
     }
+    
+    public static LightIntensity DefaultBlack()
+    {
+        return new LightIntensity(0, 0, 0);
+    }
 
     public static LightIntensity DefaultBackground()
     {
@@ -127,7 +132,23 @@ public class LightIntensity : IEquatable<LightIntensity>
         {
             return new LightIntensity(R, G, B);
         }
+        
+        public LightIntensityBuilder(){}
 
+        public LightIntensityBuilder(double r, double g, double b)
+        {
+            SetR(r);
+            SetG(g);
+            SetB(b);
+        }
+
+        public LightIntensityBuilder(LightIntensity lightIntensity)
+        {
+            SetR(lightIntensity.R);
+            SetG(lightIntensity.G);
+            SetB(lightIntensity.B);
+        }
+        
         public LightIntensityBuilder SetR(double R)
         {
             this.R = R;
@@ -151,6 +172,15 @@ public class LightIntensity : IEquatable<LightIntensity>
         {
             return lightIntensityBuilder.AddLightIntensity(lightIntensity);
         }
+        
+        public static LightIntensityBuilder operator +(LightIntensityBuilder lhs,
+            LightIntensityBuilder rhs)
+        {
+            lhs.R += rhs.R;
+            lhs.G += rhs.G;
+            lhs.B += rhs.B;
+            return lhs;
+        }
 
         public static LightIntensityBuilder operator *(LightIntensityBuilder lightIntensityBuilder,
             double k)
@@ -170,6 +200,14 @@ public class LightIntensity : IEquatable<LightIntensity>
             return new LightIntensityBuilder().SetB(lightIntensityBuilder.B * lightIntensity.B)
                 .SetG(lightIntensityBuilder.G * lightIntensity.G)
                 .SetR(lightIntensityBuilder.R * lightIntensity.R);
+        }
+        
+        public static LightIntensityBuilder operator *(LightIntensityBuilder lhs,
+            LightIntensityBuilder rhs)
+        {
+            return new LightIntensityBuilder().SetB(lhs.B * rhs.B)
+                .SetG(lhs.G * rhs.G)
+                .SetR(lhs.R * rhs.R);
         }
 
         public LightIntensityBuilder AddLightIntensity(LightIntensity lightIntensity)

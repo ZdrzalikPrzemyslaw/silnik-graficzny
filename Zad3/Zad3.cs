@@ -5,6 +5,7 @@ using Structures.Render;
 using Structures.Render.Camera;
 using Structures.Render.Light;
 using Structures.Surface;
+using Structures.Surface.Reflection;
 
 namespace Zad3;
 
@@ -43,7 +44,7 @@ internal class Zad3
         }
 
         var sphere2 = new Sphere(
-            new Vector3(2, -3, 4), 2, new Material(new Texture(tab2)));
+            new Vector3(2, -3, 4), 2, new Material(new Texture(tab2), new SpecularReflection()));
         sphere2.Rotation = Matrix.RotateX(Math.PI / 4);
         var scene = new Scene(
             new PlaneSlice(Vector3.Right(), new Vector3(-5, 5, 0), new Vector3(-5, 5, 0), new Vector3(-5, 5, 10),
