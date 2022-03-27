@@ -44,12 +44,12 @@ public class LightIntensity : IEquatable<LightIntensity>
     {
         return new LightIntensity(1, 0.78, 0.64);
     }
-    
+
     public static LightIntensity DefaultWhite()
     {
         return new LightIntensity(1, 1, 1);
     }
-    
+
     public static LightIntensity DefaultBlack()
     {
         return new LightIntensity(0, 0, 0);
@@ -105,7 +105,7 @@ public class LightIntensity : IEquatable<LightIntensity>
     {
         return new LightIntensity(a.R * k, a.G * k, a.B * k);
     }
-    
+
     public static LightIntensity operator *(LightIntensity lhs, LightIntensity rhs)
     {
         return new LightIntensity(lhs.R * rhs.R, lhs.G * rhs.G, lhs.B * rhs.B);
@@ -128,12 +128,9 @@ public class LightIntensity : IEquatable<LightIntensity>
         private double G;
         private double R;
 
-        public LightIntensity Build()
+        public LightIntensityBuilder()
         {
-            return new LightIntensity(R, G, B);
         }
-        
-        public LightIntensityBuilder(){}
 
         public LightIntensityBuilder(double r, double g, double b)
         {
@@ -148,7 +145,12 @@ public class LightIntensity : IEquatable<LightIntensity>
             SetG(lightIntensity.G);
             SetB(lightIntensity.B);
         }
-        
+
+        public LightIntensity Build()
+        {
+            return new LightIntensity(R, G, B);
+        }
+
         public LightIntensityBuilder SetR(double R)
         {
             this.R = R;
@@ -172,7 +174,7 @@ public class LightIntensity : IEquatable<LightIntensity>
         {
             return lightIntensityBuilder.AddLightIntensity(lightIntensity);
         }
-        
+
         public static LightIntensityBuilder operator +(LightIntensityBuilder lhs,
             LightIntensityBuilder rhs)
         {
@@ -201,7 +203,7 @@ public class LightIntensity : IEquatable<LightIntensity>
                 .SetG(lightIntensityBuilder.G * lightIntensity.G)
                 .SetR(lightIntensityBuilder.R * lightIntensity.R);
         }
-        
+
         public static LightIntensityBuilder operator *(LightIntensityBuilder lhs,
             LightIntensityBuilder rhs)
         {

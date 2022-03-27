@@ -49,7 +49,7 @@ public class PointLightSource : ComplexLightSource
             }
             catch (Plane.InfiniteIntersectionsException e)
             {
-                Console.WriteLine(e.StackTrace);
+                // Console.WriteLine(e.StackTrace);
                 return false;
             }
 

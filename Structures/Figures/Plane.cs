@@ -27,7 +27,8 @@ public class Plane : Figure, IEquatable<Plane>
     /// </summary>
     /// <param name="inNormal">Normal Vector</param>
     /// <param name="point">Point belonging to Plane</param>
-    public Plane(Vector3 inNormal, Vector3 point, Material? material = null) : this(inNormal, GetDistanceAlongNormal(inNormal, point), material)
+    public Plane(Vector3 inNormal, Vector3 point, Material? material = null) : this(inNormal,
+        GetDistanceAlongNormal(inNormal, point), material)
     {
     }
 
@@ -173,11 +174,11 @@ public class Plane : Figure, IEquatable<Plane>
             var point = Intersection(ray);
             if (point is null) return new List<PointOfIntersection>();
             // Inaczej zwroci sie 1 element null
-            return new List<PointOfIntersection> {point};
+            return new List<PointOfIntersection> { point };
         }
         catch (InfiniteIntersectionsException e)
         {
-            Console.WriteLine(e.StackTrace);
+            // Console.WriteLine(e.StackTrace);
             return new List<PointOfIntersection>();
         }
     }

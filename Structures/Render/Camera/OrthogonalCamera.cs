@@ -29,6 +29,7 @@ public class OrthogonalCamera : AbstractCamera
         _height = height;
         _width = width;
     }
+
     public ISampler Sampler { get; } = new OrthogonalSampler();
 
     public double _height { get; }

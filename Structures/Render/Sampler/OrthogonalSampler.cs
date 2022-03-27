@@ -13,7 +13,8 @@ public class OrthogonalSampler : AbstractSampler
     {
     }
 
-    public override LightIntensity Sample(Scene scene, Ray rayLeftUp, double stepX, double stepY, Vector3 up, int recursionLevel = 0)
+    public override LightIntensity Sample(Scene scene, Ray rayLeftUp, double stepX, double stepY, Vector3 up,
+        int recursionLevel = 0)
     {
         var rayRightUp = new Ray(
             new Ray(rayLeftUp.Origin, rayLeftUp.Direction.Cross(up)).PointAtDistanceFromOrigin(-stepX),
@@ -46,7 +47,7 @@ public class OrthogonalSampler : AbstractSampler
                 (intensityLeftUp.B + intensityCenter.B) / 2
             )
             : new OrthogonalSampler(SpatialContrast)
-                .Sample(scene, rayLeftUp, stepX / 2, stepY/2, up, recursionLevel + 1)) / 4;
+                .Sample(scene, rayLeftUp, stepX / 2, stepY / 2, up, recursionLevel + 1)) / 4;
 
         lightIntensityRes += (Math.Abs(intensityRightUp.R - intensityCenter.R) < SpatialContrast.R &&
                               Math.Abs(intensityRightUp.G - intensityCenter.G) < SpatialContrast.G &&
@@ -60,7 +61,7 @@ public class OrthogonalSampler : AbstractSampler
                 .Sample(scene,
                     new Ray(Vector3.PointBetweenTwoPoints(rayLeftUp.Origin, rayRightUp.Origin),
                         rayLeftUp.Direction),
-                    stepX / 2, stepY/2,  up, recursionLevel + 1)) / 4;
+                    stepX / 2, stepY / 2, up, recursionLevel + 1)) / 4;
 
         lightIntensityRes += (Math.Abs(intensityRightDown.R - intensityCenter.R) < SpatialContrast.R &&
                               Math.Abs(intensityRightDown.G - intensityCenter.G) < SpatialContrast.G &&
@@ -71,7 +72,7 @@ public class OrthogonalSampler : AbstractSampler
                 (intensityRightDown.B + intensityCenter.B) / 2
             )
             : new OrthogonalSampler(SpatialContrast)
-                .Sample(scene, rayCenter, stepX / 2, stepY/2,  up, recursionLevel + 1)) / 4;
+                .Sample(scene, rayCenter, stepX / 2, stepY / 2, up, recursionLevel + 1)) / 4;
 
         lightIntensityRes += (Math.Abs(intensityLeftDown.R - intensityCenter.R) < SpatialContrast.R &&
                               Math.Abs(intensityLeftDown.G - intensityCenter.G) < SpatialContrast.G &&
@@ -84,7 +85,7 @@ public class OrthogonalSampler : AbstractSampler
             : new OrthogonalSampler(SpatialContrast)
                 .Sample(scene,
                     new Ray(Vector3.PointBetweenTwoPoints(rayLeftDown.Origin, rayLeftUp.Origin), rayLeftUp.Direction),
-                    stepX / 2, stepY/2, up, recursionLevel + 1)) / 4;
+                    stepX / 2, stepY / 2, up, recursionLevel + 1)) / 4;
 
         return lightIntensityRes;
     }

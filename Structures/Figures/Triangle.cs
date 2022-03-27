@@ -38,7 +38,7 @@ public class Triangle : Figure
         }
         catch (Plane.InfiniteIntersectionsException e)
         {
-            Console.WriteLine(e.StackTrace);
+            // Console.WriteLine(e.StackTrace);
             return false;
         }
     }
@@ -93,12 +93,12 @@ public class Triangle : Figure
         {
             var intersection = Intersection(ray);
             return intersection is not null
-                ? new List<PointOfIntersection> {intersection}
+                ? new List<PointOfIntersection> { intersection }
                 : new List<PointOfIntersection>();
         }
         catch (Plane.InfiniteIntersectionsException e)
         {
-            Console.WriteLine(e.StackTrace);
+            // Console.WriteLine(e.StackTrace);
             return new List<PointOfIntersection>();
         }
     }

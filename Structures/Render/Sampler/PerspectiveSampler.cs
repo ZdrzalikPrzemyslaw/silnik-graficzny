@@ -14,7 +14,8 @@ public class PerspectiveSampler : AbstractSampler
     }
 
 
-    public override LightIntensity Sample(Scene scene, Ray rayLeftUp, double stepX, double stepY, Vector3 up, int recursionLevel = 0)
+    public override LightIntensity Sample(Scene scene, Ray rayLeftUp, double stepX, double stepY, Vector3 up,
+        int recursionLevel = 0)
     {
         var matrixRight = Matrix.Rotate(stepX * Math.PI / 180, up);
         var matrixDown = Matrix.Rotate(-stepY * Math.PI / 180, rayLeftUp.Direction.Cross(up));

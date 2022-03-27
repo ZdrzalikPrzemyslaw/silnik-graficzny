@@ -11,7 +11,8 @@ public class PerspectiveCamera : AbstractCamera
     {
     }
 
-    public PerspectiveCamera(Vector3 position, Vector3 target, Vector3 up, Plane nearPlane, Plane farPlane, double fovX, double fovY)
+    public PerspectiveCamera(Vector3 position, Vector3 target, Vector3 up, Plane nearPlane, Plane farPlane, double fovX,
+        double fovY)
         : base(position, target, up)
     {
         NearPlane = nearPlane;
@@ -24,7 +25,7 @@ public class PerspectiveCamera : AbstractCamera
         : this(position, target, up,
             new Plane(target, new Ray(position, target).PointAtDistanceFromOrigin(1)),
             new Plane(target, new Ray(position, target).PointAtDistanceFromOrigin(1000)),
-            60, 60)
+            80, 80)
     {
     }
 
@@ -60,7 +61,7 @@ public class PerspectiveCamera : AbstractCamera
         }
     }
 
-    public override Picture RenderScene(Scene scene, int sizeX = 4, int sizeY = 4)
+    public override Picture RenderScene(Scene scene, int sizeX, int sizeY)
     {
         Picture picture = new(sizeX, sizeY);
         var threads = new List<Thread>();

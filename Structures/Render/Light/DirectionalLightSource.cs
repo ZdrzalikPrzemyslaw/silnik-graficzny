@@ -43,7 +43,7 @@ public class DirectionalLightSource : ComplexLightSource
             }
             catch (Plane.InfiniteIntersectionsException e)
             {
-                Console.WriteLine(e.StackTrace);
+                // Console.WriteLine(e.StackTrace);
                 return false;
             }
 
