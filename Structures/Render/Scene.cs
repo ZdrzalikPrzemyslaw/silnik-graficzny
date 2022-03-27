@@ -121,7 +121,7 @@ public class Scene : AbstractFigureList<ComplexFigure>
             LightIntensity.LightIntensityBuilder lightIntensityBuilder2 = new();
             if (pointOfIntersection.Figure.Material.Reflection is null || recursionCount <= 0)
             {
-                if (lightSource.IsInShadow(pointOfIntersection, this)) new LightIntensity.LightIntensityBuilder();
+                if (lightSource.IsInShadow(pointOfIntersection, this)) return new LightIntensity.LightIntensityBuilder();
                 var Lm = new Vector3(pointOfIntersection.Position, light.Location).GetNormalized();
                 var N = pointOfIntersection.Figure.GetNormal(pointOfIntersection);
                 var LdotN = Lm.Dot(N);
