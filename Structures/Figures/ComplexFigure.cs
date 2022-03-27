@@ -1,5 +1,3 @@
-using Structures.MathObjects;
-
 namespace Structures.Figures;
 
 public class ComplexFigure : AbstractFigureList<Figure>

@@ -47,7 +47,7 @@ public class PlaneSlice : Plane
         }
         catch (InfiniteIntersectionsException e)
         {
-            Console.WriteLine(e.StackTrace);
+            // Console.WriteLine(e.StackTrace);
             return null;
         }
     }
@@ -68,8 +68,8 @@ public class PlaneSlice : Plane
         if (Material.Texture is null) return LightIntensity.DefaultWhite();
         point -= LeftUpPoint;
         var (u, v) = GetPercentageOfPoint(point);
-        return Material.Texture.ColorMap[(int) (v * (Material.Texture.ColorMap.GetLength(0) - 1)),
-            (int) (u * (Material.Texture.ColorMap.GetLength(1) - 1))];
+        return Material.Texture.ColorMap[(int)(v * (Material.Texture.ColorMap.GetLength(0) - 1)),
+            (int)(u * (Material.Texture.ColorMap.GetLength(1) - 1))];
     }
 
     public override List<PointOfIntersection> Intersections(Ray ray)
@@ -78,12 +78,12 @@ public class PlaneSlice : Plane
         {
             var intersection = Intersection(ray);
             return intersection is not null
-                ? new List<PointOfIntersection> {intersection}
+                ? new List<PointOfIntersection> { intersection }
                 : new List<PointOfIntersection>();
         }
         catch (InfiniteIntersectionsException e)
         {
-            Console.WriteLine(e.StackTrace);
+            // Console.WriteLine(e.StackTrace);
             return new List<PointOfIntersection>();
         }
     }

@@ -9,11 +9,9 @@ public class Sphere : Figure, IEquatable<Sphere>
     /// <summary>
     ///     Creates new Sphere starting at {0, 0, 0} with radius equal to 0.
     /// </summary>
-    public Sphere() : this(Vector3.Zero(), 0, null)
+    public Sphere() : this(Vector3.Zero(), 0)
     {
     }
-
-    public Matrix Rotation { get; set; } = Matrix.Rotate(0, Vector3.Up());
 
     public Sphere(Vector3 center, double radius, Material? material = null)
     {
@@ -21,6 +19,8 @@ public class Sphere : Figure, IEquatable<Sphere>
         Radius = radius;
         Material = material ?? new Material();
     }
+
+    public Matrix Rotation { get; set; } = Matrix.Rotate(0, Vector3.Up());
 
     /// <summary>
     ///     Center position of the Sphere.
@@ -150,20 +150,20 @@ public class Sphere : Figure, IEquatable<Sphere>
     {
         return HashCode.Combine(Center, Radius);
     }
-    
+
     public override LightIntensity GetTexture(Vector3 point)
     {
         if (Material.Texture is null) return LightIntensity.DefaultWhite();
         point -= Center;
         point = point.Rotate(Rotation);
         var theta = Math.Acos(point.Y);
-        theta = theta is Double.NaN ? 1 : theta; 
+        theta = theta is double.NaN ? 1 : theta;
         var phi = Math.Atan2(point.X, point.Z);
         phi = phi < 0 ? phi + 2 * Math.PI : phi;
         var u = phi / (2 * Math.PI);
         var v = 1 - theta / Math.PI;
-        return Material.Texture.ColorMap[(int) (u * (Material.Texture.ColorMap.GetLength(0) - 1)),
-            (int) (v * (Material.Texture.ColorMap.GetLength(1) - 1))];
+        return Material.Texture.ColorMap[(int)(u * (Material.Texture.ColorMap.GetLength(0) - 1)),
+            (int)(v * (Material.Texture.ColorMap.GetLength(1) - 1))];
     }
 
     /// <inheritdoc />

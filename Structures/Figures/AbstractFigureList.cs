@@ -58,12 +58,32 @@ public abstract class AbstractFigureList<T> : Figure where T : Figure
         return GetList().Any(figure => figure.Intersects(ray));
     }
 
+    public virtual PointOfIntersection? Intersection(Ray ray, Figure? ignore = null)
+    {
+        var intersections = Intersections(ray);
+        if (intersections.Count == 0) return null;
+        PointOfIntersection? closest = null;
+        double closestDistance = double.MaxValue;
+        foreach (var intersection in intersections)
+        {
+            var loopDistance = intersection.Position.Distance(ray);
+            if (intersection.Figure.Equals(ignore)) continue;
+            if (closestDistance > loopDistance)
+            {
+                closestDistance = loopDistance;
+                closest = intersection;
+            }
+        }
+
+        return closest;
+    }
+    
     public override PointOfIntersection? Intersection(Ray ray)
     {
         var intersections = Intersections(ray);
         if (intersections.Count == 0) return null;
-        var closest = intersections[0];
-        var closestDistance = closest.Position.Distance(ray);
+        PointOfIntersection? closest = null;
+        double closestDistance = double.MaxValue;
         foreach (var intersection in intersections)
         {
             var loopDistance = intersection.Position.Distance(ray);

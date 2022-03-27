@@ -54,25 +54,36 @@ public class Scene : AbstractFigureList<ComplexFigure>
         _figures.Add(figure);
     }
 
+    public override PointOfIntersection? Intersection(Ray ray, Figure? ignore = null)
+    {
+        try
+        {
+            var pointOfIntersection = base.Intersection(ray, ignore);
+            if (pointOfIntersection == null) return null;
+
+            return new PointOfIntersection(pointOfIntersection.Figure,
+                pointOfIntersection.Position);
+        }
+        catch (Plane.InfiniteIntersectionsException e)
+        {
+            // Console.WriteLine(e.StackTrace);
+            return null;
+        }
+    }
+    
     public override PointOfIntersection? Intersection(Ray ray)
     {
         try
         {
             var pointOfIntersection = base.Intersection(ray);
             if (pointOfIntersection == null) return null;
-            var lightIntensity = new LightIntensity();
-            foreach (var lightSourceArray in _lightSources)
-            foreach (var lightSource in lightSourceArray)
-                lightIntensity += !lightSource.IsInShadow(pointOfIntersection, this)
-                    ? lightSource.GetIntensity(pointOfIntersection.Position)
-                    : new LightIntensity();
 
             return new PointOfIntersection(pointOfIntersection.Figure,
-                pointOfIntersection.Position, lightIntensity);
+                pointOfIntersection.Position);
         }
         catch (Plane.InfiniteIntersectionsException e)
         {
-            Console.WriteLine(e.StackTrace);
+            // Console.WriteLine(e.StackTrace);
             return null;
         }
     }
@@ -86,46 +97,68 @@ public class Scene : AbstractFigureList<ComplexFigure>
             var pointOfIntersection = Intersection(ray);
             if (pointOfIntersection is null) return lightIntensityBuilder.Build();
             if (pointOfIntersection.Figure is null) return lightIntensityBuilder.Build();
+
             foreach (var lightSourceArray in _lightSources)
             foreach (var lightSource in lightSourceArray)
-            {
-                if (lightSource.IsInShadow(pointOfIntersection, this)) continue;
-                if (lightSource is PointLightSource)
-                {
-                    LightIntensity.LightIntensityBuilder lightIntensityBuilder2 = new();
-                    var light = (PointLightSource) lightSource;
-                    var Lm = new Vector3(pointOfIntersection.Position, light.Location).GetNormalized();
-                    var N = pointOfIntersection.Figure.GetNormal(pointOfIntersection);
-                    var LdotN = Lm.Dot(N);
-                    lightIntensityBuilder2 += light.Colour;
-                    lightIntensityBuilder2 *= LdotN;
-                    lightIntensityBuilder2 *= pointOfIntersection.Figure.Material.KDiffuse;
-                    var lni = lightIntensityBuilder2.Build();
-                    var Rm = (2 * LdotN * N - Lm).GetNormalized();
-                    var RmDotV = Rm.Dot(-ray.Direction);
-                    var powAlpha = Math.Pow(RmDotV, pointOfIntersection.Figure.Material.ShinessConstant);
-                    lightIntensityBuilder2 = new LightIntensity.LightIntensityBuilder();
-                    lightIntensityBuilder2 += light.Colour;
-                    lightIntensityBuilder2 *= powAlpha;
-                    lightIntensityBuilder2 *= pointOfIntersection.Figure.Material.KSpecular;
-                    var powKsIms = lightIntensityBuilder2.Build();
-                    lightIntensityBuilder += lni;
-                    lightIntensityBuilder += powKsIms;
-                }
-                else
-                {
-                    lightIntensityBuilder += lightSource.GetIntensity(pointOfIntersection);
-                }
-            }
-
-            // lightIntensityBuilder *= pointOfIntersection.Figure.GetTexture(pointOfIntersection.Position);
-            return lightIntensityBuilder.Build() * pointOfIntersection.Figure.GetTexture(pointOfIntersection.Position);
+                lightIntensityBuilder += GetLightIntensityForLightSource(ray, pointOfIntersection, lightSource);
+            return lightIntensityBuilder.Build();
         }
         catch (Plane.InfiniteIntersectionsException e)
         {
-            Console.WriteLine(e.StackTrace);
+            // Console.WriteLine(e.StackTrace);
             return lightIntensityBuilder.Build();
         }
+    }
+
+    private LightIntensity.LightIntensityBuilder GetLightIntensityForLightSource(Ray ray,
+        PointOfIntersection pointOfIntersection, AbstractLightSource lightSource, int recursionCount = 3)
+    {
+        if (pointOfIntersection.Figure is null)
+            return new LightIntensity.LightIntensityBuilder();
+        LightIntensity.LightIntensityBuilder lightIntensityBuilder = new();
+        if (lightSource is PointLightSource light)
+        {
+            LightIntensity.LightIntensityBuilder lightIntensityBuilder2 = new();
+            if (pointOfIntersection.Figure.Material.Reflection is null || recursionCount <= 0)
+            {
+                if (lightSource.IsInShadow(pointOfIntersection, this)) return new LightIntensity.LightIntensityBuilder();
+                var Lm = new Vector3(pointOfIntersection.Position, light.Location).GetNormalized();
+                var N = pointOfIntersection.Figure.GetNormal(pointOfIntersection);
+                var LdotN = Lm.Dot(N);
+                lightIntensityBuilder2 += light.GetIntensity(pointOfIntersection);
+                lightIntensityBuilder2 *= LdotN;
+                lightIntensityBuilder2 *= pointOfIntersection.Figure.Material.KDiffuse;
+                var lni = lightIntensityBuilder2.Build();
+                var Rm = (2 * LdotN * N - Lm).GetNormalized();
+                var RmDotV = Rm.Dot(-ray.Direction);
+                var powAlpha = Math.Pow(RmDotV, pointOfIntersection.Figure.Material.ShinessConstant);
+                lightIntensityBuilder2 = new LightIntensity.LightIntensityBuilder();
+                lightIntensityBuilder2 += light.GetIntensity(pointOfIntersection);
+                lightIntensityBuilder2 *= powAlpha;
+                lightIntensityBuilder2 *= pointOfIntersection.Figure.Material.KSpecular;
+                var powKsIms = lightIntensityBuilder2.Build();
+                lightIntensityBuilder += lni;
+                lightIntensityBuilder += powKsIms;
+                return lightIntensityBuilder * pointOfIntersection.Figure.GetTexture(pointOfIntersection.Position);
+            }
+
+            if (recursionCount > 0)
+            {
+                var reflectedRay =
+                    pointOfIntersection.Figure.Material.Reflection.GetReflectedRay(ray, pointOfIntersection);
+                var reflectedPointOfIntersection = Intersection(reflectedRay, pointOfIntersection.Figure);
+                if (reflectedPointOfIntersection is null) return lightIntensityBuilder;
+                lightIntensityBuilder2 = GetLightIntensityForLightSource(reflectedRay, reflectedPointOfIntersection,
+                    lightSource, recursionCount - 1);
+                lightIntensityBuilder += lightIntensityBuilder2;
+            }
+        }
+        else
+        {
+            lightIntensityBuilder += lightSource.GetIntensity(pointOfIntersection) * pointOfIntersection.Figure.GetTexture(pointOfIntersection.Position);
+        }
+
+        return lightIntensityBuilder;
     }
 
     public void AddFigure(Figure figure)
@@ -135,7 +168,7 @@ public class Scene : AbstractFigureList<ComplexFigure>
 
     public void AddLight(AbstractLightSource lightSource)
     {
-        _lightSources.Add(new[] {lightSource});
+        _lightSources.Add(new[] { lightSource });
     }
 
     public void AddLight(AbstractLightSource[] lightSource)
