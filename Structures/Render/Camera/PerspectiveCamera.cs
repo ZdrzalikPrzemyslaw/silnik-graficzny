@@ -60,7 +60,7 @@ public class PerspectiveCamera : AbstractCamera
         }
     }
 
-    public override Picture RenderScene(Scene scene, int sizeX = 200, int sizeY = 200)
+    public override Picture RenderScene(Scene scene, int sizeX = 4, int sizeY = 4)
     {
         Picture picture = new(sizeX, sizeY);
         var threads = new List<Thread>();
