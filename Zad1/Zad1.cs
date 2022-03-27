@@ -44,7 +44,6 @@ internal class Zad1
 
         // Proszę zdefiniować płaszczyznę P przechodzącą przez punkt (0,0,0), której 
         // wektor normalny tworzy kąt 45 stopni z osiami Y i Z
-        // TODO: czy to na pewno tworzy kat 45??
         var P = new Plane(new Vector3(0, 0.5, 0.5), new Vector3(0, 0, 0));
         var P1 = new Plane(new Vector3(0, 0.5, 0.5), new Vector3(10, 10, 10));
 

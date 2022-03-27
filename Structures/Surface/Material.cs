@@ -1,4 +1,4 @@
-﻿namespace Structures.Render;
+﻿namespace Structures.Surface;
 
 public class Material
 {
@@ -8,28 +8,27 @@ public class Material
 
     public double ShinessConstant { get; set; }
 
-    // private Texture TextureA;
-    private bool HasTexture;
+    public Texture? Texture { get; }
+    public bool HasTexture { get; }
 
-    public Material()
+    public Material(Texture? texture = null)
     {
         KAmbient = 0.3f;
         KDiffuse = 0.5f;
         KSpecular = 0.8f;
 
         ShinessConstant = 100;
-        HasTexture = false;
+        Texture = texture;
+        HasTexture = texture is not null;
     }
 
-    public Material(double kAmbient, double kDiffuse, double kSpecular, double shinessConstant,
-        // Texture texture,
-        bool hasTexture)
+    public Material(double kAmbient, double kDiffuse, double kSpecular, double shinessConstant, Texture? texture = null)
     {
         KAmbient = kAmbient;
         KDiffuse = kDiffuse;
         KSpecular = kSpecular;
         ShinessConstant = shinessConstant;
-        // TextureA = texture;
-        HasTexture = hasTexture;
+        Texture = texture;
+        HasTexture = texture is not null;
     }
 }

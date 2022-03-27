@@ -1,4 +1,6 @@
 using Structures.MathObjects;
+using Structures.Render.Light;
+using Structures.Surface;
 
 namespace Structures.Figures;
 
@@ -7,14 +9,17 @@ public class Sphere : Figure, IEquatable<Sphere>
     /// <summary>
     ///     Creates new Sphere starting at {0, 0, 0} with radius equal to 0.
     /// </summary>
-    public Sphere() : this(Vector3.Zero(), 0)
+    public Sphere() : this(Vector3.Zero(), 0, null)
     {
     }
 
-    public Sphere(Vector3 center, double radius)
+    public Matrix Rotation { get; set; } = Matrix.Rotate(0, Vector3.Up());
+
+    public Sphere(Vector3 center, double radius, Material? material = null)
     {
         Center = center;
         Radius = radius;
+        Material = material ?? new Material();
     }
 
     /// <summary>
@@ -113,7 +118,7 @@ public class Sphere : Figure, IEquatable<Sphere>
 
     public override Vector3 GetNormal(PointOfIntersection? pointOfIntersection = null)
     {
-        //Todo: poprawić wyjątki :(
+        //TODO: poprawić wyjątki
         if (Math.Abs(pointOfIntersection.Position.Distance(Center) - Radius) > 0.0001) throw new ArgumentException();
         return new Vector3(Center, pointOfIntersection.Position).GetNormalized();
     }
@@ -123,7 +128,6 @@ public class Sphere : Figure, IEquatable<Sphere>
         return Equals(other as Sphere);
     }
 
-    //TODO: spojrzec czy tu [0] zawsze nie bedzie blizej
     public override PointOfIntersection? Intersection(Ray ray)
     {
         var points = Intersections(ray);
@@ -145,6 +149,21 @@ public class Sphere : Figure, IEquatable<Sphere>
     public override int GetHashCode()
     {
         return HashCode.Combine(Center, Radius);
+    }
+    
+    public override LightIntensity GetTexture(Vector3 point)
+    {
+        if (Material.Texture is null) return LightIntensity.DefaultWhite();
+        point -= Center;
+        point = point.Rotate(Rotation);
+        var theta = Math.Acos(point.Y);
+        theta = theta is Double.NaN ? 1 : theta; 
+        var phi = Math.Atan2(point.X, point.Z);
+        phi = phi < 0 ? phi + 2 * Math.PI : phi;
+        var u = phi / (2 * Math.PI);
+        var v = 1 - theta / Math.PI;
+        return Material.Texture.ColorMap[(int) (u * (Material.Texture.ColorMap.GetLength(0) - 1)),
+            (int) (v * (Material.Texture.ColorMap.GetLength(1) - 1))];
     }
 
     /// <inheritdoc />

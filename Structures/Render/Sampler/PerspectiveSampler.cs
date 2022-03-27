@@ -14,12 +14,12 @@ public class PerspectiveSampler : AbstractSampler
     }
 
 
-    public override LightIntensity Sample(Scene scene, Ray rayLeftUp, double step, Vector3 up, int recursionLevel = 0)
+    public override LightIntensity Sample(Scene scene, Ray rayLeftUp, double stepX, double stepY, Vector3 up, int recursionLevel = 0)
     {
-        var matrixRight = Matrix.Rotate(step * Math.PI / 180, up);
-        var matrixDown = Matrix.Rotate(-step * Math.PI / 180, rayLeftUp.Direction.Cross(up));
-        var matrixHalfRight = Matrix.Rotate(step / 2 * Math.PI / 180, up);
-        var matrixHalfDown = Matrix.Rotate(-step / 2 * Math.PI / 180, rayLeftUp.Direction.Cross(up));
+        var matrixRight = Matrix.Rotate(stepX * Math.PI / 180, up);
+        var matrixDown = Matrix.Rotate(-stepY * Math.PI / 180, rayLeftUp.Direction.Cross(up));
+        var matrixHalfRight = Matrix.Rotate(stepX / 2 * Math.PI / 180, up);
+        var matrixHalfDown = Matrix.Rotate(-stepY / 2 * Math.PI / 180, rayLeftUp.Direction.Cross(up));
         var rayRightUp = rayLeftUp.Rotate(matrixRight);
         var rayRightDown = rayLeftUp.Rotate(matrixRight * matrixDown);
         var rayLeftDown = rayLeftUp.Rotate(matrixDown);
@@ -46,7 +46,7 @@ public class PerspectiveSampler : AbstractSampler
                 (intensityLeftUp.B + intensityCenter.B) / 2
             )
             : new PerspectiveSampler(SpatialContrast)
-                .Sample(scene, rayLeftUp, step / 2, up, recursionLevel + 1)) / 4;
+                .Sample(scene, rayLeftUp, stepX / 2, stepY / 2, up, recursionLevel + 1)) / 4;
 
         lightIntensityRes += (Math.Abs(intensityRightUp.R - intensityCenter.R) < SpatialContrast.R &&
                               Math.Abs(intensityRightUp.G - intensityCenter.G) < SpatialContrast.G &&
@@ -58,7 +58,7 @@ public class PerspectiveSampler : AbstractSampler
             )
             : new PerspectiveSampler(SpatialContrast)
                 .Sample(scene, rayLeftUp.Rotate(matrixHalfRight),
-                    step / 2, up, recursionLevel + 1)) / 4;
+                    stepX / 2, stepY / 2, up, recursionLevel + 1)) / 4;
 
         lightIntensityRes += (Math.Abs(intensityRightDown.R - intensityCenter.R) < SpatialContrast.R &&
                               Math.Abs(intensityRightDown.G - intensityCenter.G) < SpatialContrast.G &&
@@ -69,7 +69,7 @@ public class PerspectiveSampler : AbstractSampler
                 (intensityRightDown.B + intensityCenter.B) / 2
             )
             : new PerspectiveSampler(SpatialContrast)
-                .Sample(scene, rayCenter, step / 2, up, recursionLevel + 1)) / 4;
+                .Sample(scene, rayCenter, stepX / 2, stepY / 2, up, recursionLevel + 1)) / 4;
 
         lightIntensityRes += (Math.Abs(intensityLeftDown.R - intensityCenter.R) < SpatialContrast.R &&
                               Math.Abs(intensityLeftDown.G - intensityCenter.G) < SpatialContrast.G &&
@@ -81,7 +81,7 @@ public class PerspectiveSampler : AbstractSampler
             )
             : new PerspectiveSampler(SpatialContrast)
                 .Sample(scene, rayLeftUp.Rotate(matrixHalfDown),
-                    step / 2, up, recursionLevel + 1)) / 4;
+                    stepX / 2, stepY / 2, up, recursionLevel + 1)) / 4;
 
         return lightIntensityRes;
     }

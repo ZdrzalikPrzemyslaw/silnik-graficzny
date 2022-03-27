@@ -6,9 +6,10 @@ public abstract class AbstractLightSourceArray : IEnumerable<AbstractLightSource
 {
     public abstract AbstractLightSource[] GetLightSources();
     public ref AbstractLightSource this[int row] => ref GetLightSources()[row];
+
     public IEnumerator<AbstractLightSource> GetEnumerator()
     {
-        return ((IEnumerable<AbstractLightSource>)GetLightSources()).GetEnumerator();
+        return ((IEnumerable<AbstractLightSource>) GetLightSources()).GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()

@@ -1,11 +1,14 @@
 ﻿using Structures.MathObjects;
+using Structures.Render.Light;
+using Structures.Surface;
 
 namespace Structures.Figures;
 
 public class PlaneSlice : Plane
 {
     public PlaneSlice(Vector3 inNormal, Vector3 point, Vector3 leftUpPoint,
-        Vector3 rightUpPoint, Vector3 rightDownPoint, Vector3 leftDownPoint) : base(inNormal, point)
+        Vector3 rightUpPoint, Vector3 rightDownPoint, Vector3 leftDownPoint, Material? material = null) : base(inNormal,
+        point, material)
     {
         LeftUpPoint = leftUpPoint;
         RightUpPoint = rightUpPoint;
@@ -13,11 +16,11 @@ public class PlaneSlice : Plane
         LeftDownPoint = leftDownPoint;
     }
 
-    public PlaneSlice(Vector3 inNormal, double distance) : base(inNormal, distance)
+    public PlaneSlice(Vector3 inNormal, double distance, Material? material = null) : base(inNormal, distance, material)
     {
     }
 
-    public PlaneSlice(Vector3 inNormal, Vector3 point) : base(inNormal, point)
+    public PlaneSlice(Vector3 inNormal, Vector3 point, Material? material = null) : base(inNormal, point, material)
     {
     }
 
@@ -47,6 +50,26 @@ public class PlaneSlice : Plane
             Console.WriteLine(e.StackTrace);
             return null;
         }
+    }
+
+    //https://www.obliczeniowo.com.pl/172
+    private (double, double) GetPercentageOfPoint(Vector3 point)
+    {
+        var u = point.Dot(RightUpPoint - LeftUpPoint) /
+                (LeftUpPoint - RightUpPoint).Dot(LeftUpPoint - RightUpPoint);
+
+        var v = point.Dot(LeftDownPoint - LeftUpPoint) /
+                (LeftUpPoint - LeftDownPoint).Dot(LeftUpPoint - LeftDownPoint);
+        return (u, v);
+    }
+
+    public override LightIntensity GetTexture(Vector3 point)
+    {
+        if (Material.Texture is null) return LightIntensity.DefaultWhite();
+        point -= LeftUpPoint;
+        var (u, v) = GetPercentageOfPoint(point);
+        return Material.Texture.ColorMap[(int) (v * (Material.Texture.ColorMap.GetLength(0) - 1)),
+            (int) (u * (Material.Texture.ColorMap.GetLength(1) - 1))];
     }
 
     public override List<PointOfIntersection> Intersections(Ray ray)

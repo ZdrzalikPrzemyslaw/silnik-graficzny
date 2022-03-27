@@ -44,6 +44,11 @@ public class LightIntensity : IEquatable<LightIntensity>
     {
         return new LightIntensity(1, 0.78, 0.64);
     }
+    
+    public static LightIntensity DefaultWhite()
+    {
+        return new LightIntensity(1, 1, 1);
+    }
 
     public static LightIntensity DefaultBackground()
     {
@@ -94,6 +99,11 @@ public class LightIntensity : IEquatable<LightIntensity>
     public static LightIntensity operator *(double k, LightIntensity a)
     {
         return new LightIntensity(a.R * k, a.G * k, a.B * k);
+    }
+    
+    public static LightIntensity operator *(LightIntensity lhs, LightIntensity rhs)
+    {
+        return new LightIntensity(lhs.R * rhs.R, lhs.G * rhs.G, lhs.B * rhs.B);
     }
 
     public override bool Equals(object? obj)
@@ -148,10 +158,18 @@ public class LightIntensity : IEquatable<LightIntensity>
             return new LightIntensityBuilder().SetB(lightIntensityBuilder.B * k).SetG(lightIntensityBuilder.G * k)
                 .SetR(lightIntensityBuilder.R * k);
         }
-        
+
         public static LightIntensityBuilder operator *(double k, LightIntensityBuilder lightIntensityBuilder)
         {
             return lightIntensityBuilder * k;
+        }
+
+        public static LightIntensityBuilder operator *(LightIntensityBuilder lightIntensityBuilder,
+            LightIntensity lightIntensity)
+        {
+            return new LightIntensityBuilder().SetB(lightIntensityBuilder.B * lightIntensity.B)
+                .SetG(lightIntensityBuilder.G * lightIntensity.G)
+                .SetR(lightIntensityBuilder.R * lightIntensity.R);
         }
 
         public LightIntensityBuilder AddLightIntensity(LightIntensity lightIntensity)

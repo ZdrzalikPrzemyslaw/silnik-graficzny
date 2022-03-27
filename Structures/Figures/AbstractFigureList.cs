@@ -39,7 +39,7 @@ public abstract class AbstractFigureList<T> : Figure where T : Figure
     
     public override Vector3 GetNormal(PointOfIntersection? pointOfIntersection = null)
     {
-        //TODO: wyjatki ):
+        //TODO: poprawic wyjatki
         return pointOfIntersection?.Figure?.GetNormal() ?? throw new ArgumentException();
     }
 

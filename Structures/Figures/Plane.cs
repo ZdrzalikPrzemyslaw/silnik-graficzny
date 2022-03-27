@@ -1,4 +1,5 @@
 using Structures.MathObjects;
+using Structures.Surface;
 
 namespace Structures.Figures;
 
@@ -9,15 +10,16 @@ public class Plane : Figure, IEquatable<Plane>
     /// </summary>
     private Vector3? _center;
 
-    public Plane(Vector3 a, Vector3 b, Vector3 c) : this(CalculateNormalVector(a, b, c),
-        GetDistanceAlongNormal(CalculateNormalVector(a, b, c), a))
+    public Plane(Vector3 a, Vector3 b, Vector3 c, Material? material = null) : this(CalculateNormalVector(a, b, c),
+        GetDistanceAlongNormal(CalculateNormalVector(a, b, c), a), material)
     {
     }
 
-    public Plane(Vector3 inNormal, double distance)
+    public Plane(Vector3 inNormal, double distance, Material? material = null)
     {
         Distance = distance;
         Normal = inNormal.GetNormalized();
+        Material = material ?? new Material();
     }
 
     /// <summary>
@@ -25,7 +27,7 @@ public class Plane : Figure, IEquatable<Plane>
     /// </summary>
     /// <param name="inNormal">Normal Vector</param>
     /// <param name="point">Point belonging to Plane</param>
-    public Plane(Vector3 inNormal, Vector3 point) : this(inNormal, GetDistanceAlongNormal(inNormal, point))
+    public Plane(Vector3 inNormal, Vector3 point, Material? material = null) : this(inNormal, GetDistanceAlongNormal(inNormal, point), material)
     {
     }
 

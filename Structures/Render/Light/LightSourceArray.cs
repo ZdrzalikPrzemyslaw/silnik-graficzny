@@ -1,10 +1,8 @@
-using System.Collections;
-
 namespace Structures.Render.Light;
 
 public class LightSourceArray : AbstractLightSourceArray
 {
-    private AbstractLightSource [] _lightSource;
+    private readonly AbstractLightSource[] _lightSource;
 
     public LightSourceArray(params AbstractLightSource[] lightSources)
     {

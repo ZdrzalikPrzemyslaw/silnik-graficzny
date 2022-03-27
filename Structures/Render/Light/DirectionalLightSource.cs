@@ -30,21 +30,10 @@ public class DirectionalLightSource : ComplexLightSource
         return Colour; // czy tutaj nie zwracamy koloru tylko wtedy kiedy nie jest w cieniu?
     }
 
-    public override Vector3 GetDiffuse(Vector3 cameraPosition, PointOfIntersection pointOfIntersection)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override Vector3 GetSpecular(Vector3 cameraPosition, PointOfIntersection pointOfIntersection)
-    {
-        throw new NotImplementedException();
-    }
-
     public override bool IsInShadow(PointOfIntersection pointOfIntersection, Scene scene)
     {
         var ray = new Ray(pointOfIntersection.Position, -Direction);
         foreach (var complexFigure in scene.GetReadOnlyFiguresList())
-        {
             try
             {
                 var intersection = complexFigure.Intersection(ray);
@@ -57,7 +46,6 @@ public class DirectionalLightSource : ComplexLightSource
                 Console.WriteLine(e.StackTrace);
                 return false;
             }
-        }
 
         return false;
     }

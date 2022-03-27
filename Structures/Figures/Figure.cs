@@ -1,5 +1,7 @@
 using Structures.MathObjects;
 using Structures.Render;
+using Structures.Render.Light;
+using Structures.Surface;
 
 namespace Structures.Figures;
 
@@ -18,5 +20,10 @@ public abstract class Figure : IRaycastable, IEquatable<Figure>
     public override bool Equals(object? obj)
     {
         return Equals(obj as Figure);
+    }
+
+    public virtual LightIntensity GetTexture(Vector3 point)
+    {
+        return LightIntensity.DefaultWhite();
     }
 }

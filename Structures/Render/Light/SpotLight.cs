@@ -29,15 +29,4 @@ public class SpotLight : PointLightSource
         return Colour * Math.Pow(meter, DropOffRate) /
                ((ConstAttenuation + LinearAttenuation) * point.Position.Distance(Location));
     }
-
-
-    public override Vector3 GetDiffuse(Vector3 cameraPosition, PointOfIntersection pointOfIntersection)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override Vector3 GetSpecular(Vector3 cameraPosition, PointOfIntersection pointOfIntersection)
-    {
-        throw new NotImplementedException();
-    }
 }

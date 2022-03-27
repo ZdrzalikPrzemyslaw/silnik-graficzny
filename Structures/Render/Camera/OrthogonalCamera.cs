@@ -19,8 +19,8 @@ public class OrthogonalCamera : AbstractCamera
 
     public OrthogonalCamera(Vector3 position, Vector3 target, Vector3 up) : base(position, target, up)
     {
-        _height = 6.0;
-        _width = 6.0;
+        _height = 10.0;
+        _width = 10.0;
     }
 
     public OrthogonalCamera(Vector3 position, Vector3 target, Vector3 up, double height, double width) : base(position,
@@ -29,8 +29,6 @@ public class OrthogonalCamera : AbstractCamera
         _height = height;
         _width = width;
     }
-
-    // TODO: kontruktor czy cos?
     public ISampler Sampler { get; } = new OrthogonalSampler();
 
     public double _height { get; }
@@ -49,16 +47,15 @@ public class OrthogonalCamera : AbstractCamera
             var locX = startX + i * pixelWidth;
             var locY = startY - j * pixelHeight;
             var ray = new Ray(new Vector3(locX, locY, Position.Z), Target);
-            var intersection = Sampler.Sample(scene, ray, pixelWidth, Up);
+            var intersection = Sampler.Sample(scene, ray, pixelWidth, pixelHeight, Up);
 
             picture.SetPixel(i, j, intersection);
         }
     }
 
-    public override Picture RenderScene(Scene scene)
+    public override Picture RenderScene(Scene scene, int sizeX = 500, int sizeY = 500)
     {
-        var size = 200;
-        Picture picture = new(size, size);
+        Picture picture = new(sizeX, sizeY);
 
         var threads = new List<Thread>();
         for (var i = 0; i < 4; i++)
@@ -69,10 +66,10 @@ public class OrthogonalCamera : AbstractCamera
             var thread = new Thread(() => RenderPiece(
                 picture,
                 scene,
-                size / 4 * copyI,
-                size / 4 * (copyI + 1),
-                size / 4 * copyJ,
-                size / 4 * (copyJ + 1)
+                sizeX / 4 * copyI,
+                sizeX / 4 * (copyI + 1),
+                sizeY / 4 * copyJ,
+                sizeY / 4 * (copyJ + 1)
             ));
             thread.Start();
             threads.Add(thread);

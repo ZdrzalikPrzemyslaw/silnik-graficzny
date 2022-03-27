@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Structures.Figures;
+﻿using Structures.Figures;
 using Structures.MathObjects;
 
 namespace Structures.Render.Light;
@@ -25,16 +24,6 @@ public class PointLightSource : ComplexLightSource
     public double ConstAttenuation { get; set; } //współczynnik zanikania 
     public double LinearAttenuation { get; set; } //współczynnik zanikania 
 
-    public override Vector3 GetDiffuse(Vector3 cameraPosition, PointOfIntersection pointOfIntersection)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override Vector3 GetSpecular(Vector3 cameraPosition, PointOfIntersection pointOfIntersection)
-    {
-        throw new NotImplementedException();
-    }
-
     public override LightIntensity GetIntensity(Vector3 position)
     {
         return GetIntensity(new PointOfIntersection(null, position));
@@ -47,15 +36,11 @@ public class PointLightSource : ComplexLightSource
 
     public override bool IsInShadow(PointOfIntersection pointOfIntersection, Scene scene)
     {
-        if (Location == pointOfIntersection.Position)
-        {
-            return false;
-        }
-        
+        if (Location == pointOfIntersection.Position) return false;
+
         var ray = new Ray(Location, new Vector3(Location, pointOfIntersection.Position));
         var distance = Location.Distance(pointOfIntersection.Position);
         foreach (var complexFigure in scene.GetReadOnlyFiguresList())
-        {
             try
             {
                 var intersection = complexFigure.Intersection(ray);
@@ -67,7 +52,6 @@ public class PointLightSource : ComplexLightSource
                 Console.WriteLine(e.StackTrace);
                 return false;
             }
-        }
 
         return false;
     }

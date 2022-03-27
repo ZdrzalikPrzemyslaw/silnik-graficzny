@@ -30,5 +30,5 @@ public abstract class AbstractSampler : ISampler
     public int RecursionLimit { get; }
 
     public LightIntensity SpatialContrast { get; }
-    public abstract LightIntensity Sample(Scene scene, Ray rayLeftUp, double step, Vector3 up, int recursionLevel = 0);
+    public abstract LightIntensity Sample(Scene scene, Ray rayLeftUp, double stepX, double stepY, Vector3 up, int recursionLevel = 0);
 }

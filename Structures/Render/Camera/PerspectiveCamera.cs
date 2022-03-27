@@ -11,34 +11,36 @@ public class PerspectiveCamera : AbstractCamera
     {
     }
 
-    public PerspectiveCamera(Vector3 position, Vector3 target, Vector3 up, Plane nearPlane, Plane farPlane, double fov)
+    public PerspectiveCamera(Vector3 position, Vector3 target, Vector3 up, Plane nearPlane, Plane farPlane, double fovX, double fovY)
         : base(position, target, up)
     {
         NearPlane = nearPlane;
         FarPlane = farPlane;
-        Fov = fov;
+        FovX = fovX;
+        FovY = fovY;
     }
 
     public PerspectiveCamera(Vector3 position, Vector3 target, Vector3 up)
         : this(position, target, up,
             new Plane(target, new Ray(position, target).PointAtDistanceFromOrigin(1)),
             new Plane(target, new Ray(position, target).PointAtDistanceFromOrigin(1000)),
-            60)
+            60, 60)
     {
     }
 
     public Plane NearPlane { get; set; }
     public Plane FarPlane { get; set; }
-    public double Fov { get; set; }
+    public double FovX { get; set; }
+    public double FovY { get; set; }
 
     public ISampler Sampler { get; } = new PerspectiveSampler();
 
     private void RenderPiece(Picture picture, Scene scene, int fromX, int toX, int fromY, int toY)
     {
-        var pixelWidth = Fov / picture.Bitmap.Width;
-        var pixelHeight = Fov / picture.Bitmap.Height;
-        var startX = -Fov / 2;
-        var startY = Fov / 2;
+        var pixelWidth = FovX / picture.Bitmap.Width;
+        var pixelHeight = FovY / picture.Bitmap.Height;
+        var startX = -FovX / 2;
+        var startY = FovY / 2;
         var ray = new Ray(Position, Target);
         Matrix matrixX = null;
         Matrix matrixY = null;
@@ -48,21 +50,19 @@ public class PerspectiveCamera : AbstractCamera
             matrixX = Matrix.Rotate((startX + i * pixelWidth) * Math.PI / 180, Up);
             for (var j = fromY; j < toY; j++)
             {
-                if(i == 200 && j == 200){Console.WriteLine("");}
                 matrixY = Matrix.Rotate((startY + -j * pixelHeight) * Math.PI / 180, Target.Cross(Up));
                 ray = new Ray(Position, Target).Rotate(matrixY * matrixX);
 
-                intersection = Sampler.Sample(scene, ray, pixelWidth, Up);
+                intersection = Sampler.Sample(scene, ray, pixelWidth, pixelHeight, Up);
 
                 picture.SetPixel(i, j, intersection);
             }
         }
     }
 
-    public override Picture RenderScene(Scene scene)
+    public override Picture RenderScene(Scene scene, int sizeX = 500, int sizeY = 500)
     {
-        var size = 200;
-        Picture picture = new(size, size);
+        Picture picture = new(sizeX, sizeY);
         var threads = new List<Thread>();
         for (var i = 0; i < 4; i++)
         for (var j = 0; j < 4; j++)
@@ -72,10 +72,10 @@ public class PerspectiveCamera : AbstractCamera
             var thread = new Thread(() => RenderPiece(
                 picture,
                 scene,
-                size / 4 * copyI,
-                size / 4 * (copyI + 1),
-                size / 4 * copyJ,
-                size / 4 * (copyJ + 1)
+                sizeX / 4 * copyI,
+                sizeX / 4 * (copyI + 1),
+                sizeY / 4 * copyJ,
+                sizeY / 4 * (copyJ + 1)
             ));
             thread.Start();
             threads.Add(thread);

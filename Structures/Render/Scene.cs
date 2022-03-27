@@ -104,7 +104,7 @@ public class Scene : AbstractFigureList<ComplexFigure>
                     var Rm = (2 * LdotN * N - Lm).GetNormalized();
                     var RmDotV = Rm.Dot(-ray.Direction);
                     var powAlpha = Math.Pow(RmDotV, pointOfIntersection.Figure.Material.ShinessConstant);
-                    lightIntensityBuilder2 = new();
+                    lightIntensityBuilder2 = new LightIntensity.LightIntensityBuilder();
                     lightIntensityBuilder2 += light.Colour;
                     lightIntensityBuilder2 *= powAlpha;
                     lightIntensityBuilder2 *= pointOfIntersection.Figure.Material.KSpecular;
@@ -118,7 +118,8 @@ public class Scene : AbstractFigureList<ComplexFigure>
                 }
             }
 
-            return lightIntensityBuilder.Build();
+            // lightIntensityBuilder *= pointOfIntersection.Figure.GetTexture(pointOfIntersection.Position);
+            return lightIntensityBuilder.Build() * pointOfIntersection.Figure.GetTexture(pointOfIntersection.Position);
         }
         catch (Plane.InfiniteIntersectionsException e)
         {
@@ -136,7 +137,7 @@ public class Scene : AbstractFigureList<ComplexFigure>
     {
         _lightSources.Add(new[] {lightSource});
     }
-    
+
     public void AddLight(AbstractLightSource[] lightSource)
     {
         _lightSources.Add(lightSource);
