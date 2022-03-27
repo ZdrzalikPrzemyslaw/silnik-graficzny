@@ -37,26 +37,32 @@ internal class Zad6
             }
         ));
 
+        var tab = new LightIntensity[10, 10];
+        for (var i = 0; i < 10; i++)
+        {
+            var random = new Random();
+            var r = random.NextDouble();
+            var g = random.NextDouble();
+            var b = random.NextDouble();
+            for (var j = 0; j < 10; j++) tab[i, j] = new LightIntensity(r, g, b);
+        }
+        
+        var materialColor = new Material(new Texture(tab));
 
         var wallLeft = new PlaneSlice(Vector3.Right(), new Vector3(-5, 5, 0), new Vector3(-5, 5, 0),
             new Vector3(-5, 5, 10),
-            new Vector3(-5, -5, 10), new Vector3(-5, -5, 0), materialRed);
+            new Vector3(-5, -5, 10), new Vector3(-5, -5, 0), materialColor);
 
         var wallRight = new PlaneSlice(Vector3.Left(), new Vector3(5, 5, 10), new Vector3(5, 5, 10),
             new Vector3(5, 5, 0),
-            new Vector3(5, -5, 0), new Vector3(5, -5, 10), materialBlue);
+            new Vector3(5, -5, 0), new Vector3(5, -5, 10), materialColor);
 
         var wallBack = new PlaneSlice(Vector3.Back(), new Vector3(-5, 5, 10), new Vector3(-5, 5, 10),
-            new Vector3(5, 5, 10), new Vector3(5, -5, 10), new Vector3(-5, -5, 10), new Material(new Texture(new LightIntensity[,]
-            {
-                {
-                    new(0, 1, 0)
-                }
-            })));
+            new Vector3(5, 5, 10), new Vector3(5, -5, 10), new Vector3(-5, -5, 10), materialColor);
 
         var wallDown = new PlaneSlice(Vector3.Up(), new Vector3(-5, -5, 10), new Vector3(-5, -5, 10),
             new Vector3(5, -5, 10),
-            new Vector3(5, -5, 0), new Vector3(-5, -5, 0), materialGray);
+            new Vector3(5, -5, 0), new Vector3(-5, -5, 0), materialColor);
         
         var wallUp = new PlaneSlice(Vector3.Down(), new Vector3(-1, 5, 7), new Vector3(-1, 5, 6),
             new Vector3(1, 5, 6), new Vector3(1, 5, 7), new Vector3(-1, 5, 7), materialWhite);
