@@ -10,7 +10,7 @@ public class OBJFileParser : IFileParser<ComplexFigure>
     {
         return ParseFile(Vector3.Zero(), filePaths);
     }
-
+ 
     public List<ComplexFigure> ParseDirectory(string dirPath)
     {
         throw new NotImplementedException();
