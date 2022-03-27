@@ -86,10 +86,6 @@ public class Scene : AbstractFigureList<ComplexFigure>
             var pointOfIntersection = Intersection(ray);
             if (pointOfIntersection is null) return lightIntensityBuilder.Build();
             if (pointOfIntersection.Figure is null) return lightIntensityBuilder.Build();
-            var planeSlice = (PlaneSlice) pointOfIntersection.Figure;
-            var (u, v) = planeSlice.GetPercentageOfPoint(pointOfIntersection.Position);
-            var lightTexture = pointOfIntersection.Figure.Material.Texture?.GetByRectangularMapping(u, v) ??
-                               LightIntensity.DefaultWhite();
             foreach (var lightSourceArray in _lightSources)
             foreach (var lightSource in lightSourceArray)
             {
@@ -121,8 +117,14 @@ public class Scene : AbstractFigureList<ComplexFigure>
                     lightIntensityBuilder += lightSource.GetIntensity(pointOfIntersection);
                 }
             }
-
-            lightIntensityBuilder *= lightTexture;
+            if(pointOfIntersection.Figure is PlaneSlice)
+            {
+                var planeSlice = (PlaneSlice) pointOfIntersection.Figure;
+                var (u, v) = planeSlice.GetPercentageOfPoint(pointOfIntersection.Position);
+                var lightTexture = pointOfIntersection.Figure.Material.Texture?.GetByRectangularMapping(u, v) ??
+                                   LightIntensity.DefaultWhite();
+                lightIntensityBuilder *= lightTexture;
+            }
             return lightIntensityBuilder.Build();
         }
         catch (Plane.InfiniteIntersectionsException e)
