@@ -13,7 +13,7 @@ internal class Zad6
 {
     public static void Main(string[] args)
     {
-        ICamera cameraPersp = new PerspectiveCamera(new Vector3(0, 0, -4), Vector3.Forward(), Vector3.Up());
+        ICamera cameraPersp = new PerspectiveCamera(new Vector3(0, -1, -4), Vector3.Forward(), Vector3.Up());
         var materialRed = new Material(new Texture(new LightIntensity[,]
             {
                 { new(1, 0, 0) }
@@ -70,7 +70,7 @@ internal class Zad6
         
         
         // var pointLight = new PointLightSource(new LightIntensity(1, 1, 1), new Vector3(-1, 3, 8), 1, 1);
-        var pointLight2 = new PointLightSource(new LightIntensity(1, 1, 1), new Vector3(-1, 2, 7), 1, 1);
+        var pointLight2 = new PointLightSource(new LightIntensity(1, 1, 1), new Vector3(-1, 3, 7), 1, 1);
         var plane = new Plane(Vector3.Down(), 10);
         // scene.AddLight(new SurfaceLightSource(pointLight, plane, Vector3.Forward(), 2, 1, 4, 4).GetLightSources());
         scene.AddLight(new SurfaceLightSource(pointLight2, plane, Vector3.Forward(), 2, 1, 4, 4).GetLightSources());
