@@ -124,6 +124,11 @@ public class Scene : AbstractFigureList<ComplexFigure>
                 var lightTexture = pointOfIntersection.Figure.Material.Texture?.GetByRectangularMapping(u, v) ??
                                    LightIntensity.DefaultWhite();
                 lightIntensityBuilder *= lightTexture;
+            } else if(pointOfIntersection.Figure is Sphere)
+            {
+                var lightTexture = pointOfIntersection.Figure.Material.Texture?.GetBySphericalMapping(pointOfIntersection.Position) ??
+                                   LightIntensity.DefaultWhite();
+                lightIntensityBuilder *= lightTexture;
             }
             return lightIntensityBuilder.Build();
         }
