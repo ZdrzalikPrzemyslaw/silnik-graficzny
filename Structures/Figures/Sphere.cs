@@ -118,7 +118,7 @@ public class Sphere : Figure, IEquatable<Sphere>
 
     public override Vector3 GetNormal(PointOfIntersection? pointOfIntersection = null)
     {
-        //Todo: poprawić wyjątki :(
+        //TODO: poprawić wyjątki
         if (Math.Abs(pointOfIntersection.Position.Distance(Center) - Radius) > 0.0001) throw new ArgumentException();
         return new Vector3(Center, pointOfIntersection.Position).GetNormalized();
     }
@@ -128,7 +128,6 @@ public class Sphere : Figure, IEquatable<Sphere>
         return Equals(other as Sphere);
     }
 
-    //TODO: spojrzec czy tu [0] zawsze nie bedzie blizej
     public override PointOfIntersection? Intersection(Ray ray)
     {
         var points = Intersections(ray);

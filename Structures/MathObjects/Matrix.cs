@@ -101,7 +101,6 @@ public class Matrix : IEquatable<Matrix>
         return ret;
     }
 
-    // todo: sprawdzic XD 
     public void Transpose()
     {
         var newValues = new double[ColumnCount, RowCount];
@@ -115,7 +114,6 @@ public class Matrix : IEquatable<Matrix>
         RowCount = tmp;
     }
 
-    // todo: sprawdzic XD 
     public void Transpose(out Matrix m)
     {
         m = new Matrix(ColumnCount, RowCount);

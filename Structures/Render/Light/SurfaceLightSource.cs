@@ -10,7 +10,7 @@ public class SurfaceLightSource : AbstractLightSourceArray
     public SurfaceLightSource(PointLightSource pointLightSource, Plane plane, Vector3 up, double width = 4,
         double height = 4, int rows = 3, int columns = 3)
     {
-        // Todo @Julia popraw exepctiony 
+        // TODO: poprawic exepct
         if (rows <= 0) throw new ArgumentException();
         if (columns <= 0) throw new ArgumentException();
         if (width <= 0) throw new ArgumentException();
