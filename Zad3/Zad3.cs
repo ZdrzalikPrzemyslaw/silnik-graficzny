@@ -19,27 +19,31 @@ internal class Zad3
         LightIntensity[,] tab = new LightIntensity[10,10];
         for (int i = 0; i < 10; i++)
         {
+            Random random = new Random();
+            var r = random.NextDouble();
+            var g = random.NextDouble();
+            var b = random.NextDouble();
             for (int j = 0; j < 10; j++)
             {
-                tab[i, j] = new LightIntensity(1, 0, 0);
+                tab[i, j] = new LightIntensity(r, g, b);
             }
         }
         var scene = new Scene(
             new PlaneSlice(Vector3.Right(), new Vector3(-5, 5, 0), new Vector3(-5, 5, 0), new Vector3(-5, 5, 10),
-                new Vector3(-5, -5, 10), new Vector3(-5, -5, 0), new Material(new Texture(tab)))
-            // new PlaneSlice(Vector3.Left(), new Vector3(5, -5, 0), new Vector3(5, -5, 0), new Vector3(5, 5, 10),
-            //     new Vector3(5, -5, 10), new Vector3(5, -5, 0)),
-            // new PlaneSlice(Vector3.Up(), new Vector3(-5, -5, 10), new Vector3(-5, -5, 10), new Vector3(5, -5, 10),
-            //     new Vector3(5, -5, 0), new Vector3(-5, -5, 0)),
-            // new PlaneSlice(Vector3.Back(), new Vector3(-5, 5, 10), new Vector3(-5, 5, 10), new Vector3(5, 5, 10),
-            //     new Vector3(5, -5, 10), new Vector3(-5, -5, 10)),
+                new Vector3(-5, -5, 10), new Vector3(-5, -5, 0), new Material(new Texture(tab))),
+            new PlaneSlice(Vector3.Left(), new Vector3(5, 5, 10), new Vector3(5, 5, 10), new Vector3(5, 5, 0),
+                new Vector3(5, -5, 0), new Vector3(5, -5, 10), new Material(new Texture(tab))),
+            new PlaneSlice(Vector3.Up(), new Vector3(-5, -5, 10), new Vector3(-5, -5, 10), new Vector3(5, -5, 10),
+                new Vector3(5, -5, 0), new Vector3(-5, -5, 0), new Material(new Texture(tab))),
+            new PlaneSlice(Vector3.Forward(), new Vector3(-5, 5, 10), new Vector3(-5, 5, 10), new Vector3(5, 5, 10),
+                new Vector3(5, -5, 10), new Vector3(-5, -5, 10), new Material(new Texture(tab)))
             // new Sphere(
             //     new Vector3(-2, -3, 7), 2),
             // new Sphere(
             //     new Vector3(2, -3, 4), 2)
         );
         // scene.AddFigure(new OBJFileParser().ParseFile(new Vector3(0, 0, 0), "./cube.obj"));
-        scene.AddLight(new AmbientLightSource(new LightIntensity(0.2, 0.2, 0.2)));
+        scene.AddLight(new AmbientLightSource(new LightIntensity(1, 1, 1)));
         // scene.AddLight(new PointLightSource(new LightIntensity(0.2, 1, 0.8), new Vector3(-5, -5, 5), 1, 1));
         // scene.AddLight(new PointLightSource(new LightIntensity(0.8, 0.2, 0.2), new Vector3(0, -10, 0), 1, 1));
         // scene.AddLight(new PointLightSource(new LightIntensity(0.8, 0.2, 0.4), new Vector3(0, 0, -10), 1, 1));
