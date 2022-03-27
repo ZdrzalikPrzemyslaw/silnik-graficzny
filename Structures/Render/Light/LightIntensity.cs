@@ -44,6 +44,11 @@ public class LightIntensity : IEquatable<LightIntensity>
     {
         return new LightIntensity(1, 0.78, 0.64);
     }
+    
+    public static LightIntensity DefaultWhite()
+    {
+        return new LightIntensity(1, 1, 1);
+    }
 
     public static LightIntensity DefaultBackground()
     {
@@ -152,6 +157,14 @@ public class LightIntensity : IEquatable<LightIntensity>
         public static LightIntensityBuilder operator *(double k, LightIntensityBuilder lightIntensityBuilder)
         {
             return lightIntensityBuilder * k;
+        }
+
+        public static LightIntensityBuilder operator *(LightIntensityBuilder lightIntensityBuilder,
+            LightIntensity lightIntensity)
+        {
+            return new LightIntensityBuilder().SetB(lightIntensityBuilder.B * lightIntensity.B)
+                .SetG(lightIntensityBuilder.G * lightIntensity.G)
+                .SetR(lightIntensityBuilder.R * lightIntensity.R);
         }
 
         public LightIntensityBuilder AddLightIntensity(LightIntensity lightIntensity)

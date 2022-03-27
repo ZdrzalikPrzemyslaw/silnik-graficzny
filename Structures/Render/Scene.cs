@@ -86,7 +86,10 @@ public class Scene : AbstractFigureList<ComplexFigure>
             var pointOfIntersection = Intersection(ray);
             if (pointOfIntersection is null) return lightIntensityBuilder.Build();
             if (pointOfIntersection.Figure is null) return lightIntensityBuilder.Build();
-            var textureLight = pointOfIntersection.Figure.;
+            var planeSlice = (PlaneSlice) pointOfIntersection.Figure;
+            var (u, v) = planeSlice.GetPercentageOfPoint(pointOfIntersection.Position);
+            var lightTexture = pointOfIntersection.Figure.Material.Texture?.GetByRectangularMapping(u, v) ??
+                               LightIntensity.DefaultWhite();
             foreach (var lightSourceArray in _lightSources)
             foreach (var lightSource in lightSourceArray)
             {
@@ -105,7 +108,7 @@ public class Scene : AbstractFigureList<ComplexFigure>
                     var Rm = (2 * LdotN * N - Lm).GetNormalized();
                     var RmDotV = Rm.Dot(-ray.Direction);
                     var powAlpha = Math.Pow(RmDotV, pointOfIntersection.Figure.Material.ShinessConstant);
-                    lightIntensityBuilder2 = new();
+                    lightIntensityBuilder2 = new LightIntensity.LightIntensityBuilder();
                     lightIntensityBuilder2 += light.Colour;
                     lightIntensityBuilder2 *= powAlpha;
                     lightIntensityBuilder2 *= pointOfIntersection.Figure.Material.KSpecular;
@@ -118,6 +121,8 @@ public class Scene : AbstractFigureList<ComplexFigure>
                     lightIntensityBuilder += lightSource.GetIntensity(pointOfIntersection);
                 }
             }
+
+            lightIntensityBuilder *= lightTexture;
             return lightIntensityBuilder.Build();
         }
         catch (Plane.InfiniteIntersectionsException e)
@@ -136,7 +141,7 @@ public class Scene : AbstractFigureList<ComplexFigure>
     {
         _lightSources.Add(new[] {lightSource});
     }
-    
+
     public void AddLight(AbstractLightSource[] lightSource)
     {
         _lightSources.Add(lightSource);

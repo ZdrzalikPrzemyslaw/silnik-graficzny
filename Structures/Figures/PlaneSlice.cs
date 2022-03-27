@@ -6,7 +6,8 @@ namespace Structures.Figures;
 public class PlaneSlice : Plane
 {
     public PlaneSlice(Vector3 inNormal, Vector3 point, Vector3 leftUpPoint,
-        Vector3 rightUpPoint, Vector3 rightDownPoint, Vector3 leftDownPoint, Material? material = null) : base(inNormal, point, material)
+        Vector3 rightUpPoint, Vector3 rightDownPoint, Vector3 leftDownPoint, Material? material = null) : base(inNormal,
+        point, material)
     {
         LeftUpPoint = leftUpPoint;
         RightUpPoint = rightUpPoint;
@@ -50,16 +51,15 @@ public class PlaneSlice : Plane
         }
     }
 
+    //https://www.obliczeniowo.com.pl/172
     public (double, double) GetPercentageOfPoint(Vector3 point)
     {
-        //TODO: poprawić bo jest źle
-        var AE = LeftUpPoint.Distance(point);
-        var AC = LeftUpPoint.Distance(LeftDownPoint);
-        var AB = LeftUpPoint.Distance(RightUpPoint);
-        var AD = LeftUpPoint.Distance(RightDownPoint);
-        var AEPrim = AC * AE / AD;
-        var AEPrimPrim = AB * AE / AD;
-        return (AEPrim, AEPrimPrim);
+        var u = (point - LeftUpPoint).Dot(RightUpPoint - LeftUpPoint) /
+                (LeftUpPoint - RightUpPoint).Dot(LeftUpPoint - RightUpPoint);
+
+        var v = (point - LeftUpPoint).Dot(LeftDownPoint - LeftUpPoint) /
+                (LeftUpPoint - LeftDownPoint).Dot(LeftUpPoint - LeftDownPoint);
+        return (u, v);
     }
 
     public override List<PointOfIntersection> Intersections(Ray ray)
