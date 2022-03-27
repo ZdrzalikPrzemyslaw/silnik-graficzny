@@ -24,7 +24,7 @@ public class PerspectiveCamera : AbstractCamera
         : this(position, target, up,
             new Plane(target, new Ray(position, target).PointAtDistanceFromOrigin(1)),
             new Plane(target, new Ray(position, target).PointAtDistanceFromOrigin(1000)),
-            80)
+            90)
     {
     }
 
@@ -43,18 +43,14 @@ public class PerspectiveCamera : AbstractCamera
         var startY = FovY / 2;
         var ray = new Ray(Position, Target);
         Vector3 right = Target.Cross(Up);
-        LightIntensity intersection = null;
         for (var i = fromX; i < toX; i++)
         {
             for (var j = fromY; j < toY; j++)
             {
-                var pixelX = ((startX + (pixelWidth * i)) / FovX) * 2;
-                var pixelY = ((startY - (pixelHeight * j)) / FovY) * 2;
+                var pixelX = ((startX + (pixelWidth * i)) / 90) * 2;
+                var pixelY = ((startY - (pixelHeight * j)) / 90) * 2;
                 ray = new Ray(Position, (Target - right * pixelX + Up * pixelY).GetNormalized());
-
-                intersection = Sampler.Sample(scene, ray, pixelWidth, pixelHeight, Up);
-
-                picture.SetPixel(i, j, intersection);
+                picture.SetPixel(i, j, Sampler.Sample(scene, ray, pixelWidth, pixelHeight, Up));
             }
         }
     }
