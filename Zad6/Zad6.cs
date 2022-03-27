@@ -74,12 +74,12 @@ internal class Zad6
         var plane = new Plane(Vector3.Down(), 10);
         // scene.AddLight(new SurfaceLightSource(pointLight, plane, Vector3.Forward(), 2, 1, 4, 4).GetLightSources());
         scene.AddLight(new SurfaceLightSource(pointLight2, plane, Vector3.Forward(), 2, 1, 4, 4).GetLightSources());
-        // scene.AddLight(new AmbientLightSource(new LightIntensity(0.2, 0.2, 0.2)));
+        scene.AddLight(new AmbientLightSource(new LightIntensity(0.2, 0.2, 0.2)));
         // scene.AddLight(pointLight);
         
         var stopwatch = new Stopwatch();
         stopwatch.Start();
-        var picture2 = cameraPersp.RenderScene(scene, 300, 300);
+        var picture2 = cameraPersp.RenderScene(scene, 150, 150);
         stopwatch.Stop();
         Console.WriteLine(stopwatch.ElapsedMilliseconds);
         
