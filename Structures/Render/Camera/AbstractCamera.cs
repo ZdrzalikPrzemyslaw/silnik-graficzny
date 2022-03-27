@@ -18,5 +18,5 @@ public abstract class AbstractCamera : ICamera
     public Vector3 Position { get; set; }
     public Vector3 Target { get; set; }
     public Vector3 Up { get; set; }
-    public abstract Picture RenderScene(Scene scene);
+    public abstract Picture RenderScene(Scene scene, int sizeX = 500, int sizeY = 500);
 }

@@ -13,6 +13,8 @@ public class Sphere : Figure, IEquatable<Sphere>
     {
     }
 
+    public Matrix Rotation { get; set; } = Matrix.Rotate(0, Vector3.Up());
+
     public Sphere(Vector3 center, double radius, Material? material = null)
     {
         Center = center;
@@ -153,6 +155,8 @@ public class Sphere : Figure, IEquatable<Sphere>
     public override LightIntensity GetTexture(Vector3 point)
     {
         if (Material.Texture is null) return LightIntensity.DefaultWhite();
+        point -= Center;
+        point = point.Rotate(Rotation);
         var theta = Math.Acos(point.Y);
         theta = theta is Double.NaN ? 1 : theta; 
         var phi = Math.Atan2(point.X, point.Z);

@@ -100,6 +100,11 @@ public class LightIntensity : IEquatable<LightIntensity>
     {
         return new LightIntensity(a.R * k, a.G * k, a.B * k);
     }
+    
+    public static LightIntensity operator *(LightIntensity lhs, LightIntensity rhs)
+    {
+        return new LightIntensity(lhs.R * rhs.R, lhs.G * rhs.G, lhs.B * rhs.B);
+    }
 
     public override bool Equals(object? obj)
     {

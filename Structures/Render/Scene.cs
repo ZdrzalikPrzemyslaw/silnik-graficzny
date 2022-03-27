@@ -118,8 +118,8 @@ public class Scene : AbstractFigureList<ComplexFigure>
                 }
             }
 
-            lightIntensityBuilder *= pointOfIntersection.Figure.GetTexture(pointOfIntersection.Position);
-            return lightIntensityBuilder.Build();
+            // lightIntensityBuilder *= pointOfIntersection.Figure.GetTexture(pointOfIntersection.Position);
+            return lightIntensityBuilder.Build() * pointOfIntersection.Figure.GetTexture(pointOfIntersection.Position);
         }
         catch (Plane.InfiniteIntersectionsException e)
         {
