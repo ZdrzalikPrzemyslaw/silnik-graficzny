@@ -47,7 +47,7 @@ internal class Zad3
                 new Vector3(5, -5, 0), new Vector3(5, -5, 10), new Material(new Texture(tab))),
             new PlaneSlice(Vector3.Up(), new Vector3(-5, -5, 10), new Vector3(-5, -5, 10), new Vector3(5, -5, 10),
                 new Vector3(5, -5, 0), new Vector3(-5, -5, 0), new Material(new Texture(tab))),
-            new PlaneSlice(Vector3.Forward(), new Vector3(-5, 5, 10), new Vector3(-5, 5, 10), new Vector3(5, 5, 10),
+            new PlaneSlice(Vector3.Back(), new Vector3(-5, 5, 10), new Vector3(-5, 5, 10), new Vector3(5, 5, 10),
                 new Vector3(5, -5, 10), new Vector3(-5, -5, 10), new Material(new Texture(tab))),
             new Sphere(
                 new Vector3(-2, -3, 7), 2, new Material(new Texture(tab2))),
@@ -59,12 +59,12 @@ internal class Zad3
         // scene.AddLight(new PointLightSource(new LightIntensity(0.2, 1, 0.8), new Vector3(-5, -5, 5), 1, 1));
         // scene.AddLight(new PointLightSource(new LightIntensity(0.8, 0.2, 0.2), new Vector3(0, -10, 0), 1, 1));
         // scene.AddLight(new PointLightSource(new LightIntensity(0.8, 0.2, 0.4), new Vector3(0, 0, -10), 1, 1));
-        var pointLight = new PointLightSource(new LightIntensity(0.5, 0.75, 0.83), new Vector3(-4, 5, 9), 1, 1);
+        var pointLight = new PointLightSource(new LightIntensity(0.5, 0.75, 0.83), new Vector3(-4, 10, 8), 1, 1);
         var pointLight2 = new PointLightSource(new LightIntensity(0.8, 0.1, 0.77), new Vector3(4, 5, 9), 1, 1);
-        // var plane = new Plane(Vector3.Down(), 10);
         scene.AddLight(pointLight);
         scene.AddLight(pointLight2);
-        // scene.AddLight(new SurfaceLightSource(pointLight, plane, Vector3.Back(), 2, 2, 4, 4).GetLightSources());
+        var plane = new Plane(Vector3.Down(), 10);
+        scene.AddLight(new SurfaceLightSource(pointLight, plane, Vector3.Forward(), 8, 8, 3, 3).GetLightSources());
 
         // var picture1 = cameraOrth.RenderScene(scene);
         var picture2 = cameraPersp.RenderScene(scene);

@@ -117,19 +117,8 @@ public class Scene : AbstractFigureList<ComplexFigure>
                     lightIntensityBuilder += lightSource.GetIntensity(pointOfIntersection);
                 }
             }
-            if(pointOfIntersection.Figure is PlaneSlice)
-            {
-                var planeSlice = (PlaneSlice) pointOfIntersection.Figure;
-                var (u, v) = planeSlice.GetPercentageOfPoint(pointOfIntersection.Position);
-                var lightTexture = pointOfIntersection.Figure.Material.Texture?.GetByRectangularMapping(u, v) ??
-                                   LightIntensity.DefaultWhite();
-                lightIntensityBuilder *= lightTexture;
-            } else if(pointOfIntersection.Figure is Sphere)
-            {
-                var lightTexture = pointOfIntersection.Figure.Material.Texture?.GetBySphericalMapping(pointOfIntersection.Position) ??
-                                   LightIntensity.DefaultWhite();
-                lightIntensityBuilder *= lightTexture;
-            }
+
+            lightIntensityBuilder *= pointOfIntersection.Figure.GetTexture(pointOfIntersection.Position);
             return lightIntensityBuilder.Build();
         }
         catch (Plane.InfiniteIntersectionsException e)

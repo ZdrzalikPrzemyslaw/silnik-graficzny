@@ -1,4 +1,5 @@
 using Structures.MathObjects;
+using Structures.Render.Light;
 using Structures.Surface;
 
 namespace Structures.Figures;
@@ -147,6 +148,19 @@ public class Sphere : Figure, IEquatable<Sphere>
     public override int GetHashCode()
     {
         return HashCode.Combine(Center, Radius);
+    }
+    
+    public override LightIntensity GetTexture(Vector3 point)
+    {
+        if (Material.Texture is null) return LightIntensity.DefaultWhite();
+        var theta = Math.Acos(point.Y);
+        theta = theta is Double.NaN ? 1 : theta; 
+        var phi = Math.Atan2(point.X, point.Z);
+        phi = phi < 0 ? phi + 2 * Math.PI : phi;
+        var u = phi / (2 * Math.PI);
+        var v = 1 - theta / Math.PI;
+        return Material.Texture.ColorMap[(int) (u * (Material.Texture.ColorMap.GetLength(0) - 1)),
+            (int) (v * (Material.Texture.ColorMap.GetLength(1) - 1))];
     }
 
     /// <inheritdoc />

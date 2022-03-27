@@ -1,4 +1,5 @@
 ﻿using Structures.MathObjects;
+using Structures.Render.Light;
 using Structures.Surface;
 
 namespace Structures.Figures;
@@ -52,7 +53,7 @@ public class PlaneSlice : Plane
     }
 
     //https://www.obliczeniowo.com.pl/172
-    public (double, double) GetPercentageOfPoint(Vector3 point)
+    private (double, double) GetPercentageOfPoint(Vector3 point)
     {
         var u = (point - LeftUpPoint).Dot(RightUpPoint - LeftUpPoint) /
                 (LeftUpPoint - RightUpPoint).Dot(LeftUpPoint - RightUpPoint);
@@ -60,6 +61,14 @@ public class PlaneSlice : Plane
         var v = (point - LeftUpPoint).Dot(LeftDownPoint - LeftUpPoint) /
                 (LeftUpPoint - LeftDownPoint).Dot(LeftUpPoint - LeftDownPoint);
         return (u, v);
+    }
+
+    public override LightIntensity GetTexture(Vector3 point)
+    {
+        if (Material.Texture is null) return LightIntensity.DefaultWhite();
+        var (u, v) = GetPercentageOfPoint(point);
+        return Material.Texture.ColorMap[(int) (v * (Material.Texture.ColorMap.GetLength(0) - 1)),
+            (int) (u * (Material.Texture.ColorMap.GetLength(1) - 1))];
     }
 
     public override List<PointOfIntersection> Intersections(Ray ray)
