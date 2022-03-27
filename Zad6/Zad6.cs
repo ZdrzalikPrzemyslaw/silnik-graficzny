@@ -63,10 +63,10 @@ internal class Zad6
 
 
         var sphere = new Sphere(new Vector3(-1.5, -3.5, 8), 1.5, new Material(null, new SpecularReflection()));
-        var sphere2 = new Sphere(new Vector3(1.5, -5, 8), 1.5, new Material(null, new SpecularReflection()));
+        var sphere2 = new Sphere(new Vector3(1.5, -3.5, 5), 1.5, new Material(null, new RefractiveReflection(1.52)));
         
 
-        var scene = new Scene(wallLeft, wallRight, wallBack, wallDown, wallUp, sphere);
+        var scene = new Scene(wallLeft, wallRight, wallBack, wallDown, wallUp, sphere, sphere2);
         
         
         // var pointLight = new PointLightSource(new LightIntensity(1, 1, 1), new Vector3(-1, 3, 8), 1, 1);
@@ -79,7 +79,7 @@ internal class Zad6
         
         var stopwatch = new Stopwatch();
         stopwatch.Start();
-        var picture2 = cameraPersp.RenderScene(scene, 100, 100);
+        var picture2 = cameraPersp.RenderScene(scene, 150, 150);
         stopwatch.Stop();
         Console.WriteLine(stopwatch.ElapsedMilliseconds);
         
