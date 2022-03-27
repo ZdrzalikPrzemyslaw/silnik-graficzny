@@ -11,7 +11,7 @@ internal class Zad3
 {
     public static void Main(string[] args)
     {
-        ICamera cameraOrth = new OrthogonalCamera(new Vector3(1, 2, 0), new Vector3(0, 0, 1), new Vector3(0, 1, 0));
+        // ICamera cameraOrth = new OrthogonalCamera(new Vector3(1, 2, 0), new Vector3(0, 0, 1), new Vector3(0, 1, 0));
         ICamera cameraPersp =
             new PerspectiveCamera(new Vector3(0, -1, -6),
                 Vector3.Forward(),
@@ -66,10 +66,10 @@ internal class Zad3
         scene.AddLight(pointLight2);
         // scene.AddLight(new SurfaceLightSource(pointLight, plane, Vector3.Back(), 2, 2, 4, 4).GetLightSources());
 
-        var picture1 = cameraOrth.RenderScene(scene);
+        // var picture1 = cameraOrth.RenderScene(scene);
         var picture2 = cameraPersp.RenderScene(scene);
 
-        picture1.PrintToPath("./", "PicOrth.png");
+        // picture1.PrintToPath("./", "PicOrth.png");
         picture2.PrintToPath("./", "PicPersp.png");
     }
 }
