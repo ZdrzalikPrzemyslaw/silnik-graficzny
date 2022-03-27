@@ -78,7 +78,7 @@ internal class Zad6
         
         var stopwatch = new Stopwatch();
         stopwatch.Start();
-        var picture2 = cameraPersp.RenderScene(scene, 512, 512);
+        var picture2 = cameraPersp.RenderScene(scene, 600, 400);
         stopwatch.Stop();
         Console.WriteLine(stopwatch.ElapsedMilliseconds);
         
