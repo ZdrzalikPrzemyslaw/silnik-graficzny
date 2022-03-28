@@ -28,7 +28,7 @@ internal class Zad7
         
         RunCmd.RunCommand("python"
             ,
-            $"animate.py {path} {fps}"
+            $"animate.py -d {path} -f {fps}"
             );
 
     }
