@@ -2,5 +2,5 @@
 
 public interface ICamera
 {
-    public Picture RenderScene(Scene scene, int sizeX = 256, int sizeY = 256);
+    public Picture RenderScene(Scene scene, int sizeX = 32, int sizeY = 32);
 }

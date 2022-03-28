@@ -36,7 +36,7 @@ public class Animation
 
     public record PictureList(List<Picture> Pictures)
     {
-        public void Save(string path = "./Animation/", string pictureName = "Picture.png")
+        public void Save(string path = "./Animation/", string pictureName = "Picture")
         {
             try
             {
@@ -61,7 +61,7 @@ public class Animation
 
             for (var i = 0; i < Pictures.Count; i++)
             {
-                Pictures[i].PrintToPath(path, pictureName + (i + 1).ToString());
+                Pictures[i].PrintToPath(path, pictureName + (i + 1).ToString() + ".png");
             }
         }
     }

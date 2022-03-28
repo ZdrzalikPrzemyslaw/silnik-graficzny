@@ -16,7 +16,11 @@ internal class Zad7
     {
 
         int fps = 24;
-        Animation animation = new Animation(fps);
+        ScenesForAnimation scenesForAnimation = new ScenesForAnimation();
+        List<SceneAndCamera> sceneAndCameras = scenesForAnimation.CreateScenesForAnimations(fps);
+        
+        
+        Animation animation = new Animation(fps, sceneAndCameras);
         
         // dodanie scen
 
@@ -30,6 +34,5 @@ internal class Zad7
             ,
             $"animate.py -d {path} -f {fps}"
             );
-
     }
 }
