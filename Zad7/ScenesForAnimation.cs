@@ -36,7 +36,7 @@ public class ScenesForAnimation
             if (y <= -3.5)
             {
                 y = -3.5;
-                a = 0;
+                v *= -0.1;
             }
         }
         return sceneAndCameras;
