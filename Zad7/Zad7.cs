@@ -26,8 +26,11 @@ internal class Zad7
 
         string path = "./Animation/";
 
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
         Animation.PictureList animated = animation.Animate();
-        
+        stopwatch.Stop();
+        Console.WriteLine(stopwatch.ElapsedMilliseconds);
         animated.Save();
         
         RunCmd.RunCommand("python"

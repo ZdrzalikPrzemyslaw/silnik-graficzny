@@ -61,7 +61,7 @@ public class Animation
 
             for (var i = 0; i < Pictures.Count; i++)
             {
-                Pictures[i].PrintToPath(path, pictureName + (i + 1).ToString() + ".png");
+                Pictures[i].PrintToPath(path, pictureName + (i + 1).ToString("D8") + ".png");
             }
         }
     }

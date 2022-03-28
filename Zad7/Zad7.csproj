@@ -11,4 +11,10 @@
       <ProjectReference Include="..\Structures\Structures.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="animate.py">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
