@@ -51,14 +51,14 @@ internal class Zad6
 
         var wallLeft = new PlaneSlice(Vector3.Right(), new Vector3(-5, 5, 0), new Vector3(-5, 5, 0),
             new Vector3(-5, 5, 10),
-            new Vector3(-5, -5, 10), new Vector3(-5, -5, 0), materialColor);
+            new Vector3(-5, -5, 10), new Vector3(-5, -5, 0), materialRed);
 
         var wallRight = new PlaneSlice(Vector3.Left(), new Vector3(5, 5, 10), new Vector3(5, 5, 10),
             new Vector3(5, 5, 0),
-            new Vector3(5, -5, 0), new Vector3(5, -5, 10), materialColor);
+            new Vector3(5, -5, 0), new Vector3(5, -5, 10), materialBlue);
 
         var wallBack = new PlaneSlice(Vector3.Back(), new Vector3(-5, 5, 10), new Vector3(-5, 5, 10),
-            new Vector3(5, 5, 10), new Vector3(5, -5, 10), new Vector3(-5, -5, 10), materialColor);
+            new Vector3(5, 5, 10), new Vector3(5, -5, 10), new Vector3(-5, -5, 10), new Material(new Texture(new LightIntensity[,]{{new LightIntensity(0,1,0)}})));
 
         var wallDown = new PlaneSlice(Vector3.Up(), new Vector3(-5, -5, 10), new Vector3(-5, -5, 10),
             new Vector3(5, -5, 10),
@@ -85,10 +85,10 @@ internal class Zad6
         
         var stopwatch = new Stopwatch();
         stopwatch.Start();
-        var picture2 = cameraPersp.RenderScene(scene, 150, 150);
+        var picture2 = cameraPersp.RenderScene(scene, 1024, 1024);
         stopwatch.Stop();
         Console.WriteLine(stopwatch.ElapsedMilliseconds);
         
-        picture2.PrintToPath("./", "PicPersp.png");
+        picture2.PrintToPath("./", "PicPersp2.png");
     }
 }
